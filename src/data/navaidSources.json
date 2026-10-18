@@ -1,0 +1,180 @@
+{
+  "sources": [
+    {
+      "id": "osm",
+      "name": "OpenStreetMap seamarks",
+      "kind": "vector",
+      "url": "https://wiki.openstreetmap.org/wiki/Seamarks/Seamark_Tag_Values",
+      "licence": "ODbL 1.0",
+      "redistribution": "allowed",
+      "enabled": true,
+      "notes": "Worldwide, queryable AtoN via the Overpass API. Coverage is densest in Europe and the US; some regions map no bifurcation or range marks at all."
+    },
+    {
+      "id": "noaa-enc",
+      "name": "NOAA ENC Direct",
+      "kind": "vector",
+      "url": "https://charts.noaa.gov/ENCs/ENCs.shtml",
+      "licence": "US Government public domain",
+      "redistribution": "allowed",
+      "enabled": false,
+      "notes": "Free US-water ENC. The ArcGIS MapServer endpoints returned HTTP 500 during the last build, so this build has no NOAA records; the chart still renders NOAA Chart Display raster tiles."
+    },
+    {
+      "id": "openseamap",
+      "name": "OpenSeaMap",
+      "kind": "raster",
+      "url": "https://www.openseamap.org",
+      "licence": "CC-BY-SA 2.0 (tiles), ODbL (data)",
+      "redistribution": "allowed",
+      "enabled": true,
+      "notes": "Transparent seamark tile overlay used directly as a Leaflet layer; the marks themselves come from the OSM extract, not from the raster."
+    },
+    {
+      "id": "opencpn-charts",
+      "name": "OpenCPN chart catalogue",
+      "kind": "catalogue",
+      "url": "https://opencpn.org/OpenCPN/info/chartsource.html",
+      "licence": "Mixed",
+      "redistribution": "mixed",
+      "enabled": false,
+      "notes": "Catalogue of free and paid chart sets. Most entries are raster, registration-gated or non-redistributable, so they cannot feed a bundled AtoN database."
+    },
+    {
+      "id": "cmap-navico",
+      "name": "C-MAP (Navico)",
+      "kind": "vector",
+      "url": "https://www.c-map.com",
+      "licence": "Commercial",
+      "redistribution": "prohibited",
+      "enabled": false,
+      "notes": "Licensed ENC. No public tile or data endpoint; cannot be redistributed or queried."
+    },
+    {
+      "id": "gpsnauticalcharts",
+      "name": "Marine Charts Worldwide (gpsnauticalcharts.com)",
+      "kind": "raster",
+      "url": "https://www.gpsnauticalcharts.com",
+      "licence": "Commercial",
+      "redistribution": "prohibited",
+      "enabled": false,
+      "notes": "Aggregated raster charts. No open AtoN API."
+    },
+    {
+      "id": "iboating",
+      "name": "i-Boating",
+      "kind": "raster",
+      "url": "https://fishing-app.gpsnauticalcharts.com",
+      "licence": "Commercial",
+      "redistribution": "prohibited",
+      "enabled": false,
+      "notes": "Commercial chart app. No public endpoint."
+    },
+    {
+      "id": "ukho-admiralty",
+      "name": "UKHO Admiralty",
+      "kind": "vector",
+      "url": "https://www.admiralty.co.uk",
+      "licence": "Commercial / licensed",
+      "redistribution": "prohibited",
+      "enabled": false,
+      "notes": "Official UK ENC/AVCS. Licensing required."
+    },
+    {
+      "id": "shom",
+      "name": "SHOM (France)",
+      "kind": "vector",
+      "url": "https://www.shom.fr",
+      "licence": "Licence Ouverte for some products, otherwise commercial",
+      "redistribution": "mixed",
+      "enabled": false,
+      "notes": "Some open data, but the AtoN layers are not published as a queryable endpoint."
+    },
+    {
+      "id": "bsh",
+      "name": "BSH (Germany)",
+      "kind": "vector",
+      "url": "https://www.bsh.de/EN/TOPICS/Geodata/geodata_node.html",
+      "licence": "DL-DE-BY 2.0",
+      "redistribution": "allowed",
+      "enabled": false,
+      "notes": "Open German ENC (S-57) downloads. Ingestable in principle, but downloads are large and region-limited, so it is not part of this build."
+    },
+    {
+      "id": "rijkswaterstaat",
+      "name": "Rijkswaterstaat (Netherlands)",
+      "kind": "vector",
+      "url": "https://www.rijkswaterstaat.nl",
+      "licence": "CC0",
+      "redistribution": "allowed",
+      "enabled": false,
+      "notes": "Open Dutch data; Dutch AtoN feeds are partly mirrored into OSM, which is what this build uses."
+    },
+    {
+      "id": "linz",
+      "name": "LINZ (New Zealand)",
+      "kind": "vector",
+      "url": "https://www.linz.govt.nz",
+      "licence": "CC-BY 4.0",
+      "redistribution": "allowed",
+      "enabled": false,
+      "notes": "Open NZ hydrographic data; region outside this build."
+    },
+    {
+      "id": "amsa",
+      "name": "AMSA (Australia)",
+      "kind": "vector",
+      "url": "https://www.amsa.gov.au",
+      "licence": "CC-BY 4.0 (some products)",
+      "redistribution": "mixed",
+      "enabled": false,
+      "notes": "Australian AtoN data; not an API, region outside this build."
+    },
+    {
+      "id": "chs",
+      "name": "Canadian Hydrographic Service",
+      "kind": "vector",
+      "url": "https://www.charts.gc.ca",
+      "licence": "Open Government Licence – Canada",
+      "redistribution": "allowed",
+      "enabled": false,
+      "notes": "Open Canadian ENC (S-57). Region outside this build; OSM covers the main Canadian ports."
+    },
+    {
+      "id": "dhn",
+      "name": "DHN (Brazil)",
+      "kind": "vector",
+      "url": "https://www.marinha.mil.br/dhn",
+      "licence": "Government, restricted",
+      "redistribution": "prohibited",
+      "enabled": false,
+      "notes": "Not open for redistribution."
+    },
+    {
+      "id": "traficom",
+      "name": "Traficom (Finland)",
+      "kind": "vector",
+      "url": "https://www.traficom.fi",
+      "licence": "CC-BY 4.0",
+      "redistribution": "allowed",
+      "enabled": false,
+      "notes": "Open Finnish fairway data; region outside this build."
+    }
+  ],
+  "regions": [
+    {
+      "id": "solent",
+      "name": "Solent & Isle of Wight",
+      "bounds": [50.55, -1.85, 51.05, -0.75],
+      "snapshot": "data-raw/solent.json",
+      "sources": ["osm"]
+    },
+    {
+      "id": "ny-harbor",
+      "name": "New York Harbor",
+      "bounds": [40.45, -74.3, 40.95, -73.7],
+      "snapshot": "data-raw/ny.json",
+      "sources": ["osm"]
+    }
+  ]
+}

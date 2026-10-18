@@ -1,0 +1,4122 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.7 375dc00a",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-18T15:08:21Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "way",
+  "id": 29185504,
+  "bounds": {
+    "minlat": 40.6441050,
+    "minlon": -74.0718309,
+    "maxlat": 40.7005491,
+    "maxlon": -74.0128318
+  },
+  "geometry": [
+    { "lat": 40.6441050, "lon": -74.0718309 },
+    { "lat": 40.6462559, "lon": -74.0666842 },
+    { "lat": 40.6472725, "lon": -74.0648236 },
+    { "lat": 40.6483895, "lon": -74.0629734 },
+    { "lat": 40.6494972, "lon": -74.0612963 },
+    { "lat": 40.6507049, "lon": -74.0597152 },
+    { "lat": 40.6519949, "lon": -74.0581676 },
+    { "lat": 40.6532591, "lon": -74.0568791 },
+    { "lat": 40.6545233, "lon": -74.0557444 },
+    { "lat": 40.6560948, "lon": -74.0544263 },
+    { "lat": 40.6576972, "lon": -74.0532427 },
+    { "lat": 40.6719434, "lon": -74.0439592 },
+    { "lat": 40.6746531, "lon": -74.0420055 },
+    { "lat": 40.6773783, "lon": -74.0399010 },
+    { "lat": 40.6819686, "lon": -74.0362102 },
+    { "lat": 40.6862580, "lon": -74.0325945 },
+    { "lat": 40.6896752, "lon": -74.0294663 },
+    { "lat": 40.6912616, "lon": -74.0278875 },
+    { "lat": 40.6924262, "lon": -74.0266754 },
+    { "lat": 40.6934665, "lon": -74.0254266 },
+    { "lat": 40.6942663, "lon": -74.0243356 },
+    { "lat": 40.6949638, "lon": -74.0231654 },
+    { "lat": 40.6956674, "lon": -74.0217356 },
+    { "lat": 40.6962735, "lon": -74.0203327 },
+    { "lat": 40.6987455, "lon": -74.0139151 },
+    { "lat": 40.6988886, "lon": -74.0135788 },
+    { "lat": 40.6990533, "lon": -74.0132995 },
+    { "lat": 40.6992522, "lon": -74.0130743 },
+    { "lat": 40.6994789, "lon": -74.0129182 },
+    { "lat": 40.6996632, "lon": -74.0128471 },
+    { "lat": 40.6998061, "lon": -74.0128318 },
+    { "lat": 40.6999243, "lon": -74.0128548 },
+    { "lat": 40.7005491, "lon": -74.0130260 }
+  ],
+  "tags": {
+    "bicycle": "yes",
+    "duration": "0:25",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "private",
+    "motorcar": "no",
+    "name": "Staten Island Ferry",
+    "network": "Staten Island Ferry",
+    "network:wikidata": "Q1048582",
+    "network:wikipedia": "en:Staten Island Ferry",
+    "operator": "NYCDOT",
+    "operator:wikidata": "Q1058767",
+    "operator:wikipedia": "en:New York City Department of Transportation",
+    "rcn": "yes",
+    "ref": "SIF",
+    "route": "ferry",
+    "seamark:type": "ferry_route",
+    "source": "gps, survey, bing",
+    "toll": "no",
+    "website": "https://www.nyc.gov/html/dot/html/ferrybus/statfery.shtml",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 37860421,
+  "bounds": {
+    "minlat": 40.6932017,
+    "minlon": -74.0150361,
+    "maxlat": 40.7008035,
+    "maxlon": -74.0114586
+  },
+  "geometry": [
+    { "lat": 40.6932017, "lon": -74.0150361 },
+    { "lat": 40.6938586, "lon": -74.0145788 },
+    { "lat": 40.6942083, "lon": -74.0144880 },
+    { "lat": 40.6997716, "lon": -74.0115819 },
+    { "lat": 40.7000349, "lon": -74.0114872 },
+    { "lat": 40.7003038, "lon": -74.0114586 },
+    { "lat": 40.7005112, "lon": -74.0114890 },
+    { "lat": 40.7008035, "lon": -74.0116105 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "charge": "4 USD",
+    "duration": "00:08",
+    "foot": "yes",
+    "from": "Manhattan",
+    "motor_vehicle": "yes",
+    "name": "Governors Island – Manhattan",
+    "operator": "NYC Ferry;Trust for Governors Island",
+    "route": "ferry",
+    "to": "Governors Island",
+    "toll": "yes",
+    "toll:conditional": "yes @ age > 12",
+    "website": "https://www.govisland.com/plan-your-visit/ferry"
+  }
+},
+{
+  "type": "way",
+  "id": 44165015,
+  "bounds": {
+    "minlat": 40.6861568,
+    "minlon": -74.0485859,
+    "maxlat": 40.7028560,
+    "maxlon": -74.0172629
+  },
+  "geometry": [
+    { "lat": 40.7028560, "lon": -74.0172629 },
+    { "lat": 40.6912965, "lon": -74.0372444 },
+    { "lat": 40.6863419, "lon": -74.0440668 },
+    { "lat": 40.6861798, "lon": -74.0446236 },
+    { "lat": 40.6861568, "lon": -74.0453388 },
+    { "lat": 40.6863198, "lon": -74.0460486 },
+    { "lat": 40.6882816, "lon": -74.0483274 },
+    { "lat": 40.6888109, "lon": -74.0485859 },
+    { "lat": 40.6893443, "lon": -74.0484484 },
+    { "lat": 40.6898508, "lon": -74.0476674 }
+  ],
+  "tags": {
+    "duration": "00:25",
+    "from": "Battery Park",
+    "motor_vehicle": "no",
+    "operator": "Statue City Cruises",
+    "route": "ferry",
+    "to": "Liberty Island",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 44165017,
+  "bounds": {
+    "minlat": 40.6968265,
+    "minlon": -74.0405479,
+    "maxlat": 40.7028560,
+    "maxlon": -74.0172629
+  },
+  "geometry": [
+    { "lat": 40.6989545, "lon": -74.0404631 },
+    { "lat": 40.6987233, "lon": -74.0405479 },
+    { "lat": 40.6985196, "lon": -74.0404436 },
+    { "lat": 40.6976241, "lon": -74.0393239 },
+    { "lat": 40.6974120, "lon": -74.0388234 },
+    { "lat": 40.6969628, "lon": -74.0373512 },
+    { "lat": 40.6968265, "lon": -74.0358274 },
+    { "lat": 40.7028560, "lon": -74.0172629 }
+  ],
+  "tags": {
+    "duration": "00:10",
+    "from": "Ellis Island",
+    "motor_vehicle": "no",
+    "operator": "Statue City Cruises",
+    "route": "ferry",
+    "to": "Battery Park",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 47517719,
+  "bounds": {
+    "minlat": 40.6976207,
+    "minlon": -74.0404631,
+    "maxlat": 40.7075327,
+    "maxlon": -74.0325177
+  },
+  "geometry": [
+    { "lat": 40.7075327, "lon": -74.0344078 },
+    { "lat": 40.7074528, "lon": -74.0339938 },
+    { "lat": 40.7073479, "lon": -74.0332223 },
+    { "lat": 40.7071672, "lon": -74.0328500 },
+    { "lat": 40.7068523, "lon": -74.0326051 },
+    { "lat": 40.7061234, "lon": -74.0325177 },
+    { "lat": 40.7044842, "lon": -74.0328730 },
+    { "lat": 40.6981226, "lon": -74.0366808 },
+    { "lat": 40.6978655, "lon": -74.0370751 },
+    { "lat": 40.6976943, "lon": -74.0376109 },
+    { "lat": 40.6976207, "lon": -74.0387928 },
+    { "lat": 40.6976512, "lon": -74.0390140 },
+    { "lat": 40.6977703, "lon": -74.0392166 },
+    { "lat": 40.6985745, "lon": -74.0402789 },
+    { "lat": 40.6987549, "lon": -74.0403775 },
+    { "lat": 40.6989545, "lon": -74.0404631 }
+  ],
+  "tags": {
+    "duration": "00:15",
+    "foot": "yes",
+    "from": "Liberty State Park",
+    "motor_vehicle": "no",
+    "operator": "Statue City Cruises",
+    "route": "ferry",
+    "to": "Ellis Island",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 47518171,
+  "bounds": {
+    "minlat": 40.6865357,
+    "minlon": -74.0482020,
+    "maxlat": 40.7075327,
+    "maxlon": -74.0319433
+  },
+  "geometry": [
+    { "lat": 40.6898508, "lon": -74.0476674 },
+    { "lat": 40.6892963, "lon": -74.0481434 },
+    { "lat": 40.6888794, "lon": -74.0482020 },
+    { "lat": 40.6883957, "lon": -74.0480213 },
+    { "lat": 40.6866760, "lon": -74.0458639 },
+    { "lat": 40.6865362, "lon": -74.0452988 },
+    { "lat": 40.6865357, "lon": -74.0447486 },
+    { "lat": 40.6866868, "lon": -74.0442317 },
+    { "lat": 40.6896283, "lon": -74.0403491 },
+    { "lat": 40.6915925, "lon": -74.0382900 },
+    { "lat": 40.6937163, "lon": -74.0367957 },
+    { "lat": 40.7042863, "lon": -74.0322208 },
+    { "lat": 40.7064479, "lon": -74.0319433 },
+    { "lat": 40.7068403, "lon": -74.0320267 },
+    { "lat": 40.7070095, "lon": -74.0321243 },
+    { "lat": 40.7071679, "lon": -74.0323494 },
+    { "lat": 40.7072930, "lon": -74.0325932 },
+    { "lat": 40.7073967, "lon": -74.0330990 },
+    { "lat": 40.7074937, "lon": -74.0339840 },
+    { "lat": 40.7075327, "lon": -74.0344078 }
+  ],
+  "tags": {
+    "duration": "00:15",
+    "foot": "yes",
+    "from": "Liberty State Park",
+    "motor_vehicle": "no",
+    "operator": "Statue City Cruises",
+    "route": "ferry",
+    "to": "Liberty Island",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 110602948,
+  "bounds": {
+    "minlat": 40.7575622,
+    "minlon": -74.0226626,
+    "maxlat": 40.7630311,
+    "maxlon": -74.0039047
+  },
+  "geometry": [
+    { "lat": 40.7587207, "lon": -74.0226626 },
+    { "lat": 40.7587175, "lon": -74.0225812 },
+    { "lat": 40.7587046, "lon": -74.0224901 },
+    { "lat": 40.7577791, "lon": -74.0201063 },
+    { "lat": 40.7576802, "lon": -74.0197575 },
+    { "lat": 40.7576041, "lon": -74.0193808 },
+    { "lat": 40.7575622, "lon": -74.0188341 },
+    { "lat": 40.7576703, "lon": -74.0183097 },
+    { "lat": 40.7578490, "lon": -74.0179375 },
+    { "lat": 40.7615431, "lon": -74.0145279 },
+    { "lat": 40.7626324, "lon": -74.0129925 },
+    { "lat": 40.7630311, "lon": -74.0108767 },
+    { "lat": 40.7629287, "lon": -74.0091281 },
+    { "lat": 40.7624641, "lon": -74.0072998 },
+    { "lat": 40.7605920, "lon": -74.0039047 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "dismount",
+    "duration": "00:06",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "name": "Lincoln Harbor – Midtown / W. 39th Street",
+    "network": "NY Waterway",
+    "network:wikidata": "Q6956135",
+    "network:wikipedia": "en:NY Waterway",
+    "operator": "NY Waterway",
+    "route": "ferry",
+    "toll": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 195144475,
+  "bounds": {
+    "minlat": 40.6869605,
+    "minlon": -74.0478633,
+    "maxlat": 40.6989545,
+    "maxlon": -74.0387621
+  },
+  "geometry": [
+    { "lat": 40.6989545, "lon": -74.0404631 },
+    { "lat": 40.6988170, "lon": -74.0406323 },
+    { "lat": 40.6986602, "lon": -74.0407365 },
+    { "lat": 40.6984762, "lon": -74.0406147 },
+    { "lat": 40.6975709, "lon": -74.0395009 },
+    { "lat": 40.6970757, "lon": -74.0391331 },
+    { "lat": 40.6955769, "lon": -74.0387621 },
+    { "lat": 40.6926478, "lon": -74.0392861 },
+    { "lat": 40.6909662, "lon": -74.0400920 },
+    { "lat": 40.6893545, "lon": -74.0414817 },
+    { "lat": 40.6871330, "lon": -74.0444199 },
+    { "lat": 40.6870092, "lon": -74.0446449 },
+    { "lat": 40.6869605, "lon": -74.0448415 },
+    { "lat": 40.6869775, "lon": -74.0453131 },
+    { "lat": 40.6870098, "lon": -74.0455967 },
+    { "lat": 40.6871440, "lon": -74.0458661 },
+    { "lat": 40.6885184, "lon": -74.0476938 },
+    { "lat": 40.6887186, "lon": -74.0478633 },
+    { "lat": 40.6889187, "lon": -74.0478630 },
+    { "lat": 40.6892636, "lon": -74.0478283 },
+    { "lat": 40.6898508, "lon": -74.0476674 }
+  ],
+  "tags": {
+    "duration": "00:20",
+    "foot": "yes",
+    "from": "Liberty Island",
+    "motor_vehicle": "no",
+    "operator": "Statue City Cruises",
+    "route": "ferry",
+    "to": "Ellis Island",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 207411163,
+  "bounds": {
+    "minlat": 40.6984483,
+    "minlon": -74.0265592,
+    "maxlat": 40.7350368,
+    "maxlon": -74.0055028
+  },
+  "geometry": [
+    { "lat": 40.7350368, "lon": -74.0265592 },
+    { "lat": 40.7345645, "lon": -74.0252458 },
+    { "lat": 40.7336146, "lon": -74.0235604 },
+    { "lat": 40.7318678, "lon": -74.0220698 },
+    { "lat": 40.7301972, "lon": -74.0218035 },
+    { "lat": 40.7103866, "lon": -74.0258686 },
+    { "lat": 40.7089191, "lon": -74.0255614 },
+    { "lat": 40.7073451, "lon": -74.0252319 },
+    { "lat": 40.7016265, "lon": -74.0208522 },
+    { "lat": 40.6991942, "lon": -74.0173842 },
+    { "lat": 40.6985711, "lon": -74.0149153 },
+    { "lat": 40.6984483, "lon": -74.0126417 },
+    { "lat": 40.6987828, "lon": -74.0101216 },
+    { "lat": 40.6993887, "lon": -74.0083878 },
+    { "lat": 40.7001194, "lon": -74.0071132 },
+    { "lat": 40.7024496, "lon": -74.0055028 }
+  ],
+  "tags": {
+    "duration": "00:12",
+    "foot": "yes",
+    "motorcycle": "yes",
+    "name": "Hoboken NJ Transit - Pier 11 / Wall Street",
+    "network": "NY Waterway",
+    "network:wikidata": "Q6956135",
+    "network:wikipedia": "en:NY Waterway",
+    "operator": "NY Waterway",
+    "route": "ferry",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 207411167,
+  "bounds": {
+    "minlat": 40.4335137,
+    "minlon": -74.0817548,
+    "maxlat": 40.7005516,
+    "maxlon": -74.0102781
+  },
+  "geometry": [
+    { "lat": 40.4335137, "lon": -74.0789962 },
+    { "lat": 40.4338030, "lon": -74.0794124 },
+    { "lat": 40.4339478, "lon": -74.0798119 },
+    { "lat": 40.4343640, "lon": -74.0810727 },
+    { "lat": 40.4344924, "lon": -74.0813367 },
+    { "lat": 40.4348206, "lon": -74.0816007 },
+    { "lat": 40.4351882, "lon": -74.0817548 },
+    { "lat": 40.4356758, "lon": -74.0816695 },
+    { "lat": 40.5654457, "lon": -74.0449033 },
+    { "lat": 40.6224777, "lon": -74.0465349 },
+    { "lat": 40.6406483, "lon": -74.0426490 },
+    { "lat": 40.6789132, "lon": -74.0249380 },
+    { "lat": 40.6827752, "lon": -74.0211919 },
+    { "lat": 40.6880344, "lon": -74.0117459 },
+    { "lat": 40.6893002, "lon": -74.0105860 },
+    { "lat": 40.6897785, "lon": -74.0103487 },
+    { "lat": 40.6903819, "lon": -74.0102781 },
+    { "lat": 40.6994592, "lon": -74.0116386 },
+    { "lat": 40.6998541, "lon": -74.0117006 },
+    { "lat": 40.7000775, "lon": -74.0117333 },
+    { "lat": 40.7005516, "lon": -74.0118556 }
+  ],
+  "tags": {
+    "duration": "00:45",
+    "foot": "yes",
+    "from": "Belford",
+    "motor_vehicle": "no",
+    "name": "Belford - Battery Maritime Building",
+    "network": "Seastreak",
+    "operator": "Seastreak",
+    "route": "ferry",
+    "to": "Battery Maritime Building",
+    "toll": "yes",
+    "website": "https://seastreak.com/ferry-routes-and-schedules/between-new-jersey-and-new-york-city/"
+  }
+},
+{
+  "type": "way",
+  "id": 207411168,
+  "bounds": {
+    "minlat": 40.7101080,
+    "minlon": -74.0434266,
+    "maxlat": 40.7139802,
+    "maxlon": -74.0308008
+  },
+  "geometry": [
+    { "lat": 40.7112739, "lon": -74.0434266 },
+    { "lat": 40.7110372, "lon": -74.0431664 },
+    { "lat": 40.7108545, "lon": -74.0426280 },
+    { "lat": 40.7101661, "lon": -74.0367419 },
+    { "lat": 40.7101080, "lon": -74.0342824 },
+    { "lat": 40.7104447, "lon": -74.0323523 },
+    { "lat": 40.7107761, "lon": -74.0317154 },
+    { "lat": 40.7112234, "lon": -74.0313292 },
+    { "lat": 40.7118252, "lon": -74.0310931 },
+    { "lat": 40.7132605, "lon": -74.0308142 },
+    { "lat": 40.7135716, "lon": -74.0308008 },
+    { "lat": 40.7138359, "lon": -74.0309295 },
+    { "lat": 40.7139802, "lon": -74.0312246 },
+    { "lat": 40.7139782, "lon": -74.0315786 },
+    { "lat": 40.7138230, "lon": -74.0321239 }
+  ],
+  "tags": {
+    "duration": "00:12",
+    "foot": "yes",
+    "motor_vehicle": "no",
+    "name": "Liberty Harbor / Marin Blvd - Paulus Hook",
+    "network": "NY Waterway",
+    "network:wikidata": "Q6956135",
+    "network:wikipedia": "en:NY Waterway",
+    "operator": "NY Waterway",
+    "route": "ferry",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 285554297,
+  "bounds": {
+    "minlat": 40.7138230,
+    "minlon": -74.0321239,
+    "maxlat": 40.7350368,
+    "maxlon": -74.0250061
+  },
+  "geometry": [
+    { "lat": 40.7138230, "lon": -74.0321239 },
+    { "lat": 40.7146553, "lon": -74.0319753 },
+    { "lat": 40.7152414, "lon": -74.0314609 },
+    { "lat": 40.7156137, "lon": -74.0307239 },
+    { "lat": 40.7161377, "lon": -74.0296187 },
+    { "lat": 40.7165169, "lon": -74.0290822 },
+    { "lat": 40.7172290, "lon": -74.0285987 },
+    { "lat": 40.7290530, "lon": -74.0255404 },
+    { "lat": 40.7336001, "lon": -74.0250061 },
+    { "lat": 40.7342896, "lon": -74.0254570 },
+    { "lat": 40.7350368, "lon": -74.0265592 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "dismount",
+    "duration": "00:10",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "name": "Paulus Hook – Hoboken NJ Transit",
+    "network": "NY Waterway",
+    "network:wikidata": "Q6956135",
+    "network:wikipedia": "en:NY Waterway",
+    "operator": "NY Waterway",
+    "route": "ferry",
+    "toll": "yes",
+    "type": "route",
+    "website": "http://www.nywaterway.com/PaulusHookRoute.aspx"
+  }
+},
+{
+  "type": "way",
+  "id": 285578513,
+  "bounds": {
+    "minlat": 40.7138230,
+    "minlon": -74.0321239,
+    "maxlat": 40.7154447,
+    "maxlon": -74.0180709
+  },
+  "geometry": [
+    { "lat": 40.7138230, "lon": -74.0321239 },
+    { "lat": 40.7145600, "lon": -74.0314734 },
+    { "lat": 40.7150867, "lon": -74.0307691 },
+    { "lat": 40.7154447, "lon": -74.0297383 },
+    { "lat": 40.7151567, "lon": -74.0180709 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "dismount",
+    "duration": "00:07",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "name": "Paulus Hook – Brookfield Place",
+    "network": "NY Waterway",
+    "network:wikidata": "Q6956135",
+    "network:wikipedia": "en:NY Waterway",
+    "operator": "NY Waterway",
+    "ref": "PH-BPC",
+    "route": "ferry",
+    "toll": "yes",
+    "website": "https://www.nywaterway.com/PaulusHook-WTCRoute.aspx"
+  }
+},
+{
+  "type": "way",
+  "id": 285585246,
+  "bounds": {
+    "minlat": 40.6977970,
+    "minlon": -74.0321239,
+    "maxlat": 40.7141674,
+    "maxlon": -74.0055028
+  },
+  "geometry": [
+    { "lat": 40.7024496, "lon": -74.0055028 },
+    { "lat": 40.6998234, "lon": -74.0068302 },
+    { "lat": 40.6989037, "lon": -74.0080248 },
+    { "lat": 40.6981675, "lon": -74.0098392 },
+    { "lat": 40.6977970, "lon": -74.0129362 },
+    { "lat": 40.6979634, "lon": -74.0160964 },
+    { "lat": 40.6983239, "lon": -74.0182541 },
+    { "lat": 40.7009208, "lon": -74.0224632 },
+    { "lat": 40.7096311, "lon": -74.0300272 },
+    { "lat": 40.7104847, "lon": -74.0305143 },
+    { "lat": 40.7134263, "lon": -74.0304178 },
+    { "lat": 40.7138251, "lon": -74.0305005 },
+    { "lat": 40.7141203, "lon": -74.0308625 },
+    { "lat": 40.7141674, "lon": -74.0312328 },
+    { "lat": 40.7140802, "lon": -74.0316153 },
+    { "lat": 40.7138230, "lon": -74.0321239 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "dismount",
+    "duration": "00:10",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "name": "Paulus Hook – Pier 11 / Wall Street",
+    "network": "NY Waterway",
+    "network:wikidata": "Q6956135",
+    "network:wikipedia": "en:NY Waterway",
+    "operator": "NY Waterway",
+    "ref": "PH-11",
+    "route": "ferry",
+    "toll": "yes",
+    "type": "route",
+    "website": "http://www.nywaterway.com/PalHo-Pier11WallStRoute.aspx"
+  }
+},
+{
+  "type": "way",
+  "id": 328286539,
+  "bounds": {
+    "minlat": 40.6867676,
+    "minlon": -74.0165035,
+    "maxlat": 40.6937650,
+    "maxlon": -74.0020061
+  },
+  "geometry": [
+    { "lat": 40.6924305, "lon": -74.0020061 },
+    { "lat": 40.6925021, "lon": -74.0026867 },
+    { "lat": 40.6935794, "lon": -74.0065845 },
+    { "lat": 40.6937650, "lon": -74.0079285 },
+    { "lat": 40.6935455, "lon": -74.0086910 },
+    { "lat": 40.6930088, "lon": -74.0091832 },
+    { "lat": 40.6898383, "lon": -74.0105966 },
+    { "lat": 40.6882046, "lon": -74.0120511 },
+    { "lat": 40.6871102, "lon": -74.0140358 },
+    { "lat": 40.6870122, "lon": -74.0144220 },
+    { "lat": 40.6869706, "lon": -74.0150521 },
+    { "lat": 40.6869553, "lon": -74.0158402 },
+    { "lat": 40.6869133, "lon": -74.0162995 },
+    { "lat": 40.6867676, "lon": -74.0165035 }
+  ],
+  "tags": {
+    "duration": "00:10",
+    "foot": "yes",
+    "from": "Governors Island",
+    "motor_vehicle": "no",
+    "name": "Governors Island – Brooklyn Bridge Park (weekends)",
+    "operator": "Trust for Governors Island",
+    "ref": "GI-B",
+    "route": "ferry",
+    "source": "http://www.nps.gov/gois/planyourvisit/directions.htm",
+    "to": "Brooklyn Bridge Park Pier 6",
+    "toll": "yes",
+    "website": "https://www.govisland.com/plan-your-visit/ferry"
+  }
+},
+{
+  "type": "way",
+  "id": 328294125,
+  "bounds": {
+    "minlat": 40.7209266,
+    "minlon": -73.9664134,
+    "maxlat": 40.7313641,
+    "maxlon": -73.9636871
+  },
+  "geometry": [
+    { "lat": 40.7209266, "lon": -73.9648885 },
+    { "lat": 40.7211619, "lon": -73.9650836 },
+    { "lat": 40.7226647, "lon": -73.9662371 },
+    { "lat": 40.7236169, "lon": -73.9663901 },
+    { "lat": 40.7240137, "lon": -73.9664134 },
+    { "lat": 40.7243709, "lon": -73.9663395 },
+    { "lat": 40.7309322, "lon": -73.9642974 },
+    { "lat": 40.7311247, "lon": -73.9641760 },
+    { "lat": 40.7312691, "lon": -73.9639655 },
+    { "lat": 40.7313641, "lon": -73.9636871 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:08",
+    "foot": "yes",
+    "from": "North Williamsburg",
+    "motor_vehicle": "no",
+    "name": "North Williamsburg – Greenpoint",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Greenpoint",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/east-river/"
+  }
+},
+{
+  "type": "way",
+  "id": 328906423,
+  "bounds": {
+    "minlat": 40.6703449,
+    "minlon": -74.0227884,
+    "maxlat": 40.7024496,
+    "maxlon": -74.0042215
+  },
+  "geometry": [
+    { "lat": 40.6710616, "lon": -74.0133362 },
+    { "lat": 40.6710690, "lon": -74.0134630 },
+    { "lat": 40.6710228, "lon": -74.0135681 },
+    { "lat": 40.6705016, "lon": -74.0141844 },
+    { "lat": 40.6704394, "lon": -74.0142890 },
+    { "lat": 40.6703897, "lon": -74.0144767 },
+    { "lat": 40.6703449, "lon": -74.0148335 },
+    { "lat": 40.6703633, "lon": -74.0151714 },
+    { "lat": 40.6722195, "lon": -74.0196105 },
+    { "lat": 40.6730218, "lon": -74.0210186 },
+    { "lat": 40.6739576, "lon": -74.0221022 },
+    { "lat": 40.6743582, "lon": -74.0224673 },
+    { "lat": 40.6750869, "lon": -74.0227884 },
+    { "lat": 40.6759132, "lon": -74.0226621 },
+    { "lat": 40.6780677, "lon": -74.0218833 },
+    { "lat": 40.6813527, "lon": -74.0188781 },
+    { "lat": 40.6870770, "lon": -74.0096366 },
+    { "lat": 40.6893874, "lon": -74.0079603 },
+    { "lat": 40.7006039, "lon": -74.0042215 },
+    { "lat": 40.7024496, "lon": -74.0055028 }
+  ],
+  "tags": {
+    "foot": "yes",
+    "name": "IKEA Express",
+    "network": "NY Waterway",
+    "network:wikidata": "Q6956135",
+    "operator": "NY Waterway",
+    "route": "ferry",
+    "seamark:type": "ferry_route",
+    "toll": "yes",
+    "type": "route",
+    "website": "https://www.nywaterway.com/ikea.aspx"
+  }
+},
+{
+  "type": "way",
+  "id": 452146009,
+  "bounds": {
+    "minlat": 40.7151567,
+    "minlon": -74.0225196,
+    "maxlat": 40.7529354,
+    "maxlon": -74.0145622
+  },
+  "geometry": [
+    { "lat": 40.7529354, "lon": -74.0225196 },
+    { "lat": 40.7524560, "lon": -74.0196728 },
+    { "lat": 40.7522484, "lon": -74.0188546 },
+    { "lat": 40.7518914, "lon": -74.0177794 },
+    { "lat": 40.7513614, "lon": -74.0166670 },
+    { "lat": 40.7507317, "lon": -74.0159587 },
+    { "lat": 40.7500953, "lon": -74.0154298 },
+    { "lat": 40.7487885, "lon": -74.0148226 },
+    { "lat": 40.7471718, "lon": -74.0145622 },
+    { "lat": 40.7455290, "lon": -74.0147141 },
+    { "lat": 40.7254784, "lon": -74.0199525 },
+    { "lat": 40.7195553, "lon": -74.0212013 },
+    { "lat": 40.7181034, "lon": -74.0213791 },
+    { "lat": 40.7171681, "lon": -74.0210984 },
+    { "lat": 40.7160231, "lon": -74.0200235 },
+    { "lat": 40.7151567, "lon": -74.0180709 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "dismount",
+    "duration": "00:08",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "name": "Hoboken 14th Street – Brookfield Place",
+    "network": "NY Waterway",
+    "network:wikidata": "Q6956135",
+    "network:wikipedia": "en:NY Waterway",
+    "operator": "NY Waterway",
+    "route": "ferry",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 452146010,
+  "bounds": {
+    "minlat": 40.7525664,
+    "minlon": -74.0225196,
+    "maxlat": 40.7623950,
+    "maxlon": -74.0039047
+  },
+  "geometry": [
+    { "lat": 40.7529354, "lon": -74.0225196 },
+    { "lat": 40.7529368, "lon": -74.0223364 },
+    { "lat": 40.7529322, "lon": -74.0221690 },
+    { "lat": 40.7526151, "lon": -74.0196705 },
+    { "lat": 40.7525664, "lon": -74.0190283 },
+    { "lat": 40.7526113, "lon": -74.0185621 },
+    { "lat": 40.7527481, "lon": -74.0181077 },
+    { "lat": 40.7530048, "lon": -74.0178274 },
+    { "lat": 40.7533780, "lon": -74.0175886 },
+    { "lat": 40.7606703, "lon": -74.0133688 },
+    { "lat": 40.7616585, "lon": -74.0124464 },
+    { "lat": 40.7622138, "lon": -74.0109995 },
+    { "lat": 40.7623637, "lon": -74.0099333 },
+    { "lat": 40.7623950, "lon": -74.0087662 },
+    { "lat": 40.7621409, "lon": -74.0075362 },
+    { "lat": 40.7605920, "lon": -74.0039047 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "dismount",
+    "duration": "00:08",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "name": "Hoboken 14th Street – Midtown / W. 39th Street",
+    "network": "NY Waterway",
+    "network:wikidata": "Q6956135",
+    "network:wikipedia": "en:NY Waterway",
+    "operator": "NY Waterway",
+    "route": "ferry",
+    "toll": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 452146011,
+  "bounds": {
+    "minlat": 40.7605920,
+    "minlon": -74.0104250,
+    "maxlat": 40.7765607,
+    "maxlon": -74.0039047
+  },
+  "geometry": [
+    { "lat": 40.7605920, "lon": -74.0039047 },
+    { "lat": 40.7611374, "lon": -74.0045478 },
+    { "lat": 40.7621813, "lon": -74.0056118 },
+    { "lat": 40.7630237, "lon": -74.0062130 },
+    { "lat": 40.7638525, "lon": -74.0065456 },
+    { "lat": 40.7730058, "lon": -74.0065960 },
+    { "lat": 40.7742003, "lon": -74.0069747 },
+    { "lat": 40.7752077, "lon": -74.0078172 },
+    { "lat": 40.7763307, "lon": -74.0095850 },
+    { "lat": 40.7765607, "lon": -74.0104250 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "dismount",
+    "duration": "00:08",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "name": "Port Imperial – Midtown / W. 39th Street",
+    "network": "NY Waterway",
+    "network:wikidata": "Q6956135",
+    "network:wikipedia": "en:NY Waterway",
+    "operator": "NY Waterway",
+    "route": "ferry",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 568622543,
+  "bounds": {
+    "minlat": 40.6462989,
+    "minlon": -74.0305786,
+    "maxlat": 40.7024496,
+    "maxlon": -74.0044888
+  },
+  "geometry": [
+    { "lat": 40.7024496, "lon": -74.0055028 },
+    { "lat": 40.7005617, "lon": -74.0044888 },
+    { "lat": 40.6894361, "lon": -74.0083459 },
+    { "lat": 40.6872365, "lon": -74.0099882 },
+    { "lat": 40.6815559, "lon": -74.0192086 },
+    { "lat": 40.6781885, "lon": -74.0223197 },
+    { "lat": 40.6759603, "lon": -74.0230795 },
+    { "lat": 40.6499900, "lon": -74.0304868 },
+    { "lat": 40.6493947, "lon": -74.0305786 },
+    { "lat": 40.6486296, "lon": -74.0304400 },
+    { "lat": 40.6481619, "lon": -74.0300502 },
+    { "lat": 40.6464272, "lon": -74.0266386 },
+    { "lat": 40.6462989, "lon": -74.0264841 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "colour": "magenta",
+    "duration": "00:14",
+    "foot": "yes",
+    "from": "Pier 11",
+    "motor_vehicle": "no",
+    "name": "Pier 11 – Sunset Park",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Brooklyn Army Terminal/Sunset Park",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/rockaway/"
+  }
+},
+{
+  "type": "way",
+  "id": 568622821,
+  "bounds": {
+    "minlat": 40.5622849,
+    "minlon": -74.0432588,
+    "maxlat": 40.6477065,
+    "maxlon": -73.8317386
+  },
+  "geometry": [
+    { "lat": 40.6462989, "lon": -74.0264841 },
+    { "lat": 40.6463245, "lon": -74.0267403 },
+    { "lat": 40.6473289, "lon": -74.0291379 },
+    { "lat": 40.6476325, "lon": -74.0300475 },
+    { "lat": 40.6477065, "lon": -74.0313800 },
+    { "lat": 40.6472336, "lon": -74.0336745 },
+    { "lat": 40.6460004, "lon": -74.0361550 },
+    { "lat": 40.6424330, "lon": -74.0387659 },
+    { "lat": 40.6399555, "lon": -74.0398544 },
+    { "lat": 40.6225078, "lon": -74.0432588 },
+    { "lat": 40.6115191, "lon": -74.0415588 },
+    { "lat": 40.6103359, "lon": -74.0409096 },
+    { "lat": 40.6060432, "lon": -74.0386572 },
+    { "lat": 40.5822580, "lon": -74.0227323 },
+    { "lat": 40.5743532, "lon": -74.0166026 },
+    { "lat": 40.5698519, "lon": -74.0122692 },
+    { "lat": 40.5688176, "lon": -74.0104844 },
+    { "lat": 40.5676574, "lon": -74.0057135 },
+    { "lat": 40.5657160, "lon": -73.9902125 },
+    { "lat": 40.5652799, "lon": -73.9644350 },
+    { "lat": 40.5649985, "lon": -73.9610090 },
+    { "lat": 40.5622849, "lon": -73.9394901 },
+    { "lat": 40.5626210, "lon": -73.9346012 },
+    { "lat": 40.5717269, "lon": -73.8977545 },
+    { "lat": 40.5736395, "lon": -73.8855172 },
+    { "lat": 40.5753097, "lon": -73.8739890 },
+    { "lat": 40.5777356, "lon": -73.8670732 },
+    { "lat": 40.5815547, "lon": -73.8588406 },
+    { "lat": 40.5839457, "lon": -73.8500442 },
+    { "lat": 40.5836980, "lon": -73.8382581 },
+    { "lat": 40.5842467, "lon": -73.8331311 },
+    { "lat": 40.5841516, "lon": -73.8324737 },
+    { "lat": 40.5841584, "lon": -73.8318700 },
+    { "lat": 40.5841920, "lon": -73.8317386 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "colour": "magenta",
+    "duration": "00:41",
+    "foot": "yes",
+    "from": "Brooklyn Army Terminal/Sunset Park",
+    "motor_vehicle": "no",
+    "name": "Sunset Park – Rockaway",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Rockaway",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/rockaway/"
+  }
+},
+{
+  "type": "way",
+  "id": 578679495,
+  "bounds": {
+    "minlat": 40.7350368,
+    "minlon": -74.0265592,
+    "maxlat": 40.7619024,
+    "maxlon": -74.0039047
+  },
+  "geometry": [
+    { "lat": 40.7350368, "lon": -74.0265592 },
+    { "lat": 40.7352333, "lon": -74.0249797 },
+    { "lat": 40.7356011, "lon": -74.0239334 },
+    { "lat": 40.7362317, "lon": -74.0231915 },
+    { "lat": 40.7532065, "lon": -74.0167809 },
+    { "lat": 40.7599328, "lon": -74.0128735 },
+    { "lat": 40.7609799, "lon": -74.0120280 },
+    { "lat": 40.7614488, "lon": -74.0112215 },
+    { "lat": 40.7618019, "lon": -74.0101326 },
+    { "lat": 40.7619024, "lon": -74.0090195 },
+    { "lat": 40.7617650, "lon": -74.0079379 },
+    { "lat": 40.7605920, "lon": -74.0039047 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "dismount",
+    "duration": "00:15",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "name": "Hoboken NJ Transit – Midtown / W 39th St",
+    "network": "NY Waterway",
+    "network:wikidata": "Q6956135",
+    "network:wikipedia": "en:NY Waterway",
+    "operator": "NY Waterway",
+    "route": "ferry",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 618999128,
+  "bounds": {
+    "minlat": 40.7774839,
+    "minlon": -73.9420498,
+    "maxlat": 40.8041653,
+    "maxlon": -73.8486770
+  },
+  "geometry": [
+    { "lat": 40.7774839, "lon": -73.9420498 },
+    { "lat": 40.7776027, "lon": -73.9419703 },
+    { "lat": 40.7777205, "lon": -73.9418520 },
+    { "lat": 40.7792026, "lon": -73.9372190 },
+    { "lat": 40.7793813, "lon": -73.9367362 },
+    { "lat": 40.7795275, "lon": -73.9361997 },
+    { "lat": 40.7796169, "lon": -73.9356096 },
+    { "lat": 40.7796575, "lon": -73.9350303 },
+    { "lat": 40.7796575, "lon": -73.9304491 },
+    { "lat": 40.7796738, "lon": -73.9298912 },
+    { "lat": 40.7797063, "lon": -73.9293333 },
+    { "lat": 40.7797469, "lon": -73.9287003 },
+    { "lat": 40.7798139, "lon": -73.9280592 },
+    { "lat": 40.7799053, "lon": -73.9274396 },
+    { "lat": 40.7801287, "lon": -73.9261790 },
+    { "lat": 40.7802262, "lon": -73.9257284 },
+    { "lat": 40.7803643, "lon": -73.9252778 },
+    { "lat": 40.7805187, "lon": -73.9248808 },
+    { "lat": 40.7806893, "lon": -73.9245160 },
+    { "lat": 40.7808883, "lon": -73.9241727 },
+    { "lat": 40.7828787, "lon": -73.9214690 },
+    { "lat": 40.7835164, "lon": -73.9207395 },
+    { "lat": 40.7841703, "lon": -73.9200635 },
+    { "lat": 40.7924072, "lon": -73.9125855 },
+    { "lat": 40.7928366, "lon": -73.9121591 },
+    { "lat": 40.7931991, "lon": -73.9117541 },
+    { "lat": 40.7935403, "lon": -73.9113088 },
+    { "lat": 40.7938855, "lon": -73.9108046 },
+    { "lat": 40.7941657, "lon": -73.9103003 },
+    { "lat": 40.7944378, "lon": -73.9097263 },
+    { "lat": 40.7947403, "lon": -73.9089807 },
+    { "lat": 40.7992400, "lon": -73.8957413 },
+    { "lat": 40.7994430, "lon": -73.8949688 },
+    { "lat": 40.7995892, "lon": -73.8942607 },
+    { "lat": 40.7997191, "lon": -73.8934453 },
+    { "lat": 40.7998328, "lon": -73.8923080 },
+    { "lat": 40.7998653, "lon": -73.8914068 },
+    { "lat": 40.7998653, "lon": -73.8903125 },
+    { "lat": 40.7997492, "lon": -73.8835759 },
+    { "lat": 40.7997005, "lon": -73.8826961 },
+    { "lat": 40.7996030, "lon": -73.8818593 },
+    { "lat": 40.7978000, "lon": -73.8712592 },
+    { "lat": 40.7975076, "lon": -73.8687057 },
+    { "lat": 40.7973614, "lon": -73.8663024 },
+    { "lat": 40.7973939, "lon": -73.8637704 },
+    { "lat": 40.7976700, "lon": -73.8611955 },
+    { "lat": 40.7981411, "lon": -73.8590498 },
+    { "lat": 40.8008863, "lon": -73.8509602 },
+    { "lat": 40.8011137, "lon": -73.8504023 },
+    { "lat": 40.8013735, "lon": -73.8499517 },
+    { "lat": 40.8016822, "lon": -73.8495655 },
+    { "lat": 40.8021045, "lon": -73.8492865 },
+    { "lat": 40.8028174, "lon": -73.8489225 },
+    { "lat": 40.8040513, "lon": -73.8486770 },
+    { "lat": 40.8041653, "lon": -73.8486782 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:18",
+    "foot": "yes",
+    "from": "East 90th Street",
+    "motor_vehicle": "no",
+    "name": "East 90th Street – Soundview",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Soundview (Clayson Point)",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/soundview/"
+  }
+},
+{
+  "type": "way",
+  "id": 716755593,
+  "bounds": {
+    "minlat": 40.8483687,
+    "minlon": -73.7813380,
+    "maxlat": 40.8523585,
+    "maxlon": -73.7726765
+  },
+  "geometry": [
+    { "lat": 40.8483687, "lon": -73.7813380 },
+    { "lat": 40.8483920, "lon": -73.7811782 },
+    { "lat": 40.8487259, "lon": -73.7798398 },
+    { "lat": 40.8491141, "lon": -73.7784605 },
+    { "lat": 40.8493055, "lon": -73.7780570 },
+    { "lat": 40.8505858, "lon": -73.7759975 },
+    { "lat": 40.8507344, "lon": -73.7758570 },
+    { "lat": 40.8515526, "lon": -73.7754045 },
+    { "lat": 40.8518419, "lon": -73.7750983 },
+    { "lat": 40.8523240, "lon": -73.7737631 },
+    { "lat": 40.8523585, "lon": -73.7733762 },
+    { "lat": 40.8523068, "lon": -73.7729893 },
+    { "lat": 40.8521816, "lon": -73.7726765 }
+  ],
+  "tags": {
+    "access": "private",
+    "bicycle": "no",
+    "foot": "yes",
+    "motor_vehicle": "yes",
+    "name": "Hart Island Ferry Route",
+    "operator": "NYC Department of Corrections",
+    "route": "ferry",
+    "toll": "no",
+    "website": "https://www1.nyc.gov/site/doc/about/hart-island.page"
+  }
+},
+{
+  "type": "way",
+  "id": 717443318,
+  "bounds": {
+    "minlat": 40.7433908,
+    "minlon": -73.9710005,
+    "maxlat": 41.4895672,
+    "maxlon": -70.5545566
+  },
+  "geometry": [
+    { "lat": 41.4584376, "lon": -70.5545566 },
+    { "lat": 41.4590951, "lon": -70.5548181 },
+    { "lat": 41.4617935, "lon": -70.5556393 },
+    { "lat": 41.4624421, "lon": -70.5557279 },
+    { "lat": 41.4668297, "lon": -70.5554855 },
+    { "lat": 41.4693590, "lon": -70.5558909 },
+    { "lat": 41.4709999, "lon": -70.5569194 },
+    { "lat": 41.4724348, "lon": -70.5584507 },
+    { "lat": 41.4740723, "lon": -70.5616403 },
+    { "lat": 41.4893943, "lon": -70.6027512 },
+    { "lat": 41.4895672, "lon": -70.6040332 },
+    { "lat": 41.4894457, "lon": -70.6052373 },
+    { "lat": 41.4013486, "lon": -70.8994549 },
+    { "lat": 41.3830383, "lon": -70.9837538 },
+    { "lat": 41.3342955, "lon": -71.2024289 },
+    { "lat": 41.2909433, "lon": -71.3946124 },
+    { "lat": 41.2682258, "lon": -71.4937855 },
+    { "lat": 41.2272906, "lon": -71.8776451 },
+    { "lat": 41.2206800, "lon": -71.9686943 },
+    { "lat": 41.2251732, "lon": -72.0231796 },
+    { "lat": 41.2341329, "lon": -72.0767723 },
+    { "lat": 41.2345202, "lon": -72.1202369 },
+    { "lat": 41.2324547, "lon": -72.1596161 },
+    { "lat": 41.1914149, "lon": -72.3967147 },
+    { "lat": 41.1200701, "lon": -72.7437111 },
+    { "lat": 41.0631972, "lon": -73.1067405 },
+    { "lat": 41.0094358, "lon": -73.3557182 },
+    { "lat": 40.9835365, "lon": -73.4772544 },
+    { "lat": 40.9308773, "lon": -73.6230808 },
+    { "lat": 40.8790717, "lon": -73.7198806 },
+    { "lat": 40.8619792, "lon": -73.7482048 },
+    { "lat": 40.8509431, "lon": -73.7551313 },
+    { "lat": 40.8427622, "lon": -73.7589079 },
+    { "lat": 40.8303169, "lon": -73.7724101 },
+    { "lat": 40.8266475, "lon": -73.7756835 },
+    { "lat": 40.8241681, "lon": -73.7766727 },
+    { "lat": 40.8068795, "lon": -73.7761995 },
+    { "lat": 40.8037707, "lon": -73.7761019 },
+    { "lat": 40.8024064, "lon": -73.7774752 },
+    { "lat": 40.8020718, "lon": -73.7786618 },
+    { "lat": 40.8012482, "lon": -73.7960854 },
+    { "lat": 40.8022975, "lon": -73.7999328 },
+    { "lat": 40.8059033, "lon": -73.8108183 },
+    { "lat": 40.8063159, "lon": -73.8159402 },
+    { "lat": 40.8060446, "lon": -73.8175860 },
+    { "lat": 40.8022228, "lon": -73.8276411 },
+    { "lat": 40.8002737, "lon": -73.8380845 },
+    { "lat": 40.7974635, "lon": -73.8610077 },
+    { "lat": 40.7971979, "lon": -73.8636760 },
+    { "lat": 40.7971768, "lon": -73.8660932 },
+    { "lat": 40.7972848, "lon": -73.8684825 },
+    { "lat": 40.7975983, "lon": -73.8710714 },
+    { "lat": 40.7995273, "lon": -73.8824209 },
+    { "lat": 40.7996130, "lon": -73.8847689 },
+    { "lat": 40.7997157, "lon": -73.8913419 },
+    { "lat": 40.7996032, "lon": -73.8931497 },
+    { "lat": 40.7993259, "lon": -73.8948181 },
+    { "lat": 40.7987533, "lon": -73.8966972 },
+    { "lat": 40.7961258, "lon": -73.9044526 },
+    { "lat": 40.7947916, "lon": -73.9083727 },
+    { "lat": 40.7942471, "lon": -73.9098454 },
+    { "lat": 40.7935173, "lon": -73.9110524 },
+    { "lat": 40.7923473, "lon": -73.9124187 },
+    { "lat": 40.7887724, "lon": -73.9156111 },
+    { "lat": 40.7841368, "lon": -73.9198377 },
+    { "lat": 40.7827826, "lon": -73.9213827 },
+    { "lat": 40.7812013, "lon": -73.9235070 },
+    { "lat": 40.7804979, "lon": -73.9245041 },
+    { "lat": 40.7801173, "lon": -73.9254722 },
+    { "lat": 40.7797536, "lon": -73.9272528 },
+    { "lat": 40.7795833, "lon": -73.9285507 },
+    { "lat": 40.7795108, "lon": -73.9298084 },
+    { "lat": 40.7795143, "lon": -73.9340572 },
+    { "lat": 40.7794765, "lon": -73.9353722 },
+    { "lat": 40.7792202, "lon": -73.9366186 },
+    { "lat": 40.7789469, "lon": -73.9373904 },
+    { "lat": 40.7786085, "lon": -73.9379041 },
+    { "lat": 40.7737865, "lon": -73.9414386 },
+    { "lat": 40.7695895, "lon": -73.9454276 },
+    { "lat": 40.7590517, "lon": -73.9550996 },
+    { "lat": 40.7528426, "lon": -73.9606148 },
+    { "lat": 40.7477664, "lon": -73.9650329 },
+    { "lat": 40.7443993, "lon": -73.9691242 },
+    { "lat": 40.7435854, "lon": -73.9699336 },
+    { "lat": 40.7434247, "lon": -73.9703973 },
+    { "lat": 40.7433908, "lon": -73.9706734 },
+    { "lat": 40.7434100, "lon": -73.9708958 },
+    { "lat": 40.7435089, "lon": -73.9710005 }
+  ],
+  "tags": {
+    "bicycle": "yes",
+    "check_date": "2025-11-08",
+    "duration": "04:30",
+    "foot": "yes",
+    "from": "East 35th Street",
+    "motor_vehicle": "no",
+    "name": "East 35th Street, NYC – Oak Bluffs, Martha’s Vineyard, MA",
+    "network": "Seastreak",
+    "opening_hours": "Fr; Su",
+    "operator": "Seastreak",
+    "route": "ferry",
+    "seasonal": "summer",
+    "to": "Oak Bluffs",
+    "toll": "yes",
+    "website": "https://seastreak.com/ferry-routes-and-schedules/between-new-jersey-new-york-city-marthas-vineyard/"
+  }
+},
+{
+  "type": "way",
+  "id": 717443319,
+  "bounds": {
+    "minlat": 40.4094278,
+    "minlon": -74.0452245,
+    "maxlat": 40.7005516,
+    "maxlon": -73.9962596
+  },
+  "geometry": [
+    { "lat": 40.4094278, "lon": -73.9962596 },
+    { "lat": 40.4098514, "lon": -73.9963316 },
+    { "lat": 40.4103829, "lon": -73.9966493 },
+    { "lat": 40.4122956, "lon": -74.0011023 },
+    { "lat": 40.4130671, "lon": -74.0021096 },
+    { "lat": 40.4158366, "lon": -74.0028923 },
+    { "lat": 40.4689556, "lon": -74.0280084 },
+    { "lat": 40.6224897, "lon": -74.0452245 },
+    { "lat": 40.6403712, "lon": -74.0415312 },
+    { "lat": 40.6786716, "lon": -74.0240652 },
+    { "lat": 40.6823688, "lon": -74.0205308 },
+    { "lat": 40.6877153, "lon": -74.0110428 },
+    { "lat": 40.6892054, "lon": -74.0098210 },
+    { "lat": 40.6897635, "lon": -74.0096326 },
+    { "lat": 40.6906397, "lon": -74.0096841 },
+    { "lat": 40.6995087, "lon": -74.0113907 },
+    { "lat": 40.7001542, "lon": -74.0115804 },
+    { "lat": 40.7005516, "lon": -74.0118556 }
+  ],
+  "tags": {
+    "duration": "00:45",
+    "foot": "yes",
+    "from": "Highlands",
+    "motor_vehicle": "no",
+    "name": "Highlands – Battery Maritime Building",
+    "network": "Seastreak",
+    "operator": "Seastreak",
+    "route": "ferry",
+    "to": "Battery Maritime Building",
+    "toll": "yes",
+    "website": "https://seastreak.com/ferry-routes-and-schedules/between-new-jersey-and-new-york-city/"
+  }
+},
+{
+  "type": "way",
+  "id": 718436922,
+  "bounds": {
+    "minlat": 40.7151567,
+    "minlon": -74.0265592,
+    "maxlat": 40.7350368,
+    "maxlon": -74.0180709
+  },
+  "geometry": [
+    { "lat": 40.7151567, "lon": -74.0180709 },
+    { "lat": 40.7158510, "lon": -74.0212247 },
+    { "lat": 40.7166237, "lon": -74.0220158 },
+    { "lat": 40.7183701, "lon": -74.0225821 },
+    { "lat": 40.7257095, "lon": -74.0208764 },
+    { "lat": 40.7291086, "lon": -74.0199503 },
+    { "lat": 40.7305154, "lon": -74.0199006 },
+    { "lat": 40.7326717, "lon": -74.0202157 },
+    { "lat": 40.7336540, "lon": -74.0214557 },
+    { "lat": 40.7346464, "lon": -74.0239344 },
+    { "lat": 40.7350368, "lon": -74.0265592 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "dismount",
+    "duration": "00:10",
+    "foot": "yes",
+    "from": "Hoboken / NJ Transit",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "name": "Hoboken NJ Transit – Brookfield Place",
+    "network": "NY Waterway",
+    "network:wikidata": "Q6956135",
+    "network:wikipedia": "en:NY Waterway",
+    "operator": "NY Waterway",
+    "route": "ferry",
+    "to": "Brookfield Place",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 718436924,
+  "bounds": {
+    "minlat": 40.7527369,
+    "minlon": -74.0225196,
+    "maxlat": 40.7765607,
+    "maxlon": -74.0080004
+  },
+  "geometry": [
+    { "lat": 40.7529354, "lon": -74.0225196 },
+    { "lat": 40.7529742, "lon": -74.0223789 },
+    { "lat": 40.7529859, "lon": -74.0222480 },
+    { "lat": 40.7527369, "lon": -74.0192416 },
+    { "lat": 40.7527630, "lon": -74.0188661 },
+    { "lat": 40.7528238, "lon": -74.0185565 },
+    { "lat": 40.7529907, "lon": -74.0182804 },
+    { "lat": 40.7532446, "lon": -74.0180541 },
+    { "lat": 40.7610733, "lon": -74.0139914 },
+    { "lat": 40.7668591, "lon": -74.0105367 },
+    { "lat": 40.7722869, "lon": -74.0081281 },
+    { "lat": 40.7737046, "lon": -74.0080004 },
+    { "lat": 40.7748001, "lon": -74.0083820 },
+    { "lat": 40.7753382, "lon": -74.0088024 },
+    { "lat": 40.7758763, "lon": -74.0092229 },
+    { "lat": 40.7762310, "lon": -74.0096590 },
+    { "lat": 40.7765607, "lon": -74.0104250 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "dismount",
+    "duration": "00:10",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "name": "Port Imperial – Hoboken 14th Street",
+    "network": "NY Waterway",
+    "network:wikidata": "Q6956135",
+    "network:wikipedia": "en:NY Waterway",
+    "operator": "NY Waterway",
+    "route": "ferry",
+    "toll": "yes",
+    "website": "https://www.nywaterway.com/PortImpWee-Pier11WallStRoute.aspx"
+  }
+},
+{
+  "type": "way",
+  "id": 718436925,
+  "bounds": {
+    "minlat": 40.7096231,
+    "minlon": -74.0402573,
+    "maxlat": 40.7151567,
+    "maxlon": -74.0180709
+  },
+  "geometry": [
+    { "lat": 40.7151567, "lon": -74.0180709 },
+    { "lat": 40.7141688, "lon": -74.0209767 },
+    { "lat": 40.7109184, "lon": -74.0332740 },
+    { "lat": 40.7105727, "lon": -74.0366602 },
+    { "lat": 40.7106700, "lon": -74.0396418 },
+    { "lat": 40.7108691, "lon": -74.0401007 },
+    { "lat": 40.7109740, "lon": -74.0402573 },
+    { "lat": 40.7104199, "lon": -74.0398097 },
+    { "lat": 40.7096231, "lon": -74.0399336 }
+  ],
+  "tags": {
+    "duration": "00:15",
+    "foot": "yes",
+    "motor_vehicle": "no",
+    "name": "Liberty Landing Ferry",
+    "network": "Liberty Landing Ferry",
+    "network:wikidata": "Q6542171",
+    "network:wikipedia": "en:Liberty Water Taxi",
+    "operator": "Liberty Landing Ferry",
+    "route": "ferry",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 741751513,
+  "bounds": {
+    "minlat": 40.7571845,
+    "minlon": -73.9518068,
+    "maxlat": 40.7717123,
+    "maxlon": -73.9358045
+  },
+  "geometry": [
+    { "lat": 40.7571845, "lon": -73.9518068 },
+    { "lat": 40.7610449, "lon": -73.9477839 },
+    { "lat": 40.7646854, "lon": -73.9447959 },
+    { "lat": 40.7670886, "lon": -73.9427923 },
+    { "lat": 40.7678666, "lon": -73.9419904 },
+    { "lat": 40.7685458, "lon": -73.9410034 },
+    { "lat": 40.7692901, "lon": -73.9393942 },
+    { "lat": 40.7699319, "lon": -73.9380602 },
+    { "lat": 40.7704153, "lon": -73.9372645 },
+    { "lat": 40.7709658, "lon": -73.9365876 },
+    { "lat": 40.7715411, "lon": -73.9359436 },
+    { "lat": 40.7716430, "lon": -73.9358558 },
+    { "lat": 40.7717123, "lon": -73.9358045 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "colour": "orange",
+    "duration": "00:08",
+    "foot": "yes",
+    "from": "Roosevelt Island",
+    "motor_vehicle": "no",
+    "name": "Roosevelt Island – Astoria",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Astoria",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/astoria/"
+  }
+},
+{
+  "type": "way",
+  "id": 800857033,
+  "bounds": {
+    "minlat": 40.6440582,
+    "minlon": -74.0733821,
+    "maxlat": 40.6791806,
+    "maxlon": -74.0323057
+  },
+  "geometry": [
+    { "lat": 40.6440582, "lon": -74.0323057 },
+    { "lat": 40.6464094, "lon": -74.0360643 },
+    { "lat": 40.6491029, "lon": -74.0391530 },
+    { "lat": 40.6724255, "lon": -74.0615774 },
+    { "lat": 40.6748614, "lon": -74.0648559 },
+    { "lat": 40.6791806, "lon": -74.0733821 }
+  ],
+  "tags": {
+    "access": "private",
+    "foot": "no",
+    "motor_vehicle": "no",
+    "name": "New York New Jersey Rail",
+    "operator": "New York New Jersey Rail",
+    "owner": "Port Authority of New York and New Jersey",
+    "railway": "ferry",
+    "railway:traffic_mode": "freight",
+    "route": "ferry",
+    "wikidata": "Q5800617",
+    "wikipedia": "en:New York New Jersey Rail"
+  }
+},
+{
+  "type": "way",
+  "id": 894440577,
+  "bounds": {
+    "minlat": 40.7024496,
+    "minlon": -74.0055028,
+    "maxlat": 40.7313054,
+    "maxlon": -73.9701450
+  },
+  "geometry": [
+    { "lat": 40.7024496, "lon": -74.0055028 },
+    { "lat": 40.7025441, "lon": -74.0046386 },
+    { "lat": 40.7075236, "lon": -73.9956709 },
+    { "lat": 40.7077752, "lon": -73.9947710 },
+    { "lat": 40.7079405, "lon": -73.9939198 },
+    { "lat": 40.7092397, "lon": -73.9794367 },
+    { "lat": 40.7094509, "lon": -73.9780554 },
+    { "lat": 40.7099194, "lon": -73.9766393 },
+    { "lat": 40.7103433, "lon": -73.9760840 },
+    { "lat": 40.7121067, "lon": -73.9748416 },
+    { "lat": 40.7138539, "lon": -73.9739153 },
+    { "lat": 40.7223904, "lon": -73.9714221 },
+    { "lat": 40.7281056, "lon": -73.9701521 },
+    { "lat": 40.7303204, "lon": -73.9701450 },
+    { "lat": 40.7308228, "lon": -73.9704033 },
+    { "lat": 40.7311657, "lon": -73.9718699 },
+    { "lat": 40.7313054, "lon": -73.9722773 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:09",
+    "foot": "yes",
+    "from": "Pier 11",
+    "motor_vehicle": "no",
+    "name": "Pier 11 – Stuyvesant Cove",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Stuyvesant Cove",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/soundview/"
+  }
+},
+{
+  "type": "way",
+  "id": 894440578,
+  "bounds": {
+    "minlat": 40.6867676,
+    "minlon": -74.0165035,
+    "maxlat": 40.7024496,
+    "maxlon": -74.0055028
+  },
+  "geometry": [
+    { "lat": 40.7024496, "lon": -74.0055028 },
+    { "lat": 40.7004155, "lon": -74.0061307 },
+    { "lat": 40.6899105, "lon": -74.0109410 },
+    { "lat": 40.6883508, "lon": -74.0122254 },
+    { "lat": 40.6872730, "lon": -74.0141289 },
+    { "lat": 40.6871226, "lon": -74.0147956 },
+    { "lat": 40.6870605, "lon": -74.0161024 },
+    { "lat": 40.6869595, "lon": -74.0163856 },
+    { "lat": 40.6868868, "lon": -74.0164868 },
+    { "lat": 40.6867676, "lon": -74.0165035 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "colour": "gray",
+    "duration": "00:08",
+    "foot": "yes",
+    "from": "Pier 11",
+    "motor_vehicle": "no",
+    "name": "Pier 11 – Governors Island (summer weekends)",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Governors Island",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/governors-island/"
+  }
+},
+{
+  "type": "way",
+  "id": 932035360,
+  "bounds": {
+    "minlat": 40.7449509,
+    "minlon": -73.9694921,
+    "maxlat": 40.7776208,
+    "maxlon": -73.9410592
+  },
+  "geometry": [
+    { "lat": 40.7449509, "lon": -73.9694921 },
+    { "lat": 40.7466903, "lon": -73.9670905 },
+    { "lat": 40.7746113, "lon": -73.9415411 },
+    { "lat": 40.7752185, "lon": -73.9412152 },
+    { "lat": 40.7758257, "lon": -73.9410592 },
+    { "lat": 40.7762243, "lon": -73.9411035 },
+    { "lat": 40.7769766, "lon": -73.9411901 },
+    { "lat": 40.7773133, "lon": -73.9413015 },
+    { "lat": 40.7775033, "lon": -73.9414508 },
+    { "lat": 40.7776208, "lon": -73.9417033 },
+    { "lat": 40.7776032, "lon": -73.9418583 },
+    { "lat": 40.7774839, "lon": -73.9420498 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:14",
+    "foot": "yes",
+    "from": "East 34th Street",
+    "motor_vehicle": "no",
+    "name": "East 34th Street – East 90th Street",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "East 90th Street",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/soundview/"
+  }
+},
+{
+  "type": "way",
+  "id": 941482366,
+  "bounds": {
+    "minlat": 40.6997406,
+    "minlon": -74.0118556,
+    "maxlat": 40.7435089,
+    "maxlon": -73.9697228
+  },
+  "geometry": [
+    { "lat": 40.7005516, "lon": -74.0118556 },
+    { "lat": 40.7003940, "lon": -74.0117157 },
+    { "lat": 40.6998775, "lon": -74.0112528 },
+    { "lat": 40.6997768, "lon": -74.0110337 },
+    { "lat": 40.6997406, "lon": -74.0107242 },
+    { "lat": 40.6998307, "lon": -74.0099762 },
+    { "lat": 40.7002164, "lon": -74.0086719 },
+    { "lat": 40.7028187, "lon": -74.0037368 },
+    { "lat": 40.7072325, "lon": -73.9954472 },
+    { "lat": 40.7074653, "lon": -73.9946243 },
+    { "lat": 40.7076489, "lon": -73.9938096 },
+    { "lat": 40.7089631, "lon": -73.9795102 },
+    { "lat": 40.7091489, "lon": -73.9778615 },
+    { "lat": 40.7097156, "lon": -73.9763922 },
+    { "lat": 40.7102627, "lon": -73.9755604 },
+    { "lat": 40.7119009, "lon": -73.9745501 },
+    { "lat": 40.7137435, "lon": -73.9735795 },
+    { "lat": 40.7223422, "lon": -73.9710025 },
+    { "lat": 40.7280890, "lon": -73.9697641 },
+    { "lat": 40.7291227, "lon": -73.9697228 },
+    { "lat": 40.7411524, "lon": -73.9704276 },
+    { "lat": 40.7426065, "lon": -73.9706734 },
+    { "lat": 40.7429488, "lon": -73.9710500 },
+    { "lat": 40.7434492, "lon": -73.9710582 },
+    { "lat": 40.7435089, "lon": -73.9710005 }
+  ],
+  "tags": {
+    "duration": "00:15",
+    "foot": "yes",
+    "from": "Battery Maritime Building",
+    "motor_vehicle": "no",
+    "name": "Battery Maritime Building – East 35th Street",
+    "operator": "Seastreak",
+    "route": "ferry",
+    "to": "East 35th Street",
+    "toll": "yes",
+    "website": "https://seastreak.com"
+  }
+},
+{
+  "type": "way",
+  "id": 961990669,
+  "bounds": {
+    "minlat": 40.6809913,
+    "minlon": -74.0165035,
+    "maxlat": 40.6868801,
+    "maxlon": -74.0114690
+  },
+  "geometry": [
+    { "lat": 40.6867676, "lon": -74.0165035 },
+    { "lat": 40.6868456, "lon": -74.0162487 },
+    { "lat": 40.6868801, "lon": -74.0153900 },
+    { "lat": 40.6868485, "lon": -74.0151428 },
+    { "lat": 40.6867667, "lon": -74.0149471 },
+    { "lat": 40.6848204, "lon": -74.0133683 },
+    { "lat": 40.6843305, "lon": -74.0129338 },
+    { "lat": 40.6829378, "lon": -74.0115113 },
+    { "lat": 40.6828217, "lon": -74.0114690 },
+    { "lat": 40.6826654, "lon": -74.0115133 },
+    { "lat": 40.6809913, "lon": -74.0133115 }
+  ],
+  "tags": {
+    "description": "Operated by NYC Ferry on weekdays and the Trust for Governors Island on weekends",
+    "duration": "00:08",
+    "foot": "yes",
+    "from": "Governors Island",
+    "motor_vehicle": "no",
+    "name": "Governors Island - Red Hook",
+    "operator": "NYC Ferry;Trust for Governors Island",
+    "route": "ferry",
+    "to": "Red Hook",
+    "toll": "yes",
+    "website": "https://www.govisland.com/plan-your-visit/ferry"
+  }
+},
+{
+  "type": "way",
+  "id": 978417772,
+  "bounds": {
+    "minlat": 40.6460869,
+    "minlon": -74.0741749,
+    "maxlat": 40.7151567,
+    "maxlon": -74.0180709
+  },
+  "geometry": [
+    { "lat": 40.6460869, "lon": -74.0741749 },
+    { "lat": 40.6463939, "lon": -74.0728379 },
+    { "lat": 40.6482074, "lon": -74.0673463 },
+    { "lat": 40.6499223, "lon": -74.0647352 },
+    { "lat": 40.6865962, "lon": -74.0328866 },
+    { "lat": 40.6894039, "lon": -74.0310252 },
+    { "lat": 40.6922115, "lon": -74.0297646 },
+    { "lat": 40.7087991, "lon": -74.0237113 },
+    { "lat": 40.7119878, "lon": -74.0213084 },
+    { "lat": 40.7151567, "lon": -74.0180709 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:18",
+    "foot": "yes",
+    "from": "St. George",
+    "horse": "no",
+    "motorcar": "no",
+    "name": "St. George – Battery Park City",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "seamark:type": "ferry_route",
+    "to": "Battery Park City",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/st-george/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1006711727,
+  "bounds": {
+    "minlat": 40.6932682,
+    "minlon": -74.0152945,
+    "maxlat": 40.7008035,
+    "maxlon": -74.0114781
+  },
+  "geometry": [
+    { "lat": 40.6932682, "lon": -74.0152945 },
+    { "lat": 40.6939925, "lon": -74.0149865 },
+    { "lat": 40.6943181, "lon": -74.0147348 },
+    { "lat": 40.6965759, "lon": -74.0134367 },
+    { "lat": 40.6987713, "lon": -74.0121996 },
+    { "lat": 40.6997982, "lon": -74.0116310 },
+    { "lat": 40.7000707, "lon": -74.0115237 },
+    { "lat": 40.7003106, "lon": -74.0114781 },
+    { "lat": 40.7005160, "lon": -74.0115143 },
+    { "lat": 40.7008035, "lon": -74.0116105 }
+  ],
+  "tags": {
+    "bicycle": "yes",
+    "foot": "yes",
+    "motor_vehicle": "yes",
+    "name": "Governors Island – Manhattan",
+    "ref": "GI-M",
+    "route": "ferry",
+    "website": "https://www.govisland.com/plan-your-visit/ferry"
+  }
+},
+{
+  "type": "way",
+  "id": 1013120173,
+  "bounds": {
+    "minlat": 40.6448530,
+    "minlon": -74.0727165,
+    "maxlat": 40.6462559,
+    "maxlon": -74.0666842
+  },
+  "geometry": [
+    { "lat": 40.6462559, "lon": -74.0666842 },
+    { "lat": 40.6455856, "lon": -74.0721247 },
+    { "lat": 40.6448530, "lon": -74.0727165 }
+  ],
+  "tags": {
+    "foot": "yes",
+    "motor_vehicle": "no",
+    "route": "ferry"
+  }
+},
+{
+  "type": "way",
+  "id": 1013120174,
+  "bounds": {
+    "minlat": 40.6445074,
+    "minlon": -74.0721218,
+    "maxlat": 40.6462559,
+    "maxlon": -74.0666842
+  },
+  "geometry": [
+    { "lat": 40.6462559, "lon": -74.0666842 },
+    { "lat": 40.6449524, "lon": -74.0712423 },
+    { "lat": 40.6445074, "lon": -74.0721218 }
+  ],
+  "tags": {
+    "foot": "yes",
+    "motor_vehicle": "no",
+    "route": "ferry"
+  }
+},
+{
+  "type": "way",
+  "id": 1013120175,
+  "bounds": {
+    "minlat": 40.6436994,
+    "minlon": -74.0716454,
+    "maxlat": 40.6462559,
+    "maxlon": -74.0666842
+  },
+  "geometry": [
+    { "lat": 40.6462559, "lon": -74.0666842 },
+    { "lat": 40.6438635, "lon": -74.0706366 },
+    { "lat": 40.6436994, "lon": -74.0716454 }
+  ],
+  "tags": {
+    "foot": "yes",
+    "motor_vehicle": "no",
+    "route": "ferry"
+  }
+},
+{
+  "type": "way",
+  "id": 1013120176,
+  "bounds": {
+    "minlat": 40.6430860,
+    "minlon": -74.0713574,
+    "maxlat": 40.6462559,
+    "maxlon": -74.0666842
+  },
+  "geometry": [
+    { "lat": 40.6462559, "lon": -74.0666842 },
+    { "lat": 40.6431447, "lon": -74.0705756 },
+    { "lat": 40.6430860, "lon": -74.0713574 }
+  ],
+  "tags": {
+    "foot": "yes",
+    "motor_vehicle": "no",
+    "route": "ferry"
+  }
+},
+{
+  "type": "way",
+  "id": 1016437416,
+  "bounds": {
+    "minlat": 40.8040204,
+    "minlon": -73.8486782,
+    "maxlat": 40.8055028,
+    "maxlon": -73.8374550
+  },
+  "geometry": [
+    { "lat": 40.8054857, "lon": -73.8374550 },
+    { "lat": 40.8055028, "lon": -73.8375786 },
+    { "lat": 40.8043108, "lon": -73.8422535 },
+    { "lat": 40.8041339, "lon": -73.8433679 },
+    { "lat": 40.8040464, "lon": -73.8445329 },
+    { "lat": 40.8040204, "lon": -73.8476854 },
+    { "lat": 40.8041039, "lon": -73.8485791 },
+    { "lat": 40.8041653, "lon": -73.8486782 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:07",
+    "foot": "yes",
+    "from": "Soundview Ferry Terminal",
+    "motor_vehicle": "no",
+    "name": "Soundview – Ferry Point Park",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "start_date": "2021-12-29",
+    "to": "Throgs Neck (Ferry Point Park)",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/soundview/"
+  }
+},
+{
+  "type": "way",
+  "id": 1081976898,
+  "bounds": {
+    "minlat": 40.4192348,
+    "minlon": -74.0458797,
+    "maxlat": 40.7005516,
+    "maxlon": -74.0099899
+  },
+  "geometry": [
+    { "lat": 40.4192824, "lon": -74.0343455 },
+    { "lat": 40.4192458, "lon": -74.0341836 },
+    { "lat": 40.4192348, "lon": -74.0340928 },
+    { "lat": 40.4192775, "lon": -74.0339760 },
+    { "lat": 40.4194024, "lon": -74.0339356 },
+    { "lat": 40.4196486, "lon": -74.0339468 },
+    { "lat": 40.4209781, "lon": -74.0341515 },
+    { "lat": 40.4726253, "lon": -74.0315141 },
+    { "lat": 40.5657498, "lon": -74.0402474 },
+    { "lat": 40.6141938, "lon": -74.0452899 },
+    { "lat": 40.6224837, "lon": -74.0458797 },
+    { "lat": 40.6405097, "lon": -74.0420901 },
+    { "lat": 40.6787924, "lon": -74.0245016 },
+    { "lat": 40.6825720, "lon": -74.0208614 },
+    { "lat": 40.6878748, "lon": -74.0113944 },
+    { "lat": 40.6892787, "lon": -74.0101957 },
+    { "lat": 40.6896987, "lon": -74.0100337 },
+    { "lat": 40.6904776, "lon": -74.0099899 },
+    { "lat": 40.6993376, "lon": -74.0114795 },
+    { "lat": 40.6995811, "lon": -74.0115369 },
+    { "lat": 40.7001386, "lon": -74.0116565 },
+    { "lat": 40.7005516, "lon": -74.0118556 }
+  ],
+  "tags": {
+    "duration": "00:40",
+    "foot": "yes",
+    "from": "Atlantic Highlands",
+    "motor_vehicle": "no",
+    "name": "Atlantic Highlands – Battery Maritime Building",
+    "network": "Seastreak",
+    "operator": "Seastreak",
+    "route": "ferry",
+    "to": "Battery Maritime Building",
+    "toll": "yes",
+    "website": "https://seastreak.com/ferry-routes-and-schedules/between-new-jersey-and-new-york-city/"
+  }
+},
+{
+  "type": "way",
+  "id": 1081976900,
+  "bounds": {
+    "minlat": 40.4644321,
+    "minlon": -74.0445692,
+    "maxlat": 40.7024496,
+    "maxlon": -74.0050232
+  },
+  "geometry": [
+    { "lat": 40.4645994, "lon": -74.0076779 },
+    { "lat": 40.4644321, "lon": -74.0125120 },
+    { "lat": 40.4649545, "lon": -74.0199792 },
+    { "lat": 40.4661789, "lon": -74.0227258 },
+    { "lat": 40.4694927, "lon": -74.0255368 },
+    { "lat": 40.4771156, "lon": -74.0268457 },
+    { "lat": 40.5337946, "lon": -74.0337121 },
+    { "lat": 40.6108723, "lon": -74.0428317 },
+    { "lat": 40.6224958, "lon": -74.0445692 },
+    { "lat": 40.6402326, "lon": -74.0409722 },
+    { "lat": 40.6785508, "lon": -74.0236288 },
+    { "lat": 40.6821656, "lon": -74.0202003 },
+    { "lat": 40.6875557, "lon": -74.0106913 },
+    { "lat": 40.6895335, "lon": -74.0091170 },
+    { "lat": 40.7004775, "lon": -74.0050232 },
+    { "lat": 40.7024496, "lon": -74.0055028 }
+  ],
+  "tags": {
+    "duration": "00:35",
+    "foot": "yes",
+    "motor_vehicle": "no",
+    "name": "Sandy Hook Beach – Pier 11 (summer)",
+    "operator": "Seastreak",
+    "route": "ferry",
+    "seasonal": "summer",
+    "toll": "yes",
+    "website": "https://seastreak.com/ferry-routes-and-schedules/between-new-york-city-sandy-hook-beach-nj/"
+  }
+},
+{
+  "type": "way",
+  "id": 1082108755,
+  "bounds": {
+    "minlat": 40.7151567,
+    "minlon": -74.0192888,
+    "maxlat": 40.7606409,
+    "maxlon": -74.0039047
+  },
+  "geometry": [
+    { "lat": 40.7151567, "lon": -74.0180709 },
+    { "lat": 40.7168905, "lon": -74.0189845 },
+    { "lat": 40.7185266, "lon": -74.0192888 },
+    { "lat": 40.7199490, "lon": -74.0191871 },
+    { "lat": 40.7521206, "lon": -74.0118122 },
+    { "lat": 40.7592899, "lon": -74.0093733 },
+    { "lat": 40.7601592, "lon": -74.0084904 },
+    { "lat": 40.7606409, "lon": -74.0073689 },
+    { "lat": 40.7606403, "lon": -74.0058409 },
+    { "lat": 40.7605920, "lon": -74.0039047 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:17",
+    "foot": "yes",
+    "from": "Battery Park City",
+    "horse": "no",
+    "motorcar": "no",
+    "name": "Battery Park City – Midtown West",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "seamark:type": "ferry_route",
+    "to": "Midtown West",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/st-george/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1082108756,
+  "bounds": {
+    "minlat": 40.7325825,
+    "minlon": -73.9726106,
+    "maxlat": 40.7426176,
+    "maxlon": -73.9708907
+  },
+  "geometry": [
+    { "lat": 40.7325825, "lon": -73.9726106 },
+    { "lat": 40.7332932, "lon": -73.9718437 },
+    { "lat": 40.7337171, "lon": -73.9713476 },
+    { "lat": 40.7340690, "lon": -73.9710314 },
+    { "lat": 40.7345295, "lon": -73.9709212 },
+    { "lat": 40.7357011, "lon": -73.9708907 },
+    { "lat": 40.7426176, "lon": -73.9712302 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:08",
+    "foot": "yes",
+    "from": "Stuyvesant Cove",
+    "motor_vehicle": "no",
+    "name": "Stuyvesant Cove – East 34th Street",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "East 34th Street",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/soundview/"
+  }
+},
+{
+  "type": "way",
+  "id": 1082108757,
+  "bounds": {
+    "minlat": 40.7024496,
+    "minlon": -74.0055028,
+    "maxlat": 40.7098621,
+    "maxlon": -73.9797165
+  },
+  "geometry": [
+    { "lat": 40.7024496, "lon": -74.0055028 },
+    { "lat": 40.7026108, "lon": -74.0049230 },
+    { "lat": 40.7053454, "lon": -74.0000641 },
+    { "lat": 40.7062301, "lon": -73.9986539 },
+    { "lat": 40.7077984, "lon": -73.9959064 },
+    { "lat": 40.7080960, "lon": -73.9950367 },
+    { "lat": 40.7082880, "lon": -73.9939856 },
+    { "lat": 40.7089239, "lon": -73.9869412 },
+    { "lat": 40.7091983, "lon": -73.9828654 },
+    { "lat": 40.7093959, "lon": -73.9810619 },
+    { "lat": 40.7094774, "lon": -73.9805530 },
+    { "lat": 40.7096748, "lon": -73.9801064 },
+    { "lat": 40.7098621, "lon": -73.9797165 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:08",
+    "foot": "yes",
+    "from": "Pier 11",
+    "motor_vehicle": "no",
+    "name": "Pier 11 – Corlears Hook",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Corlears Hook",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1082108758,
+  "bounds": {
+    "minlat": 40.7021314,
+    "minlon": -74.0055028,
+    "maxlat": 40.7044669,
+    "maxlon": -73.9958364
+  },
+  "geometry": [
+    { "lat": 40.7024496, "lon": -74.0055028 },
+    { "lat": 40.7021437, "lon": -74.0045322 },
+    { "lat": 40.7021314, "lon": -74.0039585 },
+    { "lat": 40.7023034, "lon": -74.0033080 },
+    { "lat": 40.7043254, "lon": -73.9989297 },
+    { "lat": 40.7044669, "lon": -73.9982763 },
+    { "lat": 40.7044541, "lon": -73.9976983 },
+    { "lat": 40.7043315, "lon": -73.9970776 },
+    { "lat": 40.7037337, "lon": -73.9958364 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:07",
+    "foot": "yes",
+    "from": "Pier 11",
+    "motor_vehicle": "no",
+    "name": "Pier 11 – DUMBO/Fulton Ferry",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "DUMBO",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1082108759,
+  "bounds": {
+    "minlat": 40.6399126,
+    "minlon": -74.0382071,
+    "maxlat": 40.6929620,
+    "maxlon": -74.0020061
+  },
+  "geometry": [
+    { "lat": 40.6399126, "lon": -74.0381572 },
+    { "lat": 40.6436692, "lon": -74.0382071 },
+    { "lat": 40.6452030, "lon": -74.0376032 },
+    { "lat": 40.6476014, "lon": -74.0364749 },
+    { "lat": 40.6536920, "lon": -74.0337265 },
+    { "lat": 40.6605133, "lon": -74.0307335 },
+    { "lat": 40.6666221, "lon": -74.0279307 },
+    { "lat": 40.6700496, "lon": -74.0266198 },
+    { "lat": 40.6727584, "lon": -74.0253700 },
+    { "lat": 40.6754917, "lon": -74.0241095 },
+    { "lat": 40.6783802, "lon": -74.0228112 },
+    { "lat": 40.6818077, "lon": -74.0194875 },
+    { "lat": 40.6873283, "lon": -74.0101117 },
+    { "lat": 40.6927320, "lon": -74.0054771 },
+    { "lat": 40.6929620, "lon": -74.0049637 },
+    { "lat": 40.6923840, "lon": -74.0026614 },
+    { "lat": 40.6924064, "lon": -74.0023468 },
+    { "lat": 40.6924305, "lon": -74.0020061 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:17",
+    "foot": "yes",
+    "from": "Bay Ridge",
+    "motor_vehicle": "no",
+    "name": "Bay Ridge – Atlantic Avenue",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Atlantic Avenue",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1082108760,
+  "bounds": {
+    "minlat": 40.6809913,
+    "minlon": -74.0133115,
+    "maxlat": 40.6927505,
+    "maxlon": -74.0020061
+  },
+  "geometry": [
+    { "lat": 40.6809913, "lon": -74.0133115 },
+    { "lat": 40.6811316, "lon": -74.0129441 },
+    { "lat": 40.6812567, "lon": -74.0127122 },
+    { "lat": 40.6826572, "lon": -74.0112366 },
+    { "lat": 40.6827980, "lon": -74.0112128 },
+    { "lat": 40.6829388, "lon": -74.0112565 },
+    { "lat": 40.6839617, "lon": -74.0123289 },
+    { "lat": 40.6842711, "lon": -74.0125126 },
+    { "lat": 40.6846279, "lon": -74.0125316 },
+    { "lat": 40.6848935, "lon": -74.0123860 },
+    { "lat": 40.6851353, "lon": -74.0121466 },
+    { "lat": 40.6869174, "lon": -74.0092851 },
+    { "lat": 40.6924791, "lon": -74.0049616 },
+    { "lat": 40.6926952, "lon": -74.0046822 },
+    { "lat": 40.6927460, "lon": -74.0044528 },
+    { "lat": 40.6927505, "lon": -74.0042272 },
+    { "lat": 40.6923282, "lon": -74.0026752 },
+    { "lat": 40.6923388, "lon": -74.0023349 },
+    { "lat": 40.6924305, "lon": -74.0020061 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:10",
+    "foot": "yes",
+    "from": "Red Hook",
+    "motor_vehicle": "no",
+    "name": "Red Hook – Atlantic Avenue",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Atlantic Avenue",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1082108761,
+  "bounds": {
+    "minlat": 40.6924305,
+    "minlon": -74.0055028,
+    "maxlat": 40.7024496,
+    "maxlon": -74.0020061
+  },
+  "geometry": [
+    { "lat": 40.6924305, "lon": -74.0020061 },
+    { "lat": 40.6930985, "lon": -74.0040811 },
+    { "lat": 40.6933545, "lon": -74.0045287 },
+    { "lat": 40.6937613, "lon": -74.0047303 },
+    { "lat": 40.7006460, "lon": -74.0039543 },
+    { "lat": 40.7024496, "lon": -74.0055028 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:09",
+    "foot": "yes",
+    "from": "Atlantc Avenue",
+    "motor_vehicle": "no",
+    "name": "Atlantic Avenue – Pier 11",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Pier 11",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1082168059,
+  "bounds": {
+    "minlat": 40.7037337,
+    "minlon": -73.9959158,
+    "maxlat": 40.7094593,
+    "maxlon": -73.9702642
+  },
+  "geometry": [
+    { "lat": 40.7037337, "lon": -73.9958364 },
+    { "lat": 40.7041993, "lon": -73.9959158 },
+    { "lat": 40.7044197, "lon": -73.9958336 },
+    { "lat": 40.7046310, "lon": -73.9956629 },
+    { "lat": 40.7050171, "lon": -73.9950435 },
+    { "lat": 40.7054036, "lon": -73.9942149 },
+    { "lat": 40.7056929, "lon": -73.9930094 },
+    { "lat": 40.7067533, "lon": -73.9826955 },
+    { "lat": 40.7069446, "lon": -73.9807068 },
+    { "lat": 40.7074517, "lon": -73.9774775 },
+    { "lat": 40.7080445, "lon": -73.9755834 },
+    { "lat": 40.7091427, "lon": -73.9730509 },
+    { "lat": 40.7094593, "lon": -73.9723397 },
+    { "lat": 40.7089588, "lon": -73.9704041 },
+    { "lat": 40.7087606, "lon": -73.9702642 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:10",
+    "foot": "yes",
+    "from": "DUMBO/Fulton Ferry",
+    "motor_vehicle": "no",
+    "name": "DUMBO/Fulton Ferry – South Williamsburg",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "South Williamsburg",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/east-river/"
+  }
+},
+{
+  "type": "way",
+  "id": 1082168060,
+  "bounds": {
+    "minlat": 40.7087606,
+    "minlon": -73.9711677,
+    "maxlat": 40.7211028,
+    "maxlon": -73.9648885
+  },
+  "geometry": [
+    { "lat": 40.7087606, "lon": -73.9702642 },
+    { "lat": 40.7089588, "lon": -73.9704041 },
+    { "lat": 40.7107679, "lon": -73.9711677 },
+    { "lat": 40.7120043, "lon": -73.9707650 },
+    { "lat": 40.7196631, "lon": -73.9673413 },
+    { "lat": 40.7207633, "lon": -73.9664245 },
+    { "lat": 40.7210571, "lon": -73.9659315 },
+    { "lat": 40.7211011, "lon": -73.9657556 },
+    { "lat": 40.7211028, "lon": -73.9655856 },
+    { "lat": 40.7210066, "lon": -73.9651775 },
+    { "lat": 40.7209266, "lon": -73.9648885 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:08",
+    "foot": "yes",
+    "from": "South Williamsburg",
+    "motor_vehicle": "no",
+    "name": "South Williamsburg – North Williamsburg",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "North Williamsburg",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/east-river/"
+  }
+},
+{
+  "type": "way",
+  "id": 1082168061,
+  "bounds": {
+    "minlat": 40.7418457,
+    "minlon": -73.9710005,
+    "maxlat": 40.7435089,
+    "maxlon": -73.9613465
+  },
+  "geometry": [
+    { "lat": 40.7435089, "lon": -73.9710005 },
+    { "lat": 40.7433883, "lon": -73.9709278 },
+    { "lat": 40.7431968, "lon": -73.9704409 },
+    { "lat": 40.7431055, "lon": -73.9694532 },
+    { "lat": 40.7418457, "lon": -73.9613465 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:04",
+    "foot": "yes",
+    "from": "East 34th Street",
+    "motor_vehicle": "no",
+    "name": "East 34th Street – Hunters Point South",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Hunters Point South",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/east-river/"
+  }
+},
+{
+  "type": "way",
+  "id": 1082168062,
+  "bounds": {
+    "minlat": 40.7017726,
+    "minlon": -74.0055028,
+    "maxlat": 40.7082997,
+    "maxlon": -73.9736579
+  },
+  "geometry": [
+    { "lat": 40.7024496, "lon": -74.0055028 },
+    { "lat": 40.7023301, "lon": -74.0042746 },
+    { "lat": 40.7023785, "lon": -74.0037132 },
+    { "lat": 40.7024868, "lon": -74.0033524 },
+    { "lat": 40.7056317, "lon": -73.9970186 },
+    { "lat": 40.7067111, "lon": -73.9950846 },
+    { "lat": 40.7069239, "lon": -73.9943433 },
+    { "lat": 40.7070998, "lon": -73.9935858 },
+    { "lat": 40.7080304, "lon": -73.9808561 },
+    { "lat": 40.7082997, "lon": -73.9779286 },
+    { "lat": 40.7082289, "lon": -73.9775020 },
+    { "lat": 40.7080633, "lon": -73.9772145 },
+    { "lat": 40.7071549, "lon": -73.9764979 },
+    { "lat": 40.7051012, "lon": -73.9751802 },
+    { "lat": 40.7020555, "lon": -73.9739751 },
+    { "lat": 40.7017726, "lon": -73.9736579 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "colour": "orange",
+    "duration": "00:10",
+    "foot": "yes",
+    "from": "Pier 11",
+    "motor_vehicle": "no",
+    "name": "Pier 11 – Brooklyn Navy Yard",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Brooklyn Navy Yard",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/astoria/"
+  }
+},
+{
+  "type": "way",
+  "id": 1082168063,
+  "bounds": {
+    "minlat": 40.7018535,
+    "minlon": -73.9768464,
+    "maxlat": 40.7426254,
+    "maxlon": -73.9690291
+  },
+  "geometry": [
+    { "lat": 40.7018535, "lon": -73.9735352 },
+    { "lat": 40.7021114, "lon": -73.9738039 },
+    { "lat": 40.7051959, "lon": -73.9748483 },
+    { "lat": 40.7072742, "lon": -73.9762160 },
+    { "lat": 40.7080817, "lon": -73.9766871 },
+    { "lat": 40.7082962, "lon": -73.9768030 },
+    { "lat": 40.7085328, "lon": -73.9768464 },
+    { "lat": 40.7087768, "lon": -73.9767142 },
+    { "lat": 40.7092076, "lon": -73.9759435 },
+    { "lat": 40.7095747, "lon": -73.9752967 },
+    { "lat": 40.7100405, "lon": -73.9748191 },
+    { "lat": 40.7117752, "lon": -73.9738689 },
+    { "lat": 40.7135258, "lon": -73.9729180 },
+    { "lat": 40.7222565, "lon": -73.9702558 },
+    { "lat": 40.7280503, "lon": -73.9690291 },
+    { "lat": 40.7408264, "lon": -73.9697075 },
+    { "lat": 40.7417890, "lon": -73.9698940 },
+    { "lat": 40.7426254, "lon": -73.9701331 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "colour": "orange",
+    "duration": "00:14",
+    "foot": "yes",
+    "from": "Brooklyn Navy Yard",
+    "motor_vehicle": "no",
+    "name": "Brooklyn Navy Yard – East 34th Street",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "East 34th Street",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/astoria/"
+  }
+},
+{
+  "type": "way",
+  "id": 1082168064,
+  "bounds": {
+    "minlat": 40.7448096,
+    "minlon": -73.9690286,
+    "maxlat": 40.7482455,
+    "maxlon": -73.9585780
+  },
+  "geometry": [
+    { "lat": 40.7448096, "lon": -73.9690286 },
+    { "lat": 40.7448903, "lon": -73.9679225 },
+    { "lat": 40.7451052, "lon": -73.9661200 },
+    { "lat": 40.7455285, "lon": -73.9641715 },
+    { "lat": 40.7459028, "lon": -73.9633572 },
+    { "lat": 40.7476987, "lon": -73.9613091 },
+    { "lat": 40.7481507, "lon": -73.9599019 },
+    { "lat": 40.7482229, "lon": -73.9588738 },
+    { "lat": 40.7482455, "lon": -73.9585780 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "colour": "orange",
+    "duration": "00:07",
+    "foot": "yes",
+    "from": "East 34th Street",
+    "motor_vehicle": "no",
+    "name": "East 34th Street – Long Island City",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Long Island City",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/astoria/"
+  }
+},
+{
+  "type": "way",
+  "id": 1082168065,
+  "bounds": {
+    "minlat": 40.7491677,
+    "minlon": -73.9578972,
+    "maxlat": 40.7562538,
+    "maxlon": -73.9526111
+  },
+  "geometry": [
+    { "lat": 40.7491677, "lon": -73.9578972 },
+    { "lat": 40.7496937, "lon": -73.9578460 },
+    { "lat": 40.7499892, "lon": -73.9577716 },
+    { "lat": 40.7505487, "lon": -73.9575096 },
+    { "lat": 40.7530859, "lon": -73.9550959 },
+    { "lat": 40.7556797, "lon": -73.9527941 },
+    { "lat": 40.7558152, "lon": -73.9527361 },
+    { "lat": 40.7560435, "lon": -73.9526534 },
+    { "lat": 40.7562538, "lon": -73.9526111 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "colour": "orange",
+    "duration": "00:08",
+    "foot": "yes",
+    "from": "Long Island City",
+    "motor_vehicle": "no",
+    "name": "Long Island City – Roosevelt Island",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Roosevelt Island",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/astoria/"
+  }
+},
+{
+  "type": "way",
+  "id": 1082168066,
+  "bounds": {
+    "minlat": 40.7716647,
+    "minlon": -73.9420498,
+    "maxlat": 40.7777279,
+    "maxlon": -73.9358045
+  },
+  "geometry": [
+    { "lat": 40.7717123, "lon": -73.9358045 },
+    { "lat": 40.7716658, "lon": -73.9359582 },
+    { "lat": 40.7716647, "lon": -73.9360254 },
+    { "lat": 40.7719429, "lon": -73.9377761 },
+    { "lat": 40.7720673, "lon": -73.9381359 },
+    { "lat": 40.7722826, "lon": -73.9383757 },
+    { "lat": 40.7725313, "lon": -73.9385121 },
+    { "lat": 40.7755848, "lon": -73.9389450 },
+    { "lat": 40.7759026, "lon": -73.9391061 },
+    { "lat": 40.7767912, "lon": -73.9396236 },
+    { "lat": 40.7771656, "lon": -73.9400028 },
+    { "lat": 40.7775226, "lon": -73.9407391 },
+    { "lat": 40.7777279, "lon": -73.9414493 },
+    { "lat": 40.7776909, "lon": -73.9417295 },
+    { "lat": 40.7776727, "lon": -73.9418230 },
+    { "lat": 40.7776139, "lon": -73.9419153 },
+    { "lat": 40.7774839, "lon": -73.9420498 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "colour": "orange",
+    "duration": "00:04",
+    "foot": "yes",
+    "from": "Astoria",
+    "motor_vehicle": "no",
+    "name": "Astoria – East 90th Street",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "East 90th Street",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/astoria/"
+  }
+},
+{
+  "type": "way",
+  "id": 1097596937,
+  "bounds": {
+    "minlat": 40.4858537,
+    "minlon": -74.2744304,
+    "maxlat": 40.7607726,
+    "maxlon": -74.0039047
+  },
+  "geometry": [
+    { "lat": 40.4896886, "lon": -74.2744304 },
+    { "lat": 40.4905203, "lon": -74.2727280 },
+    { "lat": 40.4908466, "lon": -74.2716444 },
+    { "lat": 40.4910221, "lon": -74.2706573 },
+    { "lat": 40.4909079, "lon": -74.2652071 },
+    { "lat": 40.4874327, "lon": -74.2565045 },
+    { "lat": 40.4858537, "lon": -74.2525016 },
+    { "lat": 40.4878840, "lon": -74.2376698 },
+    { "lat": 40.4951537, "lon": -74.1875297 },
+    { "lat": 40.5008558, "lon": -74.1457601 },
+    { "lat": 40.5147128, "lon": -74.0940286 },
+    { "lat": 40.5393735, "lon": -74.0603830 },
+    { "lat": 40.5565261, "lon": -74.0490747 },
+    { "lat": 40.5655083, "lon": -74.0465856 },
+    { "lat": 40.6224221, "lon": -74.0489888 },
+    { "lat": 40.6511376, "lon": -74.0427125 },
+    { "lat": 40.6894897, "lon": -74.0299988 },
+    { "lat": 40.7084745, "lon": -74.0229392 },
+    { "lat": 40.7117845, "lon": -74.0209866 },
+    { "lat": 40.7151567, "lon": -74.0180709 },
+    { "lat": 40.7162938, "lon": -74.0195113 },
+    { "lat": 40.7177778, "lon": -74.0202033 },
+    { "lat": 40.7192985, "lon": -74.0202463 },
+    { "lat": 40.7454200, "lon": -74.0140450 },
+    { "lat": 40.7521987, "lon": -74.0124894 },
+    { "lat": 40.7593261, "lon": -74.0100861 },
+    { "lat": 40.7599438, "lon": -74.0095711 },
+    { "lat": 40.7603257, "lon": -74.0090239 },
+    { "lat": 40.7607726, "lon": -74.0074575 },
+    { "lat": 40.7605920, "lon": -74.0039047 }
+  ],
+  "tags": {
+    "charge": "18 USD",
+    "duration": "01:10",
+    "fee:conditional": "no @ Children Under 12",
+    "from": "South Amboy",
+    "name": "South Amboy - Brookfield Place - Midtown / West 39th Street",
+    "network": "NY Waterway",
+    "network:wikidata": "Q6956135",
+    "network:wikipedia": "en:NY Waterway",
+    "operator": "NY Waterway",
+    "phone": "+1-800-533-3779",
+    "route": "ferry",
+    "start_date": "2023-10-30",
+    "to": "Midtown / West 39th Street",
+    "toll": "yes",
+    "via": "Brookfield Place",
+    "website": "https://www.nywaterway.com/southamboy.aspx"
+  }
+},
+{
+  "type": "way",
+  "id": 1119734896,
+  "bounds": {
+    "minlat": 40.7763087,
+    "minlon": -74.0104250,
+    "maxlat": 40.8279124,
+    "maxlon": -73.9690697
+  },
+  "geometry": [
+    { "lat": 40.7765607, "lon": -74.0104250 },
+    { "lat": 40.7764793, "lon": -74.0095496 },
+    { "lat": 40.7763270, "lon": -74.0080552 },
+    { "lat": 40.7763087, "lon": -74.0078760 },
+    { "lat": 40.7763574, "lon": -74.0060198 },
+    { "lat": 40.7766418, "lon": -74.0043247 },
+    { "lat": 40.7773730, "lon": -74.0019751 },
+    { "lat": 40.7792741, "lon": -73.9990354 },
+    { "lat": 40.8098384, "lon": -73.9747158 },
+    { "lat": 40.8153520, "lon": -73.9713764 },
+    { "lat": 40.8204836, "lon": -73.9695740 },
+    { "lat": 40.8232196, "lon": -73.9691126 },
+    { "lat": 40.8249571, "lon": -73.9690697 },
+    { "lat": 40.8267594, "lon": -73.9692307 },
+    { "lat": 40.8274108, "lon": -73.9693889 },
+    { "lat": 40.8279124, "lon": -73.9696719 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:10",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "name": "Edgewater - Port Imperial",
+    "network": "NY Waterway",
+    "network:wikidata": "Q6956135",
+    "network:wikipedia": "en:NY Waterway",
+    "operator": "NY Waterway",
+    "route": "ferry",
+    "toll": "yes",
+    "website": "https://www.nywaterway.com/EdgewaterFerryLanding.aspx"
+  }
+},
+{
+  "type": "way",
+  "id": 1119734897,
+  "bounds": {
+    "minlat": 40.6990603,
+    "minlon": -74.0211475,
+    "maxlat": 40.7151567,
+    "maxlon": -74.0055028
+  },
+  "geometry": [
+    { "lat": 40.7151567, "lon": -74.0180709 },
+    { "lat": 40.7114267, "lon": -74.0203965 },
+    { "lat": 40.7089056, "lon": -74.0211475 },
+    { "lat": 40.7057133, "lon": -74.0210939 },
+    { "lat": 40.7044568, "lon": -74.0207935 },
+    { "lat": 40.7022957, "lon": -74.0193068 },
+    { "lat": 40.7001997, "lon": -74.0169690 },
+    { "lat": 40.6993150, "lon": -74.0144640 },
+    { "lat": 40.6990603, "lon": -74.0125326 },
+    { "lat": 40.6993178, "lon": -74.0105099 },
+    { "lat": 40.6998899, "lon": -74.0083548 },
+    { "lat": 40.7005556, "lon": -74.0072193 },
+    { "lat": 40.7024496, "lon": -74.0055028 }
+  ],
+  "tags": {
+    "duration": "00:10",
+    "foot": "yes",
+    "motor_vehicle": "no",
+    "name": "Brookfield Place - Pier 11 / Wall Street",
+    "network": "NY Waterway",
+    "network:wikidata": "Q6956135",
+    "operator": "NY Waterway",
+    "route": "ferry",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1119734898,
+  "bounds": {
+    "minlat": 40.7528773,
+    "minlon": -74.0226626,
+    "maxlat": 40.7587207,
+    "maxlon": -74.0182503
+  },
+  "geometry": [
+    { "lat": 40.7529354, "lon": -74.0225196 },
+    { "lat": 40.7530037, "lon": -74.0224496 },
+    { "lat": 40.7530420, "lon": -74.0223368 },
+    { "lat": 40.7528773, "lon": -74.0192377 },
+    { "lat": 40.7529016, "lon": -74.0189158 },
+    { "lat": 40.7530310, "lon": -74.0186192 },
+    { "lat": 40.7532730, "lon": -74.0184067 },
+    { "lat": 40.7535500, "lon": -74.0183089 },
+    { "lat": 40.7540045, "lon": -74.0182503 },
+    { "lat": 40.7559477, "lon": -74.0183015 },
+    { "lat": 40.7563940, "lon": -74.0184677 },
+    { "lat": 40.7569154, "lon": -74.0188698 },
+    { "lat": 40.7573749, "lon": -74.0195494 },
+    { "lat": 40.7576552, "lon": -74.0201690 },
+    { "lat": 40.7586356, "lon": -74.0225316 },
+    { "lat": 40.7586717, "lon": -74.0226041 },
+    { "lat": 40.7587207, "lon": -74.0226626 }
+  ],
+  "tags": {
+    "duration": "00:05",
+    "foot": "yes",
+    "motor_vehicle": "no",
+    "name": "Lincoln Harbor - Hoboken 14th Street",
+    "network": "NY Waterway",
+    "network:wikidata": "Q6956135",
+    "network:wikipedia": "en:NY Waterway",
+    "operator": "NY Waterway",
+    "route": "ferry",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1120509028,
+  "bounds": {
+    "minlat": 40.7313641,
+    "minlon": -73.9710005,
+    "maxlat": 40.7435089,
+    "maxlon": -73.9636871
+  },
+  "geometry": [
+    { "lat": 40.7313641, "lon": -73.9636871 },
+    { "lat": 40.7315508, "lon": -73.9660516 },
+    { "lat": 40.7316621, "lon": -73.9665229 },
+    { "lat": 40.7318771, "lon": -73.9671692 },
+    { "lat": 40.7322621, "lon": -73.9676531 },
+    { "lat": 40.7329562, "lon": -73.9681786 },
+    { "lat": 40.7334945, "lon": -73.9685229 },
+    { "lat": 40.7339968, "lon": -73.9687663 },
+    { "lat": 40.7348830, "lon": -73.9689101 },
+    { "lat": 40.7408679, "lon": -73.9693342 },
+    { "lat": 40.7427122, "lon": -73.9698434 },
+    { "lat": 40.7431243, "lon": -73.9706555 },
+    { "lat": 40.7433099, "lon": -73.9708977 },
+    { "lat": 40.7434261, "lon": -73.9709771 },
+    { "lat": 40.7435089, "lon": -73.9710005 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:04",
+    "foot": "yes",
+    "from": "Greenpoint",
+    "motor_vehicle": "no",
+    "name": "Greenpoint – East 34th Street",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "East 34th Street",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/east-river/"
+  }
+},
+{
+  "type": "way",
+  "id": 1448293181,
+  "bounds": {
+    "minlat": 40.6992546,
+    "minlon": -74.0208649,
+    "maxlat": 40.7151567,
+    "maxlon": -74.0118210
+  },
+  "geometry": [
+    { "lat": 40.7005516, "lon": -74.0118556 },
+    { "lat": 40.7000677, "lon": -74.0118218 },
+    { "lat": 40.6998590, "lon": -74.0118210 },
+    { "lat": 40.6995386, "lon": -74.0119293 },
+    { "lat": 40.6994250, "lon": -74.0120634 },
+    { "lat": 40.6993084, "lon": -74.0122573 },
+    { "lat": 40.6992546, "lon": -74.0124862 },
+    { "lat": 40.6993250, "lon": -74.0131635 },
+    { "lat": 40.6995224, "lon": -74.0143896 },
+    { "lat": 40.7002989, "lon": -74.0167416 },
+    { "lat": 40.7024805, "lon": -74.0191384 },
+    { "lat": 40.7045688, "lon": -74.0205099 },
+    { "lat": 40.7057502, "lon": -74.0208233 },
+    { "lat": 40.7088706, "lon": -74.0208649 },
+    { "lat": 40.7114462, "lon": -74.0199742 },
+    { "lat": 40.7151567, "lon": -74.0180709 }
+  ],
+  "tags": {
+    "duration": "00:10",
+    "foot": "yes",
+    "from": "Battery Maritime Building",
+    "motor_vehicle": "no",
+    "name": "Battery Maritime Building – Brookfield Place",
+    "network": "Seastreak",
+    "operator": "Seastreak",
+    "route": "ferry",
+    "to": "Brookfield Place",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1448500557,
+  "bounds": {
+    "minlat": 40.7138230,
+    "minlon": -74.0321239,
+    "maxlat": 40.7151816,
+    "maxlon": -74.0180709
+  },
+  "geometry": [
+    { "lat": 40.7151567, "lon": -74.0180709 },
+    { "lat": 40.7150894, "lon": -74.0184140 },
+    { "lat": 40.7148940, "lon": -74.0198286 },
+    { "lat": 40.7151816, "lon": -74.0296224 },
+    { "lat": 40.7149084, "lon": -74.0305736 },
+    { "lat": 40.7144531, "lon": -74.0312999 },
+    { "lat": 40.7138230, "lon": -74.0321239 }
+  ],
+  "tags": {
+    "duration": "00:10",
+    "foot": "yes",
+    "from": "Brookfield Place",
+    "motor_vehicle": "no",
+    "network": "Seastreak",
+    "operator": "Seastreak",
+    "route": "ferry",
+    "to": "Paulus Hook",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1448500558,
+  "bounds": {
+    "minlat": 40.7138230,
+    "minlon": -74.0321239,
+    "maxlat": 40.7608566,
+    "maxlon": -74.0039047
+  },
+  "geometry": [
+    { "lat": 40.7138230, "lon": -74.0321239 },
+    { "lat": 40.7146194, "lon": -74.0317479 },
+    { "lat": 40.7151616, "lon": -74.0311330 },
+    { "lat": 40.7158005, "lon": -74.0296675 },
+    { "lat": 40.7177637, "lon": -74.0248590 },
+    { "lat": 40.7189313, "lon": -74.0210162 },
+    { "lat": 40.7194757, "lon": -74.0207240 },
+    { "lat": 40.7225951, "lon": -74.0200247 },
+    { "lat": 40.7273646, "lon": -74.0189259 },
+    { "lat": 40.7326587, "lon": -74.0175739 },
+    { "lat": 40.7430437, "lon": -74.0149433 },
+    { "lat": 40.7471811, "lon": -74.0140509 },
+    { "lat": 40.7523324, "lon": -74.0130719 },
+    { "lat": 40.7558891, "lon": -74.0117466 },
+    { "lat": 40.7595515, "lon": -74.0103214 },
+    { "lat": 40.7603334, "lon": -74.0095621 },
+    { "lat": 40.7607369, "lon": -74.0084366 },
+    { "lat": 40.7608566, "lon": -74.0074174 },
+    { "lat": 40.7605920, "lon": -74.0039047 }
+  ],
+  "tags": {
+    "foot": "yes",
+    "from": "Paulus Hook",
+    "motor_vehicle": "no",
+    "network": "Seastreak",
+    "operator": "Seastreak",
+    "route": "ferry",
+    "to": "West 39th Street",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1448500559,
+  "bounds": {
+    "minlat": 40.6994071,
+    "minlon": -74.0206007,
+    "maxlat": 40.7608123,
+    "maxlon": -74.0039047
+  },
+  "geometry": [
+    { "lat": 40.7005516, "lon": -74.0118556 },
+    { "lat": 40.7000097, "lon": -74.0118655 },
+    { "lat": 40.6996191, "lon": -74.0120631 },
+    { "lat": 40.6994071, "lon": -74.0125068 },
+    { "lat": 40.6995364, "lon": -74.0132411 },
+    { "lat": 40.6997150, "lon": -74.0144050 },
+    { "lat": 40.7005816, "lon": -74.0164695 },
+    { "lat": 40.7026594, "lon": -74.0188902 },
+    { "lat": 40.7047751, "lon": -74.0201706 },
+    { "lat": 40.7058595, "lon": -74.0204507 },
+    { "lat": 40.7088244, "lon": -74.0204407 },
+    { "lat": 40.7113569, "lon": -74.0195904 },
+    { "lat": 40.7182413, "lon": -74.0206007 },
+    { "lat": 40.7199092, "lon": -74.0203906 },
+    { "lat": 40.7268913, "lon": -74.0186801 },
+    { "lat": 40.7329403, "lon": -74.0172397 },
+    { "lat": 40.7384733, "lon": -74.0158793 },
+    { "lat": 40.7418915, "lon": -74.0150491 },
+    { "lat": 40.7475223, "lon": -74.0137887 },
+    { "lat": 40.7525010, "lon": -74.0127484 },
+    { "lat": 40.7589644, "lon": -74.0104077 },
+    { "lat": 40.7598433, "lon": -74.0098475 },
+    { "lat": 40.7603072, "lon": -74.0092784 },
+    { "lat": 40.7606650, "lon": -74.0084004 },
+    { "lat": 40.7608123, "lon": -74.0073890 },
+    { "lat": 40.7605920, "lon": -74.0039047 }
+  ],
+  "tags": {
+    "check_date": "2025-11-08",
+    "duration": "00:15",
+    "foot": "yes",
+    "from": "Battery Maritime Building",
+    "motor_vehicle": "no",
+    "name": "Battery Maritime Building – West 39th Street",
+    "network": "Seastreak",
+    "note": "This direct connection has one departure per day as of October 2025 schedule",
+    "operator": "Seastreak",
+    "route": "ferry",
+    "to": "West 39th Street",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1448500560,
+  "bounds": {
+    "minlat": 40.4094278,
+    "minlon": -74.0448328,
+    "maxlat": 40.7435089,
+    "maxlon": -73.9694100
+  },
+  "geometry": [
+    { "lat": 40.4094278, "lon": -73.9962596 },
+    { "lat": 40.4098426, "lon": -73.9961636 },
+    { "lat": 40.4104167, "lon": -73.9964260 },
+    { "lat": 40.4126221, "lon": -74.0007481 },
+    { "lat": 40.4134308, "lon": -74.0014454 },
+    { "lat": 40.4160611, "lon": -74.0020570 },
+    { "lat": 40.4692821, "lon": -74.0266475 },
+    { "lat": 40.6112974, "lon": -74.0434166 },
+    { "lat": 40.6225850, "lon": -74.0448328 },
+    { "lat": 40.6403759, "lon": -74.0412387 },
+    { "lat": 40.6786935, "lon": -74.0237936 },
+    { "lat": 40.6822653, "lon": -74.0203711 },
+    { "lat": 40.6877000, "lon": -74.0107795 },
+    { "lat": 40.6896850, "lon": -74.0093204 },
+    { "lat": 40.7006178, "lon": -74.0054580 },
+    { "lat": 40.7017636, "lon": -74.0045857 },
+    { "lat": 40.7026574, "lon": -74.0035541 },
+    { "lat": 40.7069205, "lon": -73.9952963 },
+    { "lat": 40.7071945, "lon": -73.9944948 },
+    { "lat": 40.7073763, "lon": -73.9936689 },
+    { "lat": 40.7088423, "lon": -73.9778663 },
+    { "lat": 40.7091330, "lon": -73.9769083 },
+    { "lat": 40.7094524, "lon": -73.9761326 },
+    { "lat": 40.7098517, "lon": -73.9755269 },
+    { "lat": 40.7101986, "lon": -73.9751466 },
+    { "lat": 40.7118419, "lon": -73.9742360 },
+    { "lat": 40.7136407, "lon": -73.9732672 },
+    { "lat": 40.7222998, "lon": -73.9706331 },
+    { "lat": 40.7280657, "lon": -73.9694100 },
+    { "lat": 40.7365027, "lon": -73.9697632 },
+    { "lat": 40.7411137, "lon": -73.9700864 },
+    { "lat": 40.7426149, "lon": -73.9703803 },
+    { "lat": 40.7430278, "lon": -73.9709244 },
+    { "lat": 40.7434378, "lon": -73.9710334 },
+    { "lat": 40.7435089, "lon": -73.9710005 }
+  ],
+  "tags": {
+    "check_date": "2025-11-08",
+    "description": "Direct service between Highlands and East 35th Street is only offered as part of summer weekend service to Nantucket / Martha's Vineyard.",
+    "duration": "01:30",
+    "foot": "yes",
+    "from": "Highlands",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "name": "Highlands – East 35th Street",
+    "operator": "Seastreak",
+    "route": "ferry",
+    "seasonal": "yes",
+    "source": "https://seastreak.com/ferry-routes-and-schedules/between-new-jersey-new-york-city-nantucket-ma-2/",
+    "to": "East 35th Street",
+    "toll": "yes",
+    "website": "https://seastreak.com/ferry-routes-and-schedules/between-new-jersey-new-york-city-nantucket-ma-2/"
+  }
+},
+{
+  "type": "way",
+  "id": 1456975664,
+  "bounds": {
+    "minlat": 40.7100051,
+    "minlon": -73.9785037,
+    "maxlat": 40.7435089,
+    "maxlon": -73.9703655
+  },
+  "geometry": [
+    { "lat": 40.7100051, "lon": -73.9785037 },
+    { "lat": 40.7100290, "lon": -73.9777269 },
+    { "lat": 40.7102198, "lon": -73.9768707 },
+    { "lat": 40.7105964, "lon": -73.9763928 },
+    { "lat": 40.7121523, "lon": -73.9752399 },
+    { "lat": 40.7139748, "lon": -73.9742827 },
+    { "lat": 40.7224625, "lon": -73.9717933 },
+    { "lat": 40.7281752, "lon": -73.9706192 },
+    { "lat": 40.7310329, "lon": -73.9708417 },
+    { "lat": 40.7326993, "lon": -73.9703655 },
+    { "lat": 40.7394539, "lon": -73.9706620 },
+    { "lat": 40.7411321, "lon": -73.9707895 },
+    { "lat": 40.7426170, "lon": -73.9709927 },
+    { "lat": 40.7429425, "lon": -73.9712005 },
+    { "lat": 40.7434675, "lon": -73.9710836 },
+    { "lat": 40.7435089, "lon": -73.9710005 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:09",
+    "foot": "yes",
+    "from": "Corlears Hook",
+    "motor_vehicle": "no",
+    "name": "Corlears Hook – East 34th Street",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "East 34th Street",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1456975665,
+  "bounds": {
+    "minlat": 40.6399126,
+    "minlon": -74.0741749,
+    "maxlat": 40.6470073,
+    "maxlon": -74.0381572
+  },
+  "geometry": [
+    { "lat": 40.6460869, "lon": -74.0741749 },
+    { "lat": 40.6462280, "lon": -74.0728515 },
+    { "lat": 40.6467437, "lon": -74.0702749 },
+    { "lat": 40.6469815, "lon": -74.0688241 },
+    { "lat": 40.6470073, "lon": -74.0675368 },
+    { "lat": 40.6468280, "lon": -74.0664079 },
+    { "lat": 40.6400379, "lon": -74.0382675 },
+    { "lat": 40.6399126, "lon": -74.0381572 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:11",
+    "foot": "yes",
+    "from": "St. George",
+    "horse": "no",
+    "name": "St. George – Bay Ridge",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Bay Ridge",
+    "toll": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1456980628,
+  "bounds": {
+    "minlat": 40.7313641,
+    "minlon": -73.9643321,
+    "maxlat": 40.7418457,
+    "maxlon": -73.9613465
+  },
+  "geometry": [
+    { "lat": 40.7313641, "lon": -73.9636871 },
+    { "lat": 40.7315378, "lon": -73.9639327 },
+    { "lat": 40.7319183, "lon": -73.9641973 },
+    { "lat": 40.7323873, "lon": -73.9643321 },
+    { "lat": 40.7329904, "lon": -73.9643247 },
+    { "lat": 40.7401614, "lon": -73.9633758 },
+    { "lat": 40.7406469, "lon": -73.9631783 },
+    { "lat": 40.7411103, "lon": -73.9627794 },
+    { "lat": 40.7414816, "lon": -73.9622077 },
+    { "lat": 40.7417356, "lon": -73.9616855 },
+    { "lat": 40.7418457, "lon": -73.9613465 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:08",
+    "foot": "yes",
+    "from": "Greenpoint",
+    "motor_vehicle": "no",
+    "name": "Greenpoint – Hunters Point South",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Hunters Point South",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/east-river/"
+  }
+},
+{
+  "type": "way",
+  "id": 1456980629,
+  "bounds": {
+    "minlat": 40.7087606,
+    "minlon": -73.9719641,
+    "maxlat": 40.7313641,
+    "maxlon": -73.9636871
+  },
+  "geometry": [
+    { "lat": 40.7087606, "lon": -73.9702642 },
+    { "lat": 40.7089588, "lon": -73.9704041 },
+    { "lat": 40.7102654, "lon": -73.9717867 },
+    { "lat": 40.7107421, "lon": -73.9719305 },
+    { "lat": 40.7111005, "lon": -73.9719597 },
+    { "lat": 40.7113947, "lon": -73.9719641 },
+    { "lat": 40.7120725, "lon": -73.9717080 },
+    { "lat": 40.7200544, "lon": -73.9682401 },
+    { "lat": 40.7245079, "lon": -73.9667572 },
+    { "lat": 40.7308872, "lon": -73.9647244 },
+    { "lat": 40.7311533, "lon": -73.9645071 },
+    { "lat": 40.7313089, "lon": -73.9640948 },
+    { "lat": 40.7313641, "lon": -73.9636871 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:10",
+    "foot": "yes",
+    "from": "South Williamsburg",
+    "motor_vehicle": "no",
+    "name": "South Williamsburg – Greenpoint",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Greenpoint",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/east-river/"
+  }
+},
+{
+  "type": "way",
+  "id": 1456980630,
+  "bounds": {
+    "minlat": 40.7209266,
+    "minlon": -73.9674208,
+    "maxlat": 40.7418457,
+    "maxlon": -73.9613465
+  },
+  "geometry": [
+    { "lat": 40.7209266, "lon": -73.9648885 },
+    { "lat": 40.7213811, "lon": -73.9655366 },
+    { "lat": 40.7227304, "lon": -73.9670851 },
+    { "lat": 40.7232011, "lon": -73.9673592 },
+    { "lat": 40.7237134, "lon": -73.9674208 },
+    { "lat": 40.7243163, "lon": -73.9673269 },
+    { "lat": 40.7272040, "lon": -73.9663197 },
+    { "lat": 40.7316308, "lon": -73.9649062 },
+    { "lat": 40.7402136, "lon": -73.9638826 },
+    { "lat": 40.7407418, "lon": -73.9636421 },
+    { "lat": 40.7412382, "lon": -73.9632029 },
+    { "lat": 40.7414211, "lon": -73.9628998 },
+    { "lat": 40.7417523, "lon": -73.9622831 },
+    { "lat": 40.7418457, "lon": -73.9613465 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:09",
+    "foot": "yes",
+    "from": "North Williamsburg",
+    "motor_vehicle": "no",
+    "name": "North Williamsburg – Hunters Point South",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Hunters Point South",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/east-river/"
+  }
+},
+{
+  "type": "way",
+  "id": 1456980631,
+  "bounds": {
+    "minlat": 40.7037337,
+    "minlon": -73.9962161,
+    "maxlat": 40.7212482,
+    "maxlon": -73.9648885
+  },
+  "geometry": [
+    { "lat": 40.7209266, "lon": -73.9648885 },
+    { "lat": 40.7210804, "lon": -73.9652005 },
+    { "lat": 40.7212007, "lon": -73.9655184 },
+    { "lat": 40.7212482, "lon": -73.9657772 },
+    { "lat": 40.7212132, "lon": -73.9660537 },
+    { "lat": 40.7209001, "lon": -73.9667903 },
+    { "lat": 40.7199064, "lon": -73.9677246 },
+    { "lat": 40.7121607, "lon": -73.9711375 },
+    { "lat": 40.7118277, "lon": -73.9712721 },
+    { "lat": 40.7107968, "lon": -73.9716992 },
+    { "lat": 40.7101277, "lon": -73.9721732 },
+    { "lat": 40.7095973, "lon": -73.9728824 },
+    { "lat": 40.7082451, "lon": -73.9757560 },
+    { "lat": 40.7076918, "lon": -73.9775975 },
+    { "lat": 40.7071017, "lon": -73.9809207 },
+    { "lat": 40.7059000, "lon": -73.9930868 },
+    { "lat": 40.7056295, "lon": -73.9942551 },
+    { "lat": 40.7053641, "lon": -73.9949304 },
+    { "lat": 40.7046966, "lon": -73.9959649 },
+    { "lat": 40.7045177, "lon": -73.9960800 },
+    { "lat": 40.7043267, "lon": -73.9961870 },
+    { "lat": 40.7041153, "lon": -73.9962161 },
+    { "lat": 40.7037337, "lon": -73.9958364 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:12",
+    "foot": "yes",
+    "from": "DUMBO/Fulton Ferry",
+    "motor_vehicle": "no",
+    "name": "DUMBO/Fulton Ferry – North Williamsburg",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "North Williamsburg",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/east-river/"
+  }
+},
+{
+  "type": "way",
+  "id": 1481634298,
+  "bounds": {
+    "minlat": 40.7482455,
+    "minlon": -73.9585780,
+    "maxlat": 40.7486416,
+    "maxlon": -73.9576505
+  },
+  "geometry": [
+    { "lat": 40.7485227, "lon": -73.9576505 },
+    { "lat": 40.7485651, "lon": -73.9576527 },
+    { "lat": 40.7485994, "lon": -73.9576565 },
+    { "lat": 40.7486322, "lon": -73.9576764 },
+    { "lat": 40.7486416, "lon": -73.9577143 },
+    { "lat": 40.7486273, "lon": -73.9577831 },
+    { "lat": 40.7485996, "lon": -73.9578561 },
+    { "lat": 40.7482455, "lon": -73.9585780 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "colour": "orange",
+    "foot": "yes",
+    "from": "East 34th Street",
+    "motor_vehicle": "no",
+    "name": "East 34th Street – Long Island City",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Long Island City",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/astoria/"
+  }
+},
+{
+  "type": "way",
+  "id": 1481634299,
+  "bounds": {
+    "minlat": 40.7485227,
+    "minlon": -73.9578972,
+    "maxlat": 40.7491677,
+    "maxlon": -73.9575898
+  },
+  "geometry": [
+    { "lat": 40.7491677, "lon": -73.9578972 },
+    { "lat": 40.7486746, "lon": -73.9575935 },
+    { "lat": 40.7486086, "lon": -73.9575898 },
+    { "lat": 40.7485785, "lon": -73.9576082 },
+    { "lat": 40.7485227, "lon": -73.9576505 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "colour": "orange",
+    "foot": "yes",
+    "from": "Long Island City",
+    "motor_vehicle": "no",
+    "name": "Long Island City – Roosevelt Island",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Roosevelt Island",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/astoria/"
+  }
+},
+{
+  "type": "way",
+  "id": 1481634301,
+  "bounds": {
+    "minlat": 40.7481710,
+    "minlon": -73.9585780,
+    "maxlat": 40.7483294,
+    "maxlon": -73.9577842
+  },
+  "geometry": [
+    { "lat": 40.7482455, "lon": -73.9585780 },
+    { "lat": 40.7481748, "lon": -73.9581061 },
+    { "lat": 40.7481710, "lon": -73.9579952 },
+    { "lat": 40.7481809, "lon": -73.9579350 },
+    { "lat": 40.7482117, "lon": -73.9578736 },
+    { "lat": 40.7483294, "lon": -73.9577842 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "colour": "orange",
+    "foot": "yes",
+    "from": "East 34th Street",
+    "motor_vehicle": "no",
+    "name": "East 34th Street – Long Island City",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Long Island City",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/astoria/"
+  }
+},
+{
+  "type": "way",
+  "id": 1481634302,
+  "bounds": {
+    "minlat": 40.7482849,
+    "minlon": -73.9580204,
+    "maxlat": 40.7491677,
+    "maxlon": -73.9577842
+  },
+  "geometry": [
+    { "lat": 40.7483294, "lon": -73.9577842 },
+    { "lat": 40.7482849, "lon": -73.9578907 },
+    { "lat": 40.7482883, "lon": -73.9579728 },
+    { "lat": 40.7483091, "lon": -73.9580101 },
+    { "lat": 40.7483439, "lon": -73.9580204 },
+    { "lat": 40.7491677, "lon": -73.9578972 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "colour": "orange",
+    "foot": "yes",
+    "from": "Long Island City",
+    "motor_vehicle": "no",
+    "name": "Long Island City – Roosevelt Island",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Roosevelt Island",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/astoria/"
+  }
+},
+{
+  "type": "way",
+  "id": 1481634303,
+  "bounds": {
+    "minlat": 40.7569275,
+    "minlon": -73.9523911,
+    "maxlat": 40.7571845,
+    "maxlon": -73.9518068
+  },
+  "geometry": [
+    { "lat": 40.7571845, "lon": -73.9518068 },
+    { "lat": 40.7571199, "lon": -73.9520339 },
+    { "lat": 40.7570694, "lon": -73.9522236 },
+    { "lat": 40.7570244, "lon": -73.9523037 },
+    { "lat": 40.7569275, "lon": -73.9523911 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "colour": "orange",
+    "foot": "yes",
+    "from": "Roosevelt Island",
+    "motor_vehicle": "no",
+    "name": "Roosevelt Island – Astoria",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Astoria",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/astoria/"
+  }
+},
+{
+  "type": "way",
+  "id": 1481634304,
+  "bounds": {
+    "minlat": 40.7562538,
+    "minlon": -73.9526111,
+    "maxlat": 40.7569579,
+    "maxlon": -73.9522403
+  },
+  "geometry": [
+    { "lat": 40.7569275, "lon": -73.9523911 },
+    { "lat": 40.7569579, "lon": -73.9523079 },
+    { "lat": 40.7569493, "lon": -73.9522632 },
+    { "lat": 40.7569161, "lon": -73.9522403 },
+    { "lat": 40.7568320, "lon": -73.9522544 },
+    { "lat": 40.7565107, "lon": -73.9524023 },
+    { "lat": 40.7562538, "lon": -73.9526111 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "colour": "orange",
+    "foot": "yes",
+    "from": "Long Island City",
+    "motor_vehicle": "no",
+    "name": "Long Island City – Roosevelt Island",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Roosevelt Island",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/astoria/"
+  }
+},
+{
+  "type": "way",
+  "id": 1481634305,
+  "bounds": {
+    "minlat": 40.7566177,
+    "minlon": -73.9525825,
+    "maxlat": 40.7571845,
+    "maxlon": -73.9518068
+  },
+  "geometry": [
+    { "lat": 40.7567116, "lon": -73.9525825 },
+    { "lat": 40.7566820, "lon": -73.9525790 },
+    { "lat": 40.7566533, "lon": -73.9525628 },
+    { "lat": 40.7566277, "lon": -73.9525431 },
+    { "lat": 40.7566177, "lon": -73.9524988 },
+    { "lat": 40.7566395, "lon": -73.9524375 },
+    { "lat": 40.7567135, "lon": -73.9522813 },
+    { "lat": 40.7568320, "lon": -73.9521452 },
+    { "lat": 40.7571845, "lon": -73.9518068 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "colour": "orange",
+    "foot": "yes",
+    "from": "Roosevelt Island",
+    "motor_vehicle": "no",
+    "name": "Roosevelt Island – Astoria",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Astoria",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/astoria/"
+  }
+},
+{
+  "type": "way",
+  "id": 1481634306,
+  "bounds": {
+    "minlat": 40.7562538,
+    "minlon": -73.9526111,
+    "maxlat": 40.7567116,
+    "maxlon": -73.9525825
+  },
+  "geometry": [
+    { "lat": 40.7562538, "lon": -73.9526111 },
+    { "lat": 40.7564580, "lon": -73.9526044 },
+    { "lat": 40.7565873, "lon": -73.9526008 },
+    { "lat": 40.7566751, "lon": -73.9525911 },
+    { "lat": 40.7567116, "lon": -73.9525825 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "colour": "orange",
+    "foot": "yes",
+    "from": "Long Island City",
+    "motor_vehicle": "no",
+    "name": "Long Island City – Roosevelt Island",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Roosevelt Island",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/astoria/"
+  }
+},
+{
+  "type": "way",
+  "id": 1482072442,
+  "bounds": {
+    "minlat": 40.7313054,
+    "minlon": -73.9729431,
+    "maxlat": 40.7321683,
+    "maxlon": -73.9722773
+  },
+  "geometry": [
+    { "lat": 40.7320824, "lon": -73.9729431 },
+    { "lat": 40.7321331, "lon": -73.9729150 },
+    { "lat": 40.7321679, "lon": -73.9728649 },
+    { "lat": 40.7321683, "lon": -73.9728012 },
+    { "lat": 40.7321459, "lon": -73.9727419 },
+    { "lat": 40.7313054, "lon": -73.9722773 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "from": "Pier 11",
+    "motor_vehicle": "no",
+    "name": "Pier 11 – Stuyvesant Cove",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Stuyvesant Cove",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/soundview/"
+  }
+},
+{
+  "type": "way",
+  "id": 1482072443,
+  "bounds": {
+    "minlat": 40.7320824,
+    "minlon": -73.9729744,
+    "maxlat": 40.7325825,
+    "maxlon": -73.9726106
+  },
+  "geometry": [
+    { "lat": 40.7325825, "lon": -73.9726106 },
+    { "lat": 40.7323545, "lon": -73.9729160 },
+    { "lat": 40.7322086, "lon": -73.9729744 },
+    { "lat": 40.7320824, "lon": -73.9729431 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "from": "Stuyvesant Cove",
+    "motor_vehicle": "no",
+    "name": "Stuyvesant Cove – East 34th Street",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "East 34th Street",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/soundview/"
+  }
+},
+{
+  "type": "way",
+  "id": 1482072444,
+  "bounds": {
+    "minlat": 40.7318157,
+    "minlon": -73.9728930,
+    "maxlat": 40.7325825,
+    "maxlon": -73.9726106
+  },
+  "geometry": [
+    { "lat": 40.7318700, "lon": -73.9728930 },
+    { "lat": 40.7318157, "lon": -73.9728313 },
+    { "lat": 40.7318209, "lon": -73.9727626 },
+    { "lat": 40.7318954, "lon": -73.9726683 },
+    { "lat": 40.7325825, "lon": -73.9726106 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "from": "Stuyvesant Cove",
+    "motor_vehicle": "no",
+    "name": "Stuyvesant Cove – East 34th Street",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "East 34th Street",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/soundview/"
+  }
+},
+{
+  "type": "way",
+  "id": 1482072445,
+  "bounds": {
+    "minlat": 40.7313054,
+    "minlon": -73.9728930,
+    "maxlat": 40.7318700,
+    "maxlon": -73.9722773
+  },
+  "geometry": [
+    { "lat": 40.7313054, "lon": -73.9722773 },
+    { "lat": 40.7315351, "lon": -73.9726730 },
+    { "lat": 40.7317370, "lon": -73.9728343 },
+    { "lat": 40.7318700, "lon": -73.9728930 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "from": "Pier 11",
+    "motor_vehicle": "no",
+    "name": "Pier 11 – Stuyvesant Cove",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Stuyvesant Cove",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/soundview/"
+  }
+},
+{
+  "type": "way",
+  "id": 1482075439,
+  "bounds": {
+    "minlat": 40.7100051,
+    "minlon": -73.9790718,
+    "maxlat": 40.7101813,
+    "maxlon": -73.9785037
+  },
+  "geometry": [
+    { "lat": 40.7100051, "lon": -73.9785037 },
+    { "lat": 40.7101665, "lon": -73.9789009 },
+    { "lat": 40.7101813, "lon": -73.9789764 },
+    { "lat": 40.7101781, "lon": -73.9790718 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "from": "Corlears Hook",
+    "motor_vehicle": "no",
+    "name": "Corlears Hook – East 34th Street",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "East 34th Street",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1482075440,
+  "bounds": {
+    "minlat": 40.7098621,
+    "minlon": -73.9797165,
+    "maxlat": 40.7101781,
+    "maxlon": -73.9789938
+  },
+  "geometry": [
+    { "lat": 40.7101781, "lon": -73.9790718 },
+    { "lat": 40.7101480, "lon": -73.9790252 },
+    { "lat": 40.7101180, "lon": -73.9789969 },
+    { "lat": 40.7100716, "lon": -73.9789938 },
+    { "lat": 40.7100252, "lon": -73.9790718 },
+    { "lat": 40.7098621, "lon": -73.9797165 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "from": "Pier 11",
+    "motor_vehicle": "no",
+    "name": "Pier 11 – Corlears Hook",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Corlears Hook",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1482075441,
+  "bounds": {
+    "minlat": 40.7098621,
+    "minlon": -73.9797165,
+    "maxlat": 40.7101581,
+    "maxlon": -73.9793916
+  },
+  "geometry": [
+    { "lat": 40.7098621, "lon": -73.9797165 },
+    { "lat": 40.7100463, "lon": -73.9797012 },
+    { "lat": 40.7101166, "lon": -73.9795968 },
+    { "lat": 40.7101498, "lon": -73.9794924 },
+    { "lat": 40.7101581, "lon": -73.9793916 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "from": "Pier 11",
+    "motor_vehicle": "no",
+    "name": "Pier 11 – Corlears Hook",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Corlears Hook",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1482075442,
+  "bounds": {
+    "minlat": 40.7099811,
+    "minlon": -73.9794607,
+    "maxlat": 40.7101581,
+    "maxlon": -73.9785037
+  },
+  "geometry": [
+    { "lat": 40.7101581, "lon": -73.9793916 },
+    { "lat": 40.7101380, "lon": -73.9794432 },
+    { "lat": 40.7101160, "lon": -73.9794607 },
+    { "lat": 40.7100462, "lon": -73.9794425 },
+    { "lat": 40.7100107, "lon": -73.9793730 },
+    { "lat": 40.7099811, "lon": -73.9788714 },
+    { "lat": 40.7100051, "lon": -73.9785037 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "from": "Corlears Hook",
+    "motor_vehicle": "no",
+    "name": "Corlears Hook – East 34th Street",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "East 34th Street",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1513061606,
+  "bounds": {
+    "minlat": 40.7443057,
+    "minlon": -73.9703968,
+    "maxlat": 40.7449509,
+    "maxlon": -73.9694921
+  },
+  "geometry": [
+    { "lat": 40.7443057, "lon": -73.9703968 },
+    { "lat": 40.7446952, "lon": -73.9701492 },
+    { "lat": 40.7448609, "lon": -73.9698155 },
+    { "lat": 40.7449509, "lon": -73.9694921 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "motor_vehicle": "no",
+    "route": "ferry",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1513061607,
+  "bounds": {
+    "minlat": 40.7440273,
+    "minlon": -73.9703968,
+    "maxlat": 40.7443559,
+    "maxlon": -73.9700779
+  },
+  "geometry": [
+    { "lat": 40.7443057, "lon": -73.9703968 },
+    { "lat": 40.7443559, "lon": -73.9702580 },
+    { "lat": 40.7443413, "lon": -73.9701809 },
+    { "lat": 40.7442928, "lon": -73.9701093 },
+    { "lat": 40.7441627, "lon": -73.9700779 },
+    { "lat": 40.7440273, "lon": -73.9701479 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "route": "ferry",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1513061610,
+  "bounds": {
+    "minlat": 40.7436014,
+    "minlon": -73.9704218,
+    "maxlat": 40.7440273,
+    "maxlon": -73.9701479
+  },
+  "geometry": [
+    { "lat": 40.7436014, "lon": -73.9704218 },
+    { "lat": 40.7440273, "lon": -73.9701479 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "route": "ferry",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1513061611,
+  "bounds": {
+    "minlat": 40.7440273,
+    "minlon": -73.9701479,
+    "maxlat": 40.7449509,
+    "maxlon": -73.9694921
+  },
+  "geometry": [
+    { "lat": 40.7440273, "lon": -73.9701479 },
+    { "lat": 40.7449509, "lon": -73.9694921 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "route": "ferry",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1513061612,
+  "bounds": {
+    "minlat": 40.7426176,
+    "minlon": -73.9712302,
+    "maxlat": 40.7436014,
+    "maxlon": -73.9704218
+  },
+  "geometry": [
+    { "lat": 40.7426176, "lon": -73.9712302 },
+    { "lat": 40.7428551, "lon": -73.9710125 },
+    { "lat": 40.7436014, "lon": -73.9704218 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "route": "ferry",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1513061613,
+  "bounds": {
+    "minlat": 40.7434318,
+    "minlon": -73.9710005,
+    "maxlat": 40.7436014,
+    "maxlon": -73.9704218
+  },
+  "geometry": [
+    { "lat": 40.7435089, "lon": -73.9710005 },
+    { "lat": 40.7434715, "lon": -73.9709419 },
+    { "lat": 40.7434318, "lon": -73.9708758 },
+    { "lat": 40.7434335, "lon": -73.9707759 },
+    { "lat": 40.7434854, "lon": -73.9706276 },
+    { "lat": 40.7436014, "lon": -73.9704218 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:14",
+    "foot": "yes",
+    "from": "East 34th Street",
+    "motor_vehicle": "no",
+    "name": "East 34th Street – East 90th Street",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "East 90th Street",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/soundview/"
+  }
+},
+{
+  "type": "way",
+  "id": 1513061614,
+  "bounds": {
+    "minlat": 40.7426176,
+    "minlon": -73.9713376,
+    "maxlat": 40.7435089,
+    "maxlon": -73.9710005
+  },
+  "geometry": [
+    { "lat": 40.7426176, "lon": -73.9712302 },
+    { "lat": 40.7427837, "lon": -73.9713376 },
+    { "lat": 40.7429889, "lon": -73.9712876 },
+    { "lat": 40.7434907, "lon": -73.9710995 },
+    { "lat": 40.7435089, "lon": -73.9710005 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "duration": "00:08",
+    "foot": "yes",
+    "from": "Stuyvesant Cove",
+    "motor_vehicle": "no",
+    "name": "Stuyvesant Cove – East 34th Street",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "East 34th Street",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/soundview/"
+  }
+},
+{
+  "type": "way",
+  "id": 1513061615,
+  "bounds": {
+    "minlat": 40.7426254,
+    "minlon": -73.9703522,
+    "maxlat": 40.7433436,
+    "maxlon": -73.9701331
+  },
+  "geometry": [
+    { "lat": 40.7426254, "lon": -73.9701331 },
+    { "lat": 40.7433436, "lon": -73.9703522 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "route": "ferry",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1513061616,
+  "bounds": {
+    "minlat": 40.7426254,
+    "minlon": -73.9710005,
+    "maxlat": 40.7435089,
+    "maxlon": -73.9701331
+  },
+  "geometry": [
+    { "lat": 40.7426254, "lon": -73.9701331 },
+    { "lat": 40.7431267, "lon": -73.9708691 },
+    { "lat": 40.7434288, "lon": -73.9710005 },
+    { "lat": 40.7435089, "lon": -73.9710005 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "route": "ferry",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1513061617,
+  "bounds": {
+    "minlat": 40.7433005,
+    "minlon": -73.9710005,
+    "maxlat": 40.7435089,
+    "maxlon": -73.9703522
+  },
+  "geometry": [
+    { "lat": 40.7435089, "lon": -73.9710005 },
+    { "lat": 40.7433993, "lon": -73.9709078 },
+    { "lat": 40.7433005, "lon": -73.9705077 },
+    { "lat": 40.7433436, "lon": -73.9703522 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "route": "ferry",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1513061618,
+  "bounds": {
+    "minlat": 40.7443057,
+    "minlon": -73.9703968,
+    "maxlat": 40.7448096,
+    "maxlon": -73.9690286
+  },
+  "geometry": [
+    { "lat": 40.7443057, "lon": -73.9703968 },
+    { "lat": 40.7445709, "lon": -73.9701196 },
+    { "lat": 40.7447122, "lon": -73.9698523 },
+    { "lat": 40.7448096, "lon": -73.9690286 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "route": "ferry",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1513061619,
+  "bounds": {
+    "minlat": 40.7441178,
+    "minlon": -73.9703968,
+    "maxlat": 40.7444135,
+    "maxlon": -73.9698095
+  },
+  "geometry": [
+    { "lat": 40.7443057, "lon": -73.9703968 },
+    { "lat": 40.7444074, "lon": -73.9702422 },
+    { "lat": 40.7444135, "lon": -73.9700304 },
+    { "lat": 40.7442977, "lon": -73.9698475 },
+    { "lat": 40.7441178, "lon": -73.9698095 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "route": "ferry",
+    "toll": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1513061620,
+  "bounds": {
+    "minlat": 40.7433436,
+    "minlon": -73.9703522,
+    "maxlat": 40.7441178,
+    "maxlon": -73.9698095
+  },
+  "geometry": [
+    { "lat": 40.7433436, "lon": -73.9703522 },
+    { "lat": 40.7436367, "lon": -73.9701293 },
+    { "lat": 40.7441178, "lon": -73.9698095 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "colour": "orange",
+    "duration": "00:07",
+    "foot": "yes",
+    "from": "East 34th Street",
+    "motor_vehicle": "no",
+    "name": "East 34th Street – Long Island City",
+    "network": "NYC Ferry",
+    "network:wikidata": "Q26987418",
+    "operator": "Hornblower Cruises",
+    "operator:wikidata": "Q5904087",
+    "route": "ferry",
+    "to": "Long Island City",
+    "toll": "yes",
+    "website": "https://www.ferry.nyc/routes-and-schedules/route/astoria/"
+  }
+},
+{
+  "type": "way",
+  "id": 1513061621,
+  "bounds": {
+    "minlat": 40.7441178,
+    "minlon": -73.9698095,
+    "maxlat": 40.7448096,
+    "maxlon": -73.9690286
+  },
+  "geometry": [
+    { "lat": 40.7441178, "lon": -73.9698095 },
+    { "lat": 40.7446268, "lon": -73.9693474 },
+    { "lat": 40.7448096, "lon": -73.9690286 }
+  ],
+  "tags": {
+    "bicycle": "dismount",
+    "foot": "yes",
+    "horse": "no",
+    "motor_vehicle": "no",
+    "route": "ferry",
+    "toll": "yes"
+  }
+}
+
+  ]
+}

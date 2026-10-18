@@ -1,0 +1,427 @@
+{
+  "schema": 2,
+  "version": "20261018151550-f6caa4cbca",
+  "generatedAt": "2026-10-18T15:15:50.050Z",
+  "cellSize": 0.25,
+  "regions": [
+    {
+      "id": "solent",
+      "name": "Solent & Isle of Wight",
+      "bounds": [
+        50.55,
+        -1.85,
+        51.05,
+        -0.75
+      ],
+      "count": 2107,
+      "sources": [
+        "osm"
+      ],
+      "shards": [
+        {
+          "path": "solent/203_-5.json",
+          "bounds": [
+            50.75,
+            -1.25,
+            51,
+            -1
+          ],
+          "count": 512
+        },
+        {
+          "path": "solent/203_-6.json",
+          "bounds": [
+            50.75,
+            -1.5,
+            51,
+            -1.25
+          ],
+          "count": 504
+        },
+        {
+          "path": "solent/203_-4.json",
+          "bounds": [
+            50.75,
+            -1,
+            51,
+            -0.75
+          ],
+          "count": 453
+        },
+        {
+          "path": "solent/202_-5.json",
+          "bounds": [
+            50.5,
+            -1.25,
+            50.75,
+            -1
+          ],
+          "count": 206
+        },
+        {
+          "path": "solent/202_-7.json",
+          "bounds": [
+            50.5,
+            -1.75,
+            50.75,
+            -1.5
+          ],
+          "count": 187
+        },
+        {
+          "path": "solent/202_-6.json",
+          "bounds": [
+            50.5,
+            -1.5,
+            50.75,
+            -1.25
+          ],
+          "count": 87
+        },
+        {
+          "path": "solent/202_-4.json",
+          "bounds": [
+            50.5,
+            -1,
+            50.75,
+            -0.75
+          ],
+          "count": 76
+        },
+        {
+          "path": "solent/203_-7.json",
+          "bounds": [
+            50.75,
+            -1.75,
+            51,
+            -1.5
+          ],
+          "count": 41
+        },
+        {
+          "path": "solent/202_-8.json",
+          "bounds": [
+            50.5,
+            -2,
+            50.75,
+            -1.75
+          ],
+          "count": 38
+        },
+        {
+          "path": "solent/204_-6.json",
+          "bounds": [
+            51,
+            -1.5,
+            51.25,
+            -1.25
+          ],
+          "count": 2
+        },
+        {
+          "path": "solent/202_-3.json",
+          "bounds": [
+            50.5,
+            -0.75,
+            50.75,
+            -0.5
+          ],
+          "count": 1
+        }
+      ],
+      "categoryCounts": {
+        "gate": 14,
+        "facility": 76,
+        "light": 219,
+        "marina": 55,
+        "landmark": 7,
+        "major_light": 9,
+        "hazard": 242,
+        "lateral_starboard": 381,
+        "lateral_port": 422,
+        "cardinal_south": 29,
+        "cardinal_north": 12,
+        "cardinal_west": 11,
+        "cardinal_east": 14,
+        "special_purpose": 401,
+        "safe_water": 1,
+        "anchorage": 8,
+        "preferred_channel_starboard": 1,
+        "isolated_danger": 4,
+        "mooring": 17,
+        "range": 9,
+        "lateral_other": 38,
+        "hazard_danger": 136,
+        "notice": 1
+      }
+    },
+    {
+      "id": "ny-harbor",
+      "name": "New York Harbor",
+      "bounds": [
+        40.45,
+        -74.3,
+        40.95,
+        -73.7
+      ],
+      "count": 1149,
+      "sources": [
+        "osm"
+      ],
+      "shards": [
+        {
+          "path": "ny-harbor/162_-297.json",
+          "bounds": [
+            40.5,
+            -74.25,
+            40.75,
+            -74
+          ],
+          "count": 573
+        },
+        {
+          "path": "ny-harbor/162_-296.json",
+          "bounds": [
+            40.5,
+            -74,
+            40.75,
+            -73.75
+          ],
+          "count": 229
+        },
+        {
+          "path": "ny-harbor/163_-296.json",
+          "bounds": [
+            40.75,
+            -74,
+            41,
+            -73.75
+          ],
+          "count": 165
+        },
+        {
+          "path": "ny-harbor/161_-297.json",
+          "bounds": [
+            40.25,
+            -74.25,
+            40.5,
+            -74
+          ],
+          "count": 48
+        },
+        {
+          "path": "ny-harbor/162_-298.json",
+          "bounds": [
+            40.5,
+            -74.5,
+            40.75,
+            -74.25
+          ],
+          "count": 31
+        },
+        {
+          "path": "ny-harbor/163_-295.json",
+          "bounds": [
+            40.75,
+            -73.75,
+            41,
+            -73.5
+          ],
+          "count": 27
+        },
+        {
+          "path": "ny-harbor/161_-298.json",
+          "bounds": [
+            40.25,
+            -74.5,
+            40.5,
+            -74.25
+          ],
+          "count": 21
+        },
+        {
+          "path": "ny-harbor/161_-296.json",
+          "bounds": [
+            40.25,
+            -74,
+            40.5,
+            -73.75
+          ],
+          "count": 21
+        },
+        {
+          "path": "ny-harbor/162_-295.json",
+          "bounds": [
+            40.5,
+            -73.75,
+            40.75,
+            -73.5
+          ],
+          "count": 18
+        },
+        {
+          "path": "ny-harbor/163_-297.json",
+          "bounds": [
+            40.75,
+            -74.25,
+            41,
+            -74
+          ],
+          "count": 16
+        }
+      ],
+      "categoryCounts": {
+        "marina": 93,
+        "major_light": 13,
+        "landmark": 9,
+        "light": 27,
+        "facility": 58,
+        "safe_water": 2,
+        "lateral_other": 16,
+        "lateral_starboard": 147,
+        "hazard": 268,
+        "preferred_channel_port": 9,
+        "special_purpose": 71,
+        "mooring": 105,
+        "hazard_danger": 174,
+        "lateral_port": 130,
+        "gate": 8,
+        "range": 8,
+        "preferred_channel_starboard": 8,
+        "notice": 2,
+        "anchorage": 1
+      }
+    }
+  ],
+  "sources": [
+    {
+      "id": "osm",
+      "name": "OpenStreetMap seamarks",
+      "kind": "vector",
+      "url": "https://wiki.openstreetmap.org/wiki/Seamarks/Seamark_Tag_Values",
+      "licence": "ODbL 1.0",
+      "redistribution": "allowed",
+      "enabled": true,
+      "notes": "Worldwide, queryable AtoN via the Overpass API. Coverage is densest in Europe and the US; some regions map no bifurcation or range marks at all."
+    }
+  ],
+  "sourceRegistry": [
+    {
+      "id": "osm",
+      "name": "OpenStreetMap seamarks",
+      "enabled": true,
+      "redistribution": "allowed",
+      "licence": "ODbL 1.0"
+    },
+    {
+      "id": "noaa-enc",
+      "name": "NOAA ENC Direct",
+      "enabled": false,
+      "redistribution": "allowed",
+      "licence": "US Government public domain"
+    },
+    {
+      "id": "openseamap",
+      "name": "OpenSeaMap",
+      "enabled": true,
+      "redistribution": "allowed",
+      "licence": "CC-BY-SA 2.0 (tiles), ODbL (data)"
+    },
+    {
+      "id": "opencpn-charts",
+      "name": "OpenCPN chart catalogue",
+      "enabled": false,
+      "redistribution": "mixed",
+      "licence": "Mixed"
+    },
+    {
+      "id": "cmap-navico",
+      "name": "C-MAP (Navico)",
+      "enabled": false,
+      "redistribution": "prohibited",
+      "licence": "Commercial"
+    },
+    {
+      "id": "gpsnauticalcharts",
+      "name": "Marine Charts Worldwide (gpsnauticalcharts.com)",
+      "enabled": false,
+      "redistribution": "prohibited",
+      "licence": "Commercial"
+    },
+    {
+      "id": "iboating",
+      "name": "i-Boating",
+      "enabled": false,
+      "redistribution": "prohibited",
+      "licence": "Commercial"
+    },
+    {
+      "id": "ukho-admiralty",
+      "name": "UKHO Admiralty",
+      "enabled": false,
+      "redistribution": "prohibited",
+      "licence": "Commercial / licensed"
+    },
+    {
+      "id": "shom",
+      "name": "SHOM (France)",
+      "enabled": false,
+      "redistribution": "mixed",
+      "licence": "Licence Ouverte for some products, otherwise commercial"
+    },
+    {
+      "id": "bsh",
+      "name": "BSH (Germany)",
+      "enabled": false,
+      "redistribution": "allowed",
+      "licence": "DL-DE-BY 2.0"
+    },
+    {
+      "id": "rijkswaterstaat",
+      "name": "Rijkswaterstaat (Netherlands)",
+      "enabled": false,
+      "redistribution": "allowed",
+      "licence": "CC0"
+    },
+    {
+      "id": "linz",
+      "name": "LINZ (New Zealand)",
+      "enabled": false,
+      "redistribution": "allowed",
+      "licence": "CC-BY 4.0"
+    },
+    {
+      "id": "amsa",
+      "name": "AMSA (Australia)",
+      "enabled": false,
+      "redistribution": "mixed",
+      "licence": "CC-BY 4.0 (some products)"
+    },
+    {
+      "id": "chs",
+      "name": "Canadian Hydrographic Service",
+      "enabled": false,
+      "redistribution": "allowed",
+      "licence": "Open Government Licence – Canada"
+    },
+    {
+      "id": "dhn",
+      "name": "DHN (Brazil)",
+      "enabled": false,
+      "redistribution": "prohibited",
+      "licence": "Government, restricted"
+    },
+    {
+      "id": "traficom",
+      "name": "Traficom (Finland)",
+      "enabled": false,
+      "redistribution": "allowed",
+      "licence": "CC-BY 4.0"
+    }
+  ],
+  "stats": {
+    "rawRecords": 3693,
+    "uniqueAids": 3256,
+    "duplicatesRemoved": 248
+  }
+}
