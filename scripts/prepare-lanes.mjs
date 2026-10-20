@@ -3,6 +3,11 @@
  * Build src/data/lanes.json from the raw Overpass ferry/TSS snapshots.
  * Geometry is kept as [lat, lon] pairs so the client can draw it with Leaflet
  * without a GeoJSON dependency.
+ *
+ * Snapshots are per area rather than global: OSM's ferry and separation-scheme
+ * coverage is dense in home waters and sparse elsewhere, so a worldwide query
+ * would return a great deal of inland river crossings and little of use. Each
+ * raw file records the Overpass query area, and the build joins them.
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
@@ -24,9 +29,15 @@ function nameOf(element, fallback) {
   return tags.name || tags.ref || tags['seamark:name'] || fallback;
 }
 
+/** Most unnamed lane pieces are tagged only by type ('separation_boundary'). */
+function typeLabel(type) {
+  const words = type.replace(/_/g, ' ');
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}
+
 const ferries = [];
 const seenFerry = new Set();
-for (const file of ['ferry-solent.json', 'ferry-ny.json']) {
+for (const file of ['ferry-solent.json', 'ferry-channel.json', 'ferry-ny.json']) {
   const payload = JSON.parse(readFileSync(resolve(root, 'data-raw', file), 'utf8'));
   for (const element of payload.elements ?? []) {
     const path = geometry(element);
@@ -40,7 +51,7 @@ for (const file of ['ferry-solent.json', 'ferry-ny.json']) {
 
 const tss = [];
 const seenTss = new Set();
-for (const file of ['tss.json', 'tss-ny.json']) {
+for (const file of ['tss.json', 'tss-channel.json', 'tss-ny.json']) {
   let payload;
   try {
     payload = JSON.parse(readFileSync(resolve(root, 'data-raw', file), 'utf8'));
@@ -54,7 +65,7 @@ for (const file of ['tss.json', 'tss-ny.json']) {
     const signature = `${type}:${path.map(([lat, lon]) => `${lat},${lon}`).join(';')}`;
     if (seenTss.has(signature)) continue;
     seenTss.add(signature);
-    tss.push({ type, name: nameOf(element, type.replace(/_/g, ' ')), path });
+    tss.push({ type, name: nameOf(element, typeLabel(type)), path });
   }
 }
 

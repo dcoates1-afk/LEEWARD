@@ -1,10 +1,18 @@
 import { useCallback, useEffect, useState } from 'react';
+import { fetchWeather } from '../lib/weather';
+import type { SeriesPoint, WeatherReport } from '../lib/weather';
+import { findTideForecast, modelTideForecast } from '../lib/tides';
+import type { TideForecast } from '../lib/tides';
 import {
-  fetchTideEvents,
-  fetchWeather,
-  nearestTideStation,
-} from '../lib/weather';
-import type { SeriesPoint, TideEvent, TideStation, WeatherReport } from '../lib/weather';
+  currentAt,
+  currentSeries,
+  findCurrentPredictions,
+  modelCurrentAt,
+  modelCurrentSeries,
+} from '../lib/currents';
+import type { CurrentEvent, CurrentForecast, CurrentPhase, ModelCurrentNow } from '../lib/currents';
+import { compassPoint } from '../lib/geo';
+import { parseNoaaTime } from '../lib/time';
 import { formatPosition } from '../lib/navaids';
 
 interface WeatherPanelProps {
@@ -35,25 +43,111 @@ function Sparkline({ points, colour }: { points: SeriesPoint[]; colour: string }
 }
 
 function arrowFor(direction: number | undefined): string {
-  if (direction === undefined) return '—';
-  const compass = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
-  return compass[Math.round(direction / 22.5) % 16];
+  return direction === undefined ? '—' : compassPoint(direction);
+}
+
+const PHASE_LABEL: Record<CurrentPhase, string> = {
+  flood: 'Flood',
+  ebb: 'Ebb',
+  slack: 'Slack',
+};
+
+function formatDuration(minutes: number | null): string {
+  if (minutes === null || !Number.isFinite(minutes)) return '—';
+  if (minutes < 60) return `${minutes} min`;
+  return `${Math.floor(minutes / 60)} h ${minutes % 60} min`;
+}
+
+function CurrentArrow({ degrees, phase }: { degrees: number | null; phase: CurrentPhase | 'model' }) {
+  return (
+    <svg
+      className={`current-arrow phase-${phase}`}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      style={degrees === null ? undefined : { transform: `rotate(${degrees}deg)` }}
+    >
+      <path d="M12 2 L18.5 20 L12 16.2 L5.5 20 Z" />
+    </svg>
+  );
+}
+
+function seriesToSparkline(points: { epoch: number; speedKn: number }[]): SeriesPoint[] {
+  return points.map((point) => ({ time: new Date(point.epoch).toISOString(), value: point.speedKn }));
 }
 
 export function WeatherPanel({ lat, lon }: WeatherPanelProps) {
   const [report, setReport] = useState<WeatherReport | null>(null);
-  const [tide, setTide] = useState<{ station: TideStation; distanceKm: number; events: TideEvent[] } | null>(null);
+  const [tide, setTide] = useState<TideForecast | null>(null);
   const [tideMessage, setTideMessage] = useState<string | null>(null);
+  const [current, setCurrent] = useState<CurrentForecast | null>(null);
+  const [modelCurrent, setModelCurrent] = useState<ModelCurrentNow | null>(null);
+  const [currentMessage, setCurrentMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const loadTide = useCallback(
+    async (forecast: WeatherReport | null, signal?: AbortSignal) => {
+      try {
+        const lookup = await findTideForecast(lat, lon, { signal });
+        if (lookup.status === 'ok') {
+          setTide(lookup.forecast);
+          setTideMessage(null);
+          return;
+        }
+      } catch (lookupError) {
+        if (lookupError instanceof DOMException && lookupError.name === 'AbortError') return;
+        // Fall through to the global model curve.
+      }
+      if (forecast?.tideModelAvailable) {
+        setTide(modelTideForecast(forecast.seaLevel));
+        setTideMessage(null);
+        return;
+      }
+      setTide(null);
+      setTideMessage('No tide data is available for this position.');
+    },
+    [lat, lon],
+  );
+
+  const loadCurrent = useCallback(
+    async (forecast: WeatherReport | null, signal?: AbortSignal) => {
+      try {
+        const lookup = await findCurrentPredictions(lat, lon, { signal });
+        if (lookup.status === 'ok') {
+          setCurrent(lookup.forecast);
+          setModelCurrent(null);
+          setCurrentMessage(null);
+          return;
+        }
+      } catch (lookupError) {
+        if (lookupError instanceof DOMException && lookupError.name === 'AbortError') return;
+        // Fall through to the global ocean model.
+      }
+      if (forecast?.currentModelAvailable) {
+        const now = modelCurrentAt(forecast.currentSpeed, forecast.currentDirection);
+        if (now) {
+          setCurrent(null);
+          setModelCurrent(now);
+          setCurrentMessage(null);
+          return;
+        }
+      }
+      setCurrent(null);
+      setModelCurrent(null);
+      setCurrentMessage('No current data is available for this position.');
+    },
+    [lat, lon],
+  );
 
   const load = useCallback(
     async (signal?: AbortSignal) => {
       setLoading(true);
       setError(null);
       setTideMessage(null);
+      setCurrentMessage(null);
+      let next: WeatherReport | null = null;
       try {
-        const next = await fetchWeather(lat, lon, signal);
+        next = await fetchWeather(lat, lon, signal);
         setReport(next);
       } catch (weatherError) {
         if (!(weatherError instanceof DOMException && weatherError.name === 'AbortError')) {
@@ -61,22 +155,10 @@ export function WeatherPanel({ lat, lon }: WeatherPanelProps) {
         }
       }
 
-      const nearest = nearestTideStation(lat, lon);
-      if (!nearest) {
-        setTide(null);
-        setTideMessage('No NOAA tide station within 350 km. NOAA predictions cover US waters only.');
-      } else {
-        try {
-          const events = await fetchTideEvents(nearest.station.id, 3, signal);
-          setTide({ ...nearest, events });
-        } catch {
-          setTide(null);
-          setTideMessage(`Predictions unavailable for ${nearest.station.name}.`);
-        }
-      }
+      await Promise.all([loadTide(next, signal), loadCurrent(next, signal)]);
       setLoading(false);
     },
-    [lat, lon],
+    [lat, lon, loadTide, loadCurrent],
   );
 
   useEffect(() => {
@@ -85,14 +167,31 @@ export function WeatherPanel({ lat, lon }: WeatherPanelProps) {
     return () => controller.abort();
   }, [load]);
 
-  const now = report?.wind[0];
+  const wind = report?.wind[0];
   const gust = report?.gusts[0];
   const direction = report?.windDirection[0]?.value;
   const wave = report?.waves[0];
   const wavePeriod = report?.wavePeriod[0];
   const seaTemperature = report?.seaTemperature[0];
   const airTemperature = report?.temperature[0];
-  const nextTides = tide?.events.slice(0, 4) ?? [];
+
+  const nowEpoch = Date.now();
+  const nextTides = tide
+    ? tide.events
+        .filter((event) => parseNoaaTime(event.time) >= nowEpoch)
+        .slice(0, 4)
+    : [];
+
+  const currentNow = current ? currentAt(current.events) : null;
+  const currentSpark: SeriesPoint[] = current
+    ? seriesToSparkline(currentSeries(current.events, nowEpoch, 12, 30))
+    : [];
+  const nextCurrents = current
+    ? current.events.filter((event) => event.epoch > nowEpoch).slice(0, 4)
+    : [];
+  const modelSpark: SeriesPoint[] = report?.currentModelAvailable
+    ? seriesToSparkline(modelCurrentSeries(report.currentSpeed, nowEpoch, 12))
+    : [];
 
   return (
     <div className="station-body">
@@ -109,7 +208,7 @@ export function WeatherPanel({ lat, lon }: WeatherPanelProps) {
           <div className="metric-grid">
             <div className="metric-card">
               <p className="eyebrow">Wind</p>
-              <p className="metric-value">{now ? Math.round(now.value) : '—'}<small> kn</small></p>
+              <p className="metric-value">{wind ? Math.round(wind.value) : '—'}<small> kn</small></p>
               <p className="metric-sub">
                 gusts {gust ? Math.round(gust.value) : '—'} kn · from {arrowFor(direction)}
               </p>
@@ -144,10 +243,18 @@ export function WeatherPanel({ lat, lon }: WeatherPanelProps) {
           <h3 className="section-title">Next tides</h3>
           {tide ? (
             <>
-              <p className="menu-note">
-                {tide.station.name} · {tide.distanceKm.toFixed(0)} km away · MLLW
+              <p className="menu-note" data-tide-source={tide.source}>
+                {tide.source === 'noaa'
+                  ? `${tide.label} · ${Math.round(tide.distanceKm ?? 0)} km away · ${tide.datum}`
+                  : `${tide.label} · heights above ${tide.datum} · ~8 km model, not chart datum`}
               </p>
-              <ul className="tide-list">
+              {tide.heightNow !== null && (
+                <p className="tide-now" data-tide-now={tide.heightNow.toFixed(2)}>
+                  Now {tide.heightNow >= 0 ? '+' : '−'}
+                  {Math.abs(tide.heightNow).toFixed(2)} m above mean sea level
+                </p>
+              )}
+              <ul className="tide-list" data-tide-events={tide.source}>
                 {nextTides.map((event) => (
                   <li key={`${event.time}-${event.type}`}>
                     <span className={`tide-type ${event.type === 'H' ? 'high' : 'low'}`}>
@@ -162,12 +269,90 @@ export function WeatherPanel({ lat, lon }: WeatherPanelProps) {
           ) : (
             <p className="menu-note">{tideMessage ?? 'Tide predictions unavailable.'}</p>
           )}
+
+          <h3 className="section-title current-heading">Tidal current</h3>
+          {current && currentNow ? (
+            <>
+              <p className="menu-note">
+                {current.station.name} · {current.distanceKm.toFixed(0)} km away · NOAA current predictions
+              </p>
+              <div
+                className="current-readout"
+                data-current-source="noaa"
+                data-current-station={current.station.id}
+                data-current-phase={currentNow.phase}
+                data-current-speed={currentNow.speedKn.toFixed(2)}
+                data-current-set={currentNow.setDegrees === null ? '' : Math.round(currentNow.setDegrees)}
+              >
+                <CurrentArrow degrees={currentNow.setDegrees} phase={currentNow.phase} />
+                <div className="current-figures">
+                  <p className="current-speed">
+                    {currentNow.speedKn.toFixed(1)}
+                    <small> kn</small>
+                  </p>
+                  <p className="current-line">
+                    {currentNow.phase === 'slack'
+                      ? 'Slack water'
+                      : `${PHASE_LABEL[currentNow.phase]} · sets ${compassPoint(currentNow.setDegrees ?? 0)} ${Math.round(
+                          currentNow.setDegrees ?? 0,
+                        )}°`}
+                  </p>
+                  <p className="metric-sub">
+                    {currentNow.next
+                      ? `next ${PHASE_LABEL[currentNow.next.type].toLowerCase()} in ${formatDuration(currentNow.minutesToNext)}`
+                      : 'no further predictions'}
+                  </p>
+                </div>
+                <Sparkline points={currentSpark} colour="#5cc9f0" />
+              </div>
+              <ul className="tide-list current-list" data-current-events="noaa">
+                {nextCurrents.map((event: CurrentEvent) => (
+                  <li key={`${event.time}-${event.type}`}>
+                    <span className={`tide-type current-${event.type}`}>{PHASE_LABEL[event.type]}</span>
+                    <span>{event.time} UTC</span>
+                    <span>{event.type === 'slack' ? 'slack' : `${event.speedKn.toFixed(1)} kn`}</span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : modelCurrent ? (
+            <>
+              <p className="menu-note">Open-Meteo surface-current model · ~8 km · includes tidal flow</p>
+              <div
+                className="current-readout"
+                data-current-source="model"
+                data-current-phase="model"
+                data-current-speed={modelCurrent.speedKn.toFixed(2)}
+                data-current-set={modelCurrent.setDegrees === null ? '' : Math.round(modelCurrent.setDegrees)}
+              >
+                <CurrentArrow degrees={modelCurrent.setDegrees} phase="model" />
+                <div className="current-figures">
+                  <p className="current-speed">
+                    {modelCurrent.speedKn.toFixed(1)}
+                    <small> kn</small>
+                  </p>
+                  <p className="current-line">
+                    {modelCurrent.speedKn < 0.1
+                      ? 'Near slack'
+                      : `Sets ${compassPoint(modelCurrent.setDegrees ?? 0)} ${Math.round(
+                          modelCurrent.setDegrees ?? 0,
+                        )}°`}
+                  </p>
+                  <p className="metric-sub">surface drift, not a harmonic prediction</p>
+                </div>
+                <Sparkline points={modelSpark} colour="#5cc9f0" />
+              </div>
+            </>
+          ) : (
+            <p className="menu-note">{currentMessage ?? 'Current predictions unavailable.'}</p>
+          )}
         </>
       )}
 
       <p className="menu-note disclaimer">
-        Forecast data from Open-Meteo; tide predictions from NOAA CO-OPS. Always cross-check against official sources
-        before passage planning.
+        Forecast, sea-level and ocean-current model data from Open-Meteo (Météo-France SMOC). US tide and current
+        predictions from NOAA CO-OPS; model heights are above mean sea level, not chart datum. Always cross-check
+        against official sources before passage planning.
       </p>
     </div>
   );

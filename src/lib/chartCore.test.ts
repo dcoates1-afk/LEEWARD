@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
+  annotateTransits,
+  bearingDegrees,
   classifyTags,
   dedupeNavaids,
   cellBounds,
@@ -23,6 +25,12 @@ function mark(overrides: Partial<Navaid> & { category: NavaidCategory }): Navaid
     shape: overrides.shape ?? null,
     height: overrides.height ?? null,
     range: overrides.range ?? null,
+    path: overrides.path ?? null,
+    transitBearing: overrides.transitBearing ?? null,
+    transitDistanceM: overrides.transitDistanceM ?? null,
+    transitPartner: overrides.transitPartner ?? null,
+    transitPartnerName: overrides.transitPartnerName ?? null,
+    channel: overrides.channel ?? null,
     description: overrides.description ?? null,
     lit: overrides.lit ?? null,
     priority: overrides.priority ?? 50,
@@ -81,6 +89,43 @@ describe('classification', () => {
     expect(result?.lit).toBe(false);
   });
 
+  it('gives wrecks their own class and keeps dangerous ones distinct', () => {
+    const dangerous = classifyTags({
+      'seamark:type': 'wreck',
+      'seamark:wreck:category': 'dangerous',
+    });
+    expect(dangerous?.category).toBe('hazard_danger');
+
+    for (const category of ['non-dangerous', 'hull_showing', undefined]) {
+      const tags: Record<string, string> = { 'seamark:type': 'wreck' };
+      if (category) tags['seamark:wreck:category'] = category;
+      expect(classifyTags(tags)?.category).toBe('wreck');
+    }
+
+    // A wreck is no longer lumped in with rocks and obstructions.
+    expect(classifyTags({ 'seamark:type': 'rock' })?.category).toBe('hazard');
+  });
+
+  it('separates transit front and rear lights from ordinary minor lights', () => {
+    const role = (category: string) =>
+      classifyTags({ 'seamark:type': 'light_minor', 'seamark:light:category': category })?.category;
+    expect(role('lower')).toBe('transit_front');
+    expect(role('upper')).toBe('transit_rear');
+    expect(role('front')).toBe('transit_front');
+    expect(role('rear')).toBe('transit_rear');
+    expect(role('upper;leading')).toBe('transit_rear');
+    expect(role('leading;front')).toBe('transit_front');
+    // A directional bearing light is not a transit, and a leading light with no
+    // role stays a generic range mark.
+    expect(role('bearing')).toBe('light');
+    expect(role('leading')).toBe('range');
+  });
+
+  it('plots wrecks that carry no seamark schema', () => {
+    expect(classifyTags({ historic: 'wreck' })?.category).toBe('wreck');
+    expect(classifyTags({ 'man_made': 'wreck' })?.category).toBe('wreck');
+  });
+
   it('drops areas, cables and unknown shoreline features', () => {
     expect(classifyTags({ 'seamark:type': 'cable_submarine' })).toBeNull();
     expect(classifyTags({ 'seamark:type': 'restricted_area' })).toBeNull();
@@ -89,6 +134,15 @@ describe('classification', () => {
 
   it('keeps lit nodes that only carry light tags', () => {
     expect(classifyTags({ 'seamark:light:character': 'Fl' })?.category).toBe('light');
+  });
+
+  it('plots anchorages, anchor berths and calling-in points', () => {
+    expect(classifyTags({ 'seamark:type': 'anchorage' })?.category).toBe('anchorage');
+    // Areas are plotted at their centre instead of being dropped with the
+    // cables and restricted zones.
+    expect(classifyTags({ 'seamark:type': 'anchorage_area' })?.category).toBe('anchorage');
+    expect(classifyTags({ 'seamark:type': 'anchor_berth' })?.category).toBe('anchor_berth');
+    expect(classifyTags({ 'seamark:type': 'calling-in_point' })?.category).toBe('calling_in_point');
   });
 });
 
@@ -116,6 +170,91 @@ describe('normalisation', () => {
     expect(navaid.source).toBe('osm');
   });
 
+  it('keeps the VHF channel of a calling-in point and the details of a berth', () => {
+    const calling = normalizeElement({
+      type: 'way',
+      id: 256521658,
+      center: { lat: 49.0262, lon: -123.6586 },
+      tags: {
+        'seamark:type': 'calling-in_point',
+        'seamark:name': '13 - West Porlier Pass',
+        'seamark:calling-in_point:channel': '11A',
+        'seamark:calling-in_point:traffic_flow': 'two-way',
+      },
+    }) as Navaid;
+    expect(calling.category).toBe('calling_in_point');
+    expect(calling.channel).toBe('11A');
+    expect(calling.name).toBe('13 - West Porlier Pass');
+
+    const berth = normalizeElement({
+      type: 'node',
+      id: 4343318617,
+      lat: 49.0181,
+      lon: -123.6281,
+      tags: {
+        'seamark:type': 'anchor_berth',
+        'seamark:name': 'Trincomali ANC 1',
+        'seamark:anchor_berth:category': 'tanker',
+        'seamark:anchor_berth:minimum_depth': '10',
+        'seamark:anchor_berth:radius': '170',
+      },
+    }) as Navaid;
+    expect(berth.category).toBe('anchor_berth');
+    expect(berth.description).toContain('10 m minimum depth');
+    expect(berth.description).toContain('170 m radius');
+    expect(berth.description).toContain('tanker');
+  });
+
+  it('keeps the line geometry of a calling-in point, with the icon at its midpoint', () => {
+    const line = normalizeElement({
+      type: 'way',
+      id: 256521658,
+      geometry: [
+        { lat: 49.0258, lon: -123.6712 },
+        { lat: 49.0266, lon: -123.6461 },
+        { lat: 49.0271, lon: -123.6209 },
+      ],
+      tags: { 'seamark:type': 'calling-in_point', 'seamark:calling-in_point:channel': '11A' },
+    }) as Navaid;
+
+    expect(line.path).toEqual([
+      [49.0258, -123.6712],
+      [49.0266, -123.6461],
+      [49.0271, -123.6209],
+    ]);
+    expect(line.lat).toBe(49.0266);
+    expect(line.lon).toBe(-123.6461);
+  });
+
+  it('describes a wreck by its water level', () => {
+    const wreck = normalizeElement({
+      type: 'node',
+      id: 9154493155,
+      lat: 50.6589,
+      lon: -1.5855,
+      tags: {
+        name: 'Alchemist',
+        'seamark:type': 'wreck',
+        'seamark:wreck:category': 'non-dangerous',
+        'seamark:wreck:water_level': 'submerged',
+      },
+    }) as Navaid;
+    expect(wreck.category).toBe('wreck');
+    expect(wreck.name).toBe('Alchemist');
+    expect(wreck.description).toBe('Submerged');
+  });
+
+  it('leaves point marks without a path', () => {
+    const buoy = normalizeElement({
+      type: 'node',
+      id: 9,
+      lat: 50.7,
+      lon: -1.3,
+      tags: { 'seamark:type': 'buoy_safe_water' },
+    }) as Navaid;
+    expect(buoy.path).toBeNull();
+  });
+
   it('uses way centres and skips elements without a position', () => {
     const center = normalizeElement({
       type: 'way',
@@ -125,6 +264,53 @@ describe('normalisation', () => {
     }) as Navaid;
     expect(center.lat).toBe(50.6);
     expect(normalizeElement({ type: 'way', id: 8, tags: { 'seamark:type': 'buoy_lateral' } })).toBeNull();
+  });
+});
+
+describe('transits', () => {
+  it('measures bearings clockwise from north', () => {
+    expect(Math.round(bearingDegrees(0, 0, 1, 0))).toBe(0);
+    expect(Math.round(bearingDegrees(0, 0, 0, 1))).toBe(90);
+  });
+
+  it('pairs the Inskip Islands lower and upper lights into a leading line', () => {
+    const lower = normalizeElement({
+      type: 'node',
+      id: 1223235782,
+      lat: 48.44193,
+      lon: -123.43896,
+      tags: {
+        'seamark:type': 'light_minor',
+        'seamark:light:category': 'lower',
+        'seamark:name': 'Inskip Islands',
+      },
+    }) as Navaid;
+    const upper = normalizeElement({
+      type: 'node',
+      id: 1199797501,
+      lat: 48.44271,
+      lon: -123.43865,
+      tags: { 'seamark:type': 'light_minor', 'seamark:light:category': 'upper' },
+    }) as Navaid;
+
+    const [front, rear] = annotateTransits([lower, upper]) as Navaid[];
+    expect(front.category).toBe('transit_front');
+    expect(rear.category).toBe('transit_rear');
+    // Front to rear is the course to steer with the two in line: NNE here.
+    expect(front.transitBearing).toBeGreaterThanOrEqual(12);
+    expect(front.transitBearing).toBeLessThanOrEqual(18);
+    expect(front.transitDistanceM).toBeGreaterThan(80);
+    expect(front.transitDistanceM).toBeLessThan(100);
+    expect(front.transitPartner).toBe(rear.id);
+    expect(rear.transitBearing).toBe(front.transitBearing);
+    expect(rear.transitPartnerName).toBe('Inskip Islands');
+  });
+
+  it('leaves an unpaired transit light without a bearing', () => {
+    const solo = mark({ category: 'transit_front', lat: 48.44, lon: -123.43 });
+    const [annotated] = annotateTransits([solo]) as Navaid[];
+    expect(annotated.transitBearing).toBeNull();
+    expect(annotated.transitPartner).toBeNull();
   });
 });
 

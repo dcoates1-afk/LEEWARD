@@ -37,7 +37,8 @@ const MIRRORS = [
 
 function query(bounds) {
   const [w, s, e, n] = bounds;
-  return `[out:json][timeout:120];(node["seamark:type"](${s},${w},${n},${e});way["seamark:type"](${s},${w},${n},${e});node["man_made"="lighthouse"](${s},${w},${n},${e});node["seamark:light:character"](${s},${w},${n},${e}););out center tags;`;
+  const box = `${s},${w},${n},${e}`;
+  return `[out:json][timeout:120];(node["seamark:type"](${box});way["seamark:type"](${box})["seamark:type"!="calling-in_point"];node["man_made"="lighthouse"](${box});node["seamark:light:character"](${box}););out center tags;way["seamark:type"="calling-in_point"](${box});out geom;`;
 }
 
 async function fetchRegion(region) {
@@ -47,7 +48,7 @@ async function fetchRegion(region) {
     try {
       const response = await fetch(mirror, {
         method: 'POST',
-        headers: { 'User-Agent': 'marnav-navaid-build/1.0', 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: { 'User-Agent': 'leeward-navaid-build/1.0', 'Content-Type': 'application/x-www-form-urlencoded' },
         body,
         signal: AbortSignal.timeout(150_000),
       });

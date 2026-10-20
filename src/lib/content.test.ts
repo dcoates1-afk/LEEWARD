@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { ALL_PARTS, partNames, searchColregs } from './colregsSearch';
 import { COLREGS, REGIONAL_NOTES } from '../data/colregs';
-import { TIDE_STATIONS, nearestTideStation } from './weather';
 
 describe('COLREGs reference', () => {
   it('ships the full international rule set plus regional notes', () => {
@@ -32,26 +31,5 @@ describe('COLREGs reference', () => {
 
   it('returns nothing for a miss', () => {
     expect(searchColregs('zeppelin')).toHaveLength(0);
-  });
-});
-
-describe('nearest tide station', () => {
-  it('picks the closest station inside the search radius', () => {
-    const result = nearestTideStation(40.71, -74.02);
-    expect(result?.station.id).toBe('8518750');
-    expect(result?.distanceKm).toBeLessThan(10);
-  });
-
-  it('returns null outside NOAA coverage', () => {
-    expect(nearestTideStation(50.76, -1.2)).toBeNull();
-  });
-
-  it('has unique station ids and plausible coordinates', () => {
-    const ids = new Set(TIDE_STATIONS.map((station) => station.id));
-    expect(ids.size).toBe(TIDE_STATIONS.length);
-    for (const station of TIDE_STATIONS) {
-      expect(Math.abs(station.lat)).toBeLessThanOrEqual(90);
-      expect(Math.abs(station.lon)).toBeLessThanOrEqual(180);
-    }
   });
 });

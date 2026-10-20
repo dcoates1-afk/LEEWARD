@@ -1,5 +1,5 @@
 /**
- * MARNAV shared chart core.
+ * LEEWARD shared chart core.
  *
  * Plain ESM so the browser app, the vitest suite and the offline database
  * builder all run the *same* classification code. If ingest and rendering
@@ -31,12 +31,15 @@ const AREA_TYPES = new Set([
   'production_area',
   'military_area',
   'safety_area',
-  'anchorage_area',
 ]);
 
 const PRIORITY = {
   major_light: 100,
   range: 96,
+  // Transit (leading) lights define the line to steer; they belong beside the
+  // ranges and above every buoy in the declutter order.
+  transit_front: 88,
+  transit_rear: 88,
   isolated_danger: 94,
   safe_water: 92,
   cardinal_north: 90,
@@ -48,6 +51,16 @@ const PRIORITY = {
   lateral_starboard: 84,
   lateral_port: 84,
   hazard_danger: 78,
+  // Calling-in points are harbour-control reporting lines, so they matter as
+  // much as a buoy when planning an approach through a narrow pass.
+  calling_in_point: 76,
+  // Anchorage grounds outrank generic hazards: they are where a passage ends
+  // for the night, so dropping them in a dense harbour is the wrong trade.
+  anchorage: 74,
+  // A charted wreck is not just another hazard: it keeps its own class and
+  // symbol, and outranks rocks and obstructions when the chart declutters.
+  wreck: 71,
+  anchor_berth: 73,
   light: 66,
   hazard: 60,
   lateral_other: 55,
@@ -56,7 +69,6 @@ const PRIORITY = {
   marina: 40,
   notice: 34,
   facility: 30,
-  anchorage: 26,
   mooring: 14,
   gate: 24,
   other: 10,
@@ -65,14 +77,16 @@ const PRIORITY = {
 const MIN_ZOOM = {
   major_light: 7,
   range: 9,
+  transit_front: 11,
+  transit_rear: 11,
   isolated_danger: 11,
   safe_water: 11,
   cardinal_north: 11,
   cardinal_east: 11,
   cardinal_south: 11,
   cardinal_west: 11,
-  preferred_channel_port: 12,
-  preferred_channel_starboard: 12,
+  preferred_channel_port: 11,
+  preferred_channel_starboard: 11,
   lateral_starboard: 13,
   lateral_port: 13,
   hazard_danger: 13,
@@ -84,7 +98,10 @@ const MIN_ZOOM = {
   marina: 13,
   notice: 14,
   facility: 14,
-  anchorage: 13,
+  calling_in_point: 11,
+  wreck: 12,
+  anchorage: 12,
+  anchor_berth: 12,
   mooring: 16,
   gate: 15,
   other: 15,
@@ -120,17 +137,35 @@ function formFor(type, tags) {
   return 'mark';
 }
 
+/**
+ * Seamark light categories are semicolon lists: a range light is often tagged
+ * `upper;leading` or `lower;leading`, so a plain equality check misses it.
+ */
+function categoryTokens(category) {
+  return (category || '')
+    .split(';')
+    .map((token) => token.trim().toLowerCase())
+    .filter(Boolean);
+}
+
 function isLeading(tags, type, category) {
-  if (category === 'leading' || category === 'rear' || category === 'front') return true;
-  if (tags['seamark:light:category'] === 'leading') return true;
-  if (tags['seamark:light:category'] === 'rear' || tags['seamark:light:category'] === 'front') return true;
+  const tokens = categoryTokens(category);
+  if (tokens.some((token) => ['leading', 'rear', 'front', 'upper', 'lower'].includes(token))) return true;
   // Range markers are often tagged only through the type or the name.
   if (type === 'leading_light' || type === 'range_marker' || type === 'leading_beacon') return true;
-  const name = (tags.name || '').toLowerCase();
+  const name = (tags.name || tags['seamark:name'] || '').toLowerCase();
   if (type.startsWith('light') || type.startsWith('beacon')) {
     if (/\brange\b|\bleading\b/.test(name)) return true;
   }
   return false;
+}
+
+/** Which end of the leading line the mark is: front/lower or rear/upper. */
+function transitRoleFor(category) {
+  const tokens = categoryTokens(category);
+  if (tokens.includes('front') || tokens.includes('lower')) return 'front';
+  if (tokens.includes('rear') || tokens.includes('upper')) return 'rear';
+  return null;
 }
 
 function lateralCategory(category) {
@@ -158,6 +193,7 @@ export function classifyTags(tags) {
   const form = formFor(type, tags);
   const lit = Boolean(lightChar || tags['seamark:light:colour'] || tags['seamark:light:range']);
   const leading = isLeading(tags, type, category);
+  const transitRole = transitRoleFor(category);
   const base = { form, priority: PRIORITY.other, lit };
 
   if (!type) {
@@ -165,8 +201,27 @@ export function classifyTags(tags) {
       return { ...base, category: 'major_light', priority: PRIORITY.major_light, lit: true };
     }
     if (lightChar) return { ...base, category: 'light', priority: PRIORITY.light };
+    // Some wrecks are mapped without the seamark schema at all.
+    if (tags['man_made'] === 'wreck' || tags['historic'] === 'wreck') {
+      return { ...base, category: 'wreck', priority: PRIORITY.wreck };
+    }
     return null;
   }
+
+  // Anchorages, anchor berths and calling-in points are plotted as points even
+  // when OSM maps them as an area or a line: the centre is the useful place.
+  // They used to fall through to the null at the end of this function, which is
+  // why Canadian anchor berths showed on OpenSeaMap but not in this overlay.
+  if (type === 'anchorage' || type === 'anchorage_area') {
+    return { ...base, category: 'anchorage', priority: PRIORITY.anchorage };
+  }
+  if (type === 'anchor_berth') {
+    return { ...base, category: 'anchor_berth', priority: PRIORITY.anchor_berth };
+  }
+  if (type === 'calling_in_point' || type === 'calling-in_point') {
+    return { ...base, category: 'calling_in_point', priority: PRIORITY.calling_in_point };
+  }
+
   if (AREA_TYPES.has(type)) return null;
 
   if (type === 'lighthouse' || type === 'landmark' || type === 'mast' || type === 'tower') {
@@ -177,6 +232,10 @@ export function classifyTags(tags) {
   }
 
   if (type.startsWith('light') || type === 'leading_light') {
+    if (leading && transitRole) {
+      const key = `transit_${transitRole}`;
+      return { ...base, category: key, priority: PRIORITY[key], lit: true };
+    }
     if (leading) return { ...base, category: 'range', priority: PRIORITY.range, lit: true };
     if (type === 'light_major') return { ...base, category: 'major_light', priority: PRIORITY.major_light, lit: true };
     return { ...base, category: 'light', priority: PRIORITY.light, lit: true };
@@ -208,11 +267,13 @@ export function classifyTags(tags) {
   }
 
   if (type === 'wreck') {
-    const dangerous = category === 'dangerous' || category === 'hull_showing';
+    // Only a wreck the source calls dangerous keeps the danger symbol; a
+    // visible hull or a non-dangerous wreck is a wreck, not a generic hazard.
+    const dangerous = category === 'dangerous';
     return {
       ...base,
-      category: dangerous ? 'hazard_danger' : 'hazard',
-      priority: dangerous ? PRIORITY.hazard_danger : PRIORITY.hazard,
+      category: dangerous ? 'hazard_danger' : 'wreck',
+      priority: dangerous ? PRIORITY.hazard_danger : PRIORITY.wreck,
     };
   }
 
@@ -245,10 +306,6 @@ export function classifyTags(tags) {
     return { ...base, category: 'facility', priority: PRIORITY.facility };
   }
 
-  if (type === 'anchorage') {
-    return { ...base, category: 'anchorage', priority: PRIORITY.anchorage };
-  }
-
   // Unknown but lit point marks still deserve plotting.
   if (lit && !AREA_TYPES.has(type)) {
     return { ...base, category: 'light', priority: PRIORITY.light };
@@ -277,6 +334,94 @@ export function distanceMeters(aLat, aLon, bLat, bLon) {
   return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
 }
 
+/** Initial great-circle bearing from one point to another, 0-360° true. */
+export function bearingDegrees(fromLat, fromLon, toLat, toLon) {
+  const toRad = (value) => (value * Math.PI) / 180;
+  const phi1 = toRad(fromLat);
+  const phi2 = toRad(toLat);
+  const deltaLon = toRad(toLon - fromLon);
+  const y = Math.sin(deltaLon) * Math.cos(phi2);
+  const x = Math.cos(phi1) * Math.sin(phi2) - Math.sin(phi1) * Math.cos(phi2) * Math.cos(deltaLon);
+  return ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
+}
+
+/**
+ * OSM stores the two lights of a transit separately, so the leading line only
+ * exists once they are paired. Match each front/lower light to the nearest
+ * rear/upper light within a few kilometres and annotate both with the bearing
+ * they define, the distance apart and each other's identity. The bearing is
+ * measured front to rear: the course to steer with both in line.
+ */
+export function annotateTransits(items, options = {}) {
+  const maxDistance = options.maxDistanceM ?? 3000;
+  const out = items.map((item) => ({ ...item }));
+  const fronts = out.filter((item) => item.category === 'transit_front');
+  const rears = out.filter((item) => item.category === 'transit_rear');
+  if (fronts.length === 0 || rears.length === 0) return out;
+
+  const taken = new Set();
+  for (const front of fronts) {
+    let best = null;
+    let bestDistance = Infinity;
+    for (const rear of rears) {
+      if (taken.has(rear.id)) continue;
+      const metres = distanceMeters(front.lat, front.lon, rear.lat, rear.lon);
+      if (metres > maxDistance || metres >= bestDistance) continue;
+      best = rear;
+      bestDistance = metres;
+    }
+    if (!best) continue;
+    taken.add(best.id);
+
+    const bearing = Math.round(bearingDegrees(front.lat, front.lon, best.lat, best.lon));
+    for (const [mark, partner] of [
+      [front, best],
+      [best, front],
+    ]) {
+      mark.transitBearing = bearing;
+      mark.transitDistanceM = Math.round(bestDistance);
+      mark.transitPartner = partner.id;
+      // Unnamed range lights are common; name the partner by its role so the
+      // sheet still says what it is lined up with.
+      mark.transitPartnerName = partner.name ?? CATEGORY_LABELS[partner.category] ?? null;
+    }
+  }
+  return out;
+}
+
+/**
+ * Anchor berths carry their usable depth and swinging circle as tags. That is
+ * the information a navigator needs before committing to the berth, so it is
+ * folded into the description the reference sheet already shows.
+ */
+function berthDetail(type, tags) {
+  if (type !== 'anchor_berth') return null;
+  const parts = [
+    tags['seamark:anchor_berth:minimum_depth']
+      ? `${tags['seamark:anchor_berth:minimum_depth']} m minimum depth`
+      : null,
+    tags['seamark:anchor_berth:radius'] ? `${tags['seamark:anchor_berth:radius']} m radius` : null,
+    tags['seamark:anchor_berth:category'] ? `${tags['seamark:anchor_berth:category']} berth` : null,
+  ].filter(Boolean);
+  return parts.length > 0 ? parts.join(' · ') : null;
+}
+
+/**
+ * Wreck detail: whether it is awash or submerged, and its charted depth, is the
+ * difference between clearing it and hitting it, so it belongs on the sheet.
+ */
+function wreckDetail(type, tags) {
+  if (type !== 'wreck') return null;
+  const water = tags['seamark:wreck:water_level'];
+  const depth = tags['seamark:wreck:depth'];
+  const parts = [
+    water ? water.replace(/_/g, ' ') : null,
+    depth ? `${depth} m charted depth` : null,
+  ].filter(Boolean);
+  if (parts.length === 0) return null;
+  return parts.join(' · ').replace(/^./, (c) => c.toUpperCase());
+}
+
 /** Turn one Overpass element into a chart mark, or null if it is not one. */
 export function normalizeElement(element, regionId = null, source = 'osm') {
   if (!element) return null;
@@ -285,8 +430,19 @@ export function normalizeElement(element, regionId = null, source = 'osm') {
   const classified = classifyTags(tags);
   if (!classified) return null;
 
-  const lat = element.lat ?? element.center?.lat;
-  const lon = element.lon ?? element.center?.lon;
+  // Overpass `out geom` returns the way's node positions. Calling-in points are
+  // reporting lines across a channel, so the line itself is charted; everything
+  // else is stored as the single point it already was.
+  const path = Array.isArray(element.geometry)
+    ? element.geometry
+        .filter((point) => typeof point?.lat === 'number' && typeof point?.lon === 'number')
+        .map((point) => [point.lat, point.lon])
+    : [];
+  const drawnAsLine = path.length >= 2;
+  const midpoint = drawnAsLine ? path[Math.floor(path.length / 2)] : null;
+
+  const lat = element.lat ?? element.center?.lat ?? midpoint?.[0];
+  const lon = element.lon ?? element.center?.lon ?? midpoint?.[1];
   if (typeof lat !== 'number' || typeof lon !== 'number') return null;
 
   const kind = element.type || 'node';
@@ -315,7 +471,17 @@ export function normalizeElement(element, regionId = null, source = 'osm') {
     shape,
     height: firstTag(tags, [`seamark:${type}:height`, 'seamark:light:height', 'height']),
     range: firstTag(tags, ['seamark:light:range']),
-    description: firstTag(tags, ['description', 'note']),
+    path: drawnAsLine ? path : null,
+    // Filled in by annotateTransits once the other end of the transit is known.
+    transitBearing: null,
+    transitDistanceM: null,
+    transitPartner: null,
+    transitPartnerName: null,
+    channel: firstTag(tags, [`seamark:${type}:channel`, 'seamark:radio_station:channel']),
+    description:
+      firstTag(tags, ['description', 'note']) ??
+      berthDetail(type, tags) ??
+      wreckDetail(type, tags),
     lit: classified.lit,
     priority: classified.priority,
     source,
@@ -466,7 +632,12 @@ export const CATEGORY_LABELS = {
   marina: 'Marina / harbour',
   facility: 'Small craft facility',
   mooring: 'Mooring',
+  transit_front: 'Transit front (lower)',
+  transit_rear: 'Transit rear (higher)',
+  wreck: 'Wreck',
   anchorage: 'Anchorage',
+  anchor_berth: 'Anchor berth',
+  calling_in_point: 'Calling-in point',
   notice: 'Notice mark',
   gate: 'Gate / start-finish mark',
   other: 'Mark',

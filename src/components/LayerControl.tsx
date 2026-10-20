@@ -1,9 +1,14 @@
 import type { ReactNode } from 'react';
-import type { BaseLayerId, ChartPreferences } from '../lib/chartPreferences';
+import type { BaseLayerId, ChartPreferences, ThemeId } from '../lib/chartPreferences';
 import type { GpsMode } from '../lib/gpsPreference';
 import type { GeoStatus } from '../hooks/useGeolocation';
 import type { StationTab } from '../lib/station';
 import { STATION_LABELS } from '../lib/station';
+import { symbolFor } from '../lib/navaids';
+import { NAVAID_GROUPS, isGroupHidden, toggleGroup } from '../lib/navaidGroups';
+import { POI_GROUPS, isPoiGroupHidden, togglePoiGroup } from '../lib/poiGroups';
+import { poiIconSvg } from '../lib/pois';
+import { formatBytes } from '../lib/noaaChart';
 
 export interface MarkStats {
   shown: number;
@@ -30,17 +35,16 @@ interface LayerControlProps {
   onGpsMode: (mode: GpsMode) => void;
   geoStatus: GeoStatus;
   geoError: string | null;
-  onZoomIn: () => void;
-  onZoomOut: () => void;
-  onCentre: () => void;
   markStats: MarkStats;
   dbInfo: DbInfo | null;
   onCheckUpdates: () => void;
   checking: boolean;
   checkMessage: string | null;
+  chartCache: { tiles: number; bytes: number } | null;
   station: StationTab | null;
   onStation: (tab: StationTab | null) => void;
   noaaCovered: boolean;
+  legendRegion: 'A' | 'B';
   hidden?: boolean;
 }
 
@@ -130,17 +134,16 @@ export function LayerControl({
   onGpsMode,
   geoStatus,
   geoError,
-  onZoomIn,
-  onZoomOut,
-  onCentre,
   markStats,
   dbInfo,
   onCheckUpdates,
   checking,
   checkMessage,
+  chartCache,
   station,
   onStation,
   noaaCovered,
+  legendRegion,
   hidden = false,
 }: LayerControlProps) {
   const setBase = (base: BaseLayerId) => onChange({ ...preferences, base });
@@ -152,7 +155,7 @@ export function LayerControl({
       <button
         type="button"
         className={`menu-button ${open ? 'open' : ''} ${hidden || open ? 'is-hidden' : ''}`}
-        aria-label={open ? 'Close chart menu' : 'Open chart menu'}
+        aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
         onClick={() => onOpen(!open)}
       >
@@ -168,17 +171,18 @@ export function LayerControl({
             />
           )}
         </svg>
-        <span className="menu-button-label">Chart</span>
+        <span className="menu-button-label">Menu</span>
       </button>
 
       {open && (
         <>
           <div className="scrim" onClick={() => onOpen(false)} role="presentation" />
-          <section className="menu-panel" role="dialog" aria-modal="true" aria-label="Chart menu">
+          <section className="menu-panel" role="dialog" aria-modal="true" aria-label="Menu">
             <header className="menu-head">
               <div>
-                <p className="eyebrow">MARNAV</p>
-                <h2>Chart menu</h2>
+                <p className="eyebrow">LEEWARD</p>
+                <h2>Menu</h2>
+                <p className="menu-tagline">Maritime Navigation, Planning and Tracking</p>
               </div>
               <button type="button" className="icon-button" onClick={() => onOpen(false)} aria-label="Close menu">
                 <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
@@ -202,19 +206,119 @@ export function LayerControl({
                   onSelect={() => setBase('satellite')}
                 />
                 <RadioRow
+                  label="Nautical"
+                  hint="Esri ocean base · bathymetry and sea names"
+                  active={preferences.base === 'nautical'}
+                  onSelect={() => setBase('nautical')}
+                />
+                <RadioRow
+                  label="Relief"
+                  hint="Esri shaded relief · land and seabed"
+                  active={preferences.base === 'relief'}
+                  onSelect={() => setBase('relief')}
+                />
+                <RadioRow
                   label="NOAA ENC"
-                  hint="US waters · ArcGIS chart display"
+                  hint="US waters · detailed ArcGIS chart display"
                   active={preferences.base === 'noaa'}
                   onSelect={() => setBase('noaa')}
+                />
+                <RadioRow
+                  label="NOAA Raster"
+                  hint="US waters · current chart display (replaces retired RNC tiles)"
+                  active={preferences.base === 'rnc'}
+                  onSelect={() => setBase('rnc')}
                 />
                 {preferences.base === 'noaa' && !noaaCovered && (
                   <p className="inline-warning">
                     This position is outside US chart coverage. Pan to US waters or pick another base chart.
                   </p>
                 )}
+                {preferences.base === 'rnc' && !noaaCovered && (
+                  <p className="inline-warning">
+                    This position is outside US chart coverage. Pan to US waters or pick another base chart.
+                  </p>
+                )}
+              </Section>
+
+              <Section title="Display">
+                <div className="segmented segmented-three" role="radiogroup" aria-label="Chart theme">
+                  {(['day', 'night', 'red'] as ThemeId[]).map((theme) => (
+                    <button
+                      key={theme}
+                      type="button"
+                      role="radio"
+                      aria-checked={preferences.theme === theme}
+                      className={preferences.theme === theme ? 'active' : ''}
+                      onClick={() => onChange({ ...preferences, theme })}
+                    >
+                      {theme === 'day' ? 'Day' : theme === 'night' ? 'Night' : 'Red'}
+                    </button>
+                  ))}
+                </div>
+                <p className="menu-note">
+                  {preferences.theme === 'day'
+                    ? 'Full colour chart and panels.'
+                    : preferences.theme === 'night'
+                      ? 'Dimmed chart and panels for low light on deck.'
+                      : 'Red-only palette to protect night vision; symbols keep their shapes.'}
+                </p>
               </Section>
 
               <Section title="Overlays">
+                <ToggleRow
+                  label="Depth contours"
+                  hint="NOAA ENC isobaths in US waters (zoom 9+), GEBCO elsewhere"
+                  checked={preferences.overlays.contours}
+                  onChange={(value) => setOverlay('contours', value)}
+                />
+                {preferences.overlays.contours && !noaaCovered && (
+                  <p className="menu-note">
+                    Outside US waters contours come from GEBCO's global 15″ grid, so they are an overview
+                    rather than a harbour survey.
+                  </p>
+                )}
+                <ToggleRow
+                  label="Depth numbers"
+                  hint="Modelled labels in metres · GEBCO global, EMODnet from zoom 14 · zoom 12+"
+                  checked={preferences.overlays.depthLabels}
+                  onChange={(value) => setOverlay('depthLabels', value)}
+                />
+                {preferences.overlays.depthLabels && (
+                  <p className="menu-note">
+                    Sampled from seabed grids, not surveyed chart soundings. Use them to read the shape of the
+                    seabed, never to plan a safe depth.
+                  </p>
+                )}
+                <ToggleRow
+                  label="Charted soundings"
+                  hint="NOAA ENC spot depths in the chart's printed unit · US waters, zoom 15+"
+                  checked={preferences.overlays.soundings}
+                  onChange={(value) => setOverlay('soundings', value)}
+                />
+                {preferences.overlays.soundings && !noaaCovered && (
+                  <p className="inline-warning">
+                    Charted soundings come from NOAA ENC and only cover US waters. The overlay stays off this chart
+                    until you pan to a US harbour; depth contours fall back to GEBCO here.
+                  </p>
+                )}
+                <div className="depth-units" data-testid="depth-units">
+                  <h4>Depth measurements</h4>
+                  <dl>
+                    <div>
+                      <dt>Depth numbers</dt>
+                      <dd>Metres below sea level · modelled seabed sample</dd>
+                    </div>
+                    <div>
+                      <dt>Charted soundings</dt>
+                      <dd>NOAA ENC spot depths · the chart's printed unit (feet or metres)</dd>
+                    </div>
+                    <div>
+                      <dt>Contours</dt>
+                      <dd>NOAA ENC chart unit in US waters · metres from GEBCO elsewhere</dd>
+                    </div>
+                  </dl>
+                </div>
                 <ToggleRow
                   label="OpenSeaMap seamarks"
                   hint="Transparent raster over any base chart"
@@ -229,22 +333,90 @@ export function LayerControl({
                 />
                 <ToggleRow
                   label="Ferry lanes"
-                  hint="Charted ferry routes"
+                  hint="Charted crossings · Solent, Channel ports and New York"
                   checked={preferences.overlays.ferries}
                   onChange={(value) => setOverlay('ferries', value)}
                 />
                 <ToggleRow
                   label="TSS lanes"
-                  hint="Traffic separation schemes"
+                  hint="Traffic separation schemes · English Channel and Dover Strait"
                   checked={preferences.overlays.tss}
                   onChange={(value) => setOverlay('tss', value)}
                 />
+                {(preferences.overlays.ferries || preferences.overlays.tss) && (
+                  <p className="menu-note">
+                    Routes are community-mapped OpenStreetMap data drawn in their own layer: ferries as dashed cyan
+                    lines, traffic separation lanes in magenta (amber for separation zones). Nothing appears where OSM
+                    has no mapped route, so pan to the Solent, the Channel or New York to see them.
+                  </p>
+                )}
                 <ToggleRow
                   label="AIS targets"
                   hint="Live vessel positions on the chart"
                   checked={preferences.overlays.ais}
                   onChange={(value) => setOverlay('ais', value)}
                 />
+              </Section>
+
+              <Section
+                title="Public places"
+                hint="Marinas, fuel, chandlery, ramps, food and facilities from OpenStreetMap."
+              >
+                <ToggleRow
+                  label="Show public places"
+                  hint="Tap a pin for contact details · zoom 11+"
+                  checked={preferences.overlays.pois}
+                  onChange={(value) => setOverlay('pois', value)}
+                />
+                {preferences.overlays.pois && (
+                  <>
+                    <p className="menu-note">
+                      Places are community-mapped and can be out of date. Tap a class to show or hide it; the
+                      choice is remembered on this device.
+                    </p>
+                    <ul className="legend-grid poi-legend">
+                      {POI_GROUPS.map((group) => {
+                        const hidden = isPoiGroupHidden(preferences.hiddenPoiGroups, group.id);
+                        return (
+                          <li key={group.id}>
+                            <button
+                              type="button"
+                              role="switch"
+                              aria-checked={!hidden}
+                              aria-label={`${group.label} — ${hidden ? 'hidden' : 'shown'}`}
+                              className={`legend-item ${hidden ? 'is-off' : ''}`}
+                              data-poi-group={group.id}
+                              onClick={() =>
+                                onChange({
+                                  ...preferences,
+                                  hiddenPoiGroups: togglePoiGroup(preferences.hiddenPoiGroups, group.id),
+                                })
+                              }
+                            >
+                              <span
+                                className="poi-chip"
+                                style={{ background: group.colour }}
+                                dangerouslySetInnerHTML={{ __html: poiIconSvg(group.id, 18) }}
+                                aria-hidden="true"
+                              />
+                              <span className="legend-label">{group.label}</span>
+                              <span className="legend-state">{hidden ? 'Off' : 'On'}</span>
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                    {preferences.hiddenPoiGroups.length > 0 && (
+                      <button
+                        type="button"
+                        className="secondary-button legend-reset"
+                        onClick={() => onChange({ ...preferences, hiddenPoiGroups: [] })}
+                      >
+                        Show every place class
+                      </button>
+                    )}
+                  </>
+                )}
               </Section>
 
               <Section title="Chart detail">
@@ -258,23 +430,51 @@ export function LayerControl({
                   {markStats.shown} of {markStats.total} aids in view ·{' '}
                   {markStats.live ? 'live Overpass query' : markStats.cached ? 'device cache' : 'mark database'}
                 </p>
-              </Section>
-
-              <Section title="Chart actions">
-                <div className="action-grid">
-                  <button type="button" className="secondary-button" onClick={onZoomIn}>
-                    Zoom in
-                  </button>
-                  <button type="button" className="secondary-button" onClick={onZoomOut}>
-                    Zoom out
-                  </button>
-                  <button type="button" className="secondary-button" onClick={onCentre} disabled={geoStatus !== 'active'}>
-                    Centre on vessel
-                  </button>
-                  <button type="button" className="secondary-button" onClick={() => onOpen(false)}>
-                    Back to chart
-                  </button>
-                </div>
+                <details className="legend">
+                  <summary>Legend &amp; mark filters (IALA region {legendRegion})</summary>
+                  <p className="legend-hint">
+                    Tap a class to show or hide it on the chart. Choices are remembered on this device.
+                  </p>
+                  <ul className="legend-grid">
+                    {NAVAID_GROUPS.map((group) => {
+                      const spec = symbolFor(group.symbol, legendRegion);
+                      const svg = spec.svg.replace('width="32" height="32"', 'width="26" height="26"');
+                      const hidden = isGroupHidden(preferences.hiddenGroups, group.id);
+                      return (
+                        <li key={group.id}>
+                          <button
+                            type="button"
+                            role="switch"
+                            aria-checked={!hidden}
+                            aria-label={`${group.label} — ${hidden ? 'hidden' : 'shown'}`}
+                            className={`legend-item ${hidden ? 'is-off' : ''}`}
+                            data-group={group.id}
+                            onClick={() =>
+                              onChange({ ...preferences, hiddenGroups: toggleGroup(preferences.hiddenGroups, group.id) })
+                            }
+                          >
+                            <span
+                              className="legend-symbol"
+                              dangerouslySetInnerHTML={{ __html: svg }}
+                              aria-hidden="true"
+                            />
+                            <span className="legend-label">{group.label}</span>
+                            <span className="legend-state">{hidden ? 'Off' : 'On'}</span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  {preferences.hiddenGroups.length > 0 && (
+                    <button
+                      type="button"
+                      className="secondary-button legend-reset"
+                      onClick={() => onChange({ ...preferences, hiddenGroups: [] })}
+                    >
+                      Show every mark class
+                    </button>
+                  )}
+                </details>
               </Section>
 
               <Section
@@ -329,7 +529,12 @@ export function LayerControl({
                 ))}
               </Section>
 
-              <Section title="Mark database" hint={checkMessage ?? undefined}>
+              <Section title="Mark database">
+                {checkMessage && (
+                  <p className="menu-note" data-testid="check-message" role="status">
+                    {checkMessage}
+                  </p>
+                )}
                 {dbInfo ? (
                   <>
                     <dl className="db-grid">
@@ -355,6 +560,11 @@ export function LayerControl({
                       {dbInfo.checkedAt
                         ? `Last checked ${new Date(dbInfo.checkedAt).toLocaleDateString()} · rechecked weekly`
                         : 'Weekly update check pending'}
+                    </p>
+                    <p className="menu-note" data-testid="chart-cache">
+                      {chartCache
+                        ? `NOAA chart cache: ${chartCache.tiles} tiles · ${formatBytes(chartCache.bytes)}`
+                        : 'NOAA chart cache: checking…'}
                     </p>
                   </>
                 ) : (

@@ -1,4 +1,4 @@
-import type { AisState, AisVessel } from '../lib/ais';
+import type { AisScope, AisState, AisVessel } from '../lib/ais';
 import { STATION_LABELS } from '../lib/station';
 import type { StationTab } from '../lib/station';
 import { AisPanel } from './AisPanel';
@@ -12,6 +12,7 @@ interface StationDrawerProps {
   aisState: AisState;
   aisVessels: AisVessel[];
   aisNote: string | null;
+  aisScope: AisScope | null;
   center: [number, number];
   showAisOnChart: boolean;
   onToggleAisChart: (value: boolean) => void;
@@ -28,6 +29,7 @@ export function StationDrawer({
   aisState,
   aisVessels,
   aisNote,
+  aisScope,
   center,
   showAisOnChart,
   onToggleAisChart,
@@ -74,6 +76,7 @@ export function StationDrawer({
             state={aisState}
             vessels={aisVessels}
             note={aisNote}
+            scope={aisScope}
             center={center}
             showOnChart={showAisOnChart}
             onToggleChart={onToggleAisChart}

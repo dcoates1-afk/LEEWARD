@@ -12,8 +12,11 @@ export type NavaidCategory =
   | 'isolated_danger'
   | 'special_purpose'
   | 'range'
+  | 'transit_front'
+  | 'transit_rear'
   | 'major_light'
   | 'light'
+  | 'wreck'
   | 'hazard'
   | 'hazard_danger'
   | 'landmark'
@@ -21,6 +24,8 @@ export type NavaidCategory =
   | 'facility'
   | 'mooring'
   | 'anchorage'
+  | 'anchor_berth'
+  | 'calling_in_point'
   | 'notice'
   | 'gate'
   | 'other';
@@ -43,6 +48,12 @@ export interface Navaid {
   shape: string | null;
   height: string | null;
   range: string | null;
+  path: [number, number][] | null;
+  transitBearing: number | null;
+  transitDistanceM: number | null;
+  transitPartner: string | null;
+  transitPartnerName: string | null;
+  channel: string | null;
   description: string | null;
   lit: boolean | null;
   priority: number;
@@ -72,6 +83,11 @@ export function normalizeElement(
   source?: string,
 ): Navaid | null;
 export function distanceMeters(lat1: number, lon1: number, lat2: number, lon2: number): number;
+export function bearingDegrees(fromLat: number, fromLon: number, toLat: number, toLon: number): number;
+export function annotateTransits(
+  items: Navaid[],
+  options?: { maxDistanceM?: number },
+): Navaid[];
 export function dedupeNavaids(
   items: Navaid[],
   options?: { distanceM?: number },

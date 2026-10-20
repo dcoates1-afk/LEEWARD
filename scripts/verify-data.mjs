@@ -94,10 +94,76 @@ check(
   [...new Set(lanes.tss.map((f) => f.type))].join(', '),
 );
 check(
+  'TSS coverage reaches the English Channel',
+  lanes.tss.filter((feature) => feature.path.some(([, lon]) => lon < -2)).length >= 20,
+  `${lanes.tss.filter((feature) => feature.path.some(([, lon]) => lon < -2)).length} features west of 2°W`,
+);
+check(
+  'ferry coverage reaches the Channel crossings',
+  lanes.ferries.filter((route) => route.path.some(([, lon]) => lon < -3)).length >= 40,
+  `${lanes.ferries.filter((route) => route.path.some(([, lon]) => lon < -3)).length} routes west of 3°W`,
+);
+check(
+  'every lane feature is named for its tooltip',
+  [...lanes.ferries, ...lanes.tss].every((feature) => typeof feature.name === 'string' && feature.name.length > 0),
+);
+check(
   'lane coordinates are valid',
   [...lanes.ferries, ...lanes.tss].every((feature) =>
     feature.path.every(([lat, lon]) => Math.abs(lat) <= 90 && Math.abs(lon) <= 180),
   ),
+);
+
+const currentStations = JSON.parse(readFileSync(resolve(root, 'src/data/currentStations.json'), 'utf8'));
+check(
+  'bundled NOAA current-station index is present',
+  Array.isArray(currentStations) && currentStations.length > 2000,
+  `${currentStations.length} stations`,
+);
+check(
+  'current stations carry an id, a name and a position',
+  currentStations.every(
+    ([id, name, lat, lon]) =>
+      typeof id === 'string' &&
+      id.length > 0 &&
+      typeof name === 'string' &&
+      name.length > 0 &&
+      Number.isFinite(lat) &&
+      Number.isFinite(lon) &&
+      lat >= 17 &&
+      lat <= 72 &&
+      lon >= -180 &&
+      lon <= 180,
+  ),
+);
+check(
+  'current-station ids are unique',
+  new Set(currentStations.map(([id]) => id)).size === currentStations.length,
+);
+
+const tideStations = JSON.parse(readFileSync(resolve(root, 'src/data/tideStations.json'), 'utf8'));
+check(
+  'bundled NOAA tide-station index is present',
+  Array.isArray(tideStations) && tideStations.length > 3000,
+  `${tideStations.length} stations`,
+);
+check(
+  'tide stations carry an id, a name and a position',
+  tideStations.every(
+    ([id, name, lat, lon]) =>
+      typeof id === 'string' &&
+      id.length > 0 &&
+      typeof name === 'string' &&
+      name.length > 0 &&
+      Number.isFinite(lat) &&
+      Number.isFinite(lon) &&
+      Math.abs(lat) <= 90 &&
+      Math.abs(lon) <= 180,
+  ),
+);
+check(
+  'tide-station ids are unique',
+  new Set(tideStations.map(([id]) => id)).size === tideStations.length,
 );
 
 const failed = checks.filter((entry) => !entry.ok);

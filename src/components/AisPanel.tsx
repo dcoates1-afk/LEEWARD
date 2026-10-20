@@ -1,12 +1,23 @@
 import { useMemo } from 'react';
 import { distanceMeters } from '../../shared/navaid-core.mjs';
-import type { AisState, AisVessel } from '../lib/ais';
-import { relativeAge, vesselLabel } from '../lib/ais';
+import type { AisScope, AisState, AisVessel } from '../lib/ais';
+import { relativeAge, scopeLabel, vesselLabel } from '../lib/ais';
+import {
+  VESSEL_KIND_COLOURS,
+  VESSEL_KIND_LABELS,
+  navStatusLabel,
+  vesselKind,
+  vesselKindLabel,
+  vesselSwatchSvg,
+} from '../lib/aisVessel';
+import type { VesselKind } from '../lib/aisVessel';
+import { vesselCountry } from '../lib/mmsi';
 
 interface AisPanelProps {
   state: AisState;
   vessels: AisVessel[];
   note: string | null;
+  scope: AisScope | null;
   center: [number, number];
   showOnChart: boolean;
   onToggleChart: (value: boolean) => void;
@@ -23,7 +34,16 @@ const STATE_LABEL: Record<AisState, string> = {
   closed: 'Closed',
 };
 
-export function AisPanel({ state, vessels, note, center, showOnChart, onToggleChart, onFocusVessel }: AisPanelProps) {
+export function AisPanel({
+  state,
+  vessels,
+  note,
+  scope,
+  center,
+  showOnChart,
+  onToggleChart,
+  onFocusVessel,
+}: AisPanelProps) {
   const sorted = useMemo(() => {
     return [...vessels]
       .map((vessel) => ({
@@ -34,12 +54,27 @@ export function AisPanel({ state, vessels, note, center, showOnChart, onToggleCh
       .slice(0, 60);
   }, [vessels, center]);
 
+  // The chart's colours are only useful if the panel explains them.
+  const kinds = useMemo(() => {
+    const counts = new Map<VesselKind, number>();
+    for (const vessel of vessels) {
+      const kind = vesselKind(vessel);
+      counts.set(kind, (counts.get(kind) ?? 0) + 1);
+    }
+    return [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8);
+  }, [vessels]);
+
   return (
     <div className="station-body">
       <div className="station-status">
         <span className={`pill state-${state}`}>{STATE_LABEL[state]}</span>
         <span className="status-count">{vessels.length} vessels tracked</span>
       </div>
+      <p className="menu-note" data-testid="ais-scope">
+        {scope
+          ? `Feed covers ${scopeLabel(scope)} around this chart · follows the chart as you pan`
+          : 'Feed area not reported yet'}
+      </p>
 
       {state === 'demo' && (
         <p className="inline-warning">
@@ -69,26 +104,56 @@ export function AisPanel({ state, vessels, note, center, showOnChart, onToggleCh
         </span>
       </button>
 
+      {kinds.length > 0 && (
+        <ul className="vessel-legend" aria-label="Vessel types on this chart">
+          {kinds.map(([kind, count]) => (
+            <li key={kind}>
+              <span
+                className="vessel-legend-dot"
+                style={{ background: VESSEL_KIND_COLOURS[kind] }}
+                aria-hidden="true"
+              />
+              {VESSEL_KIND_LABELS[kind]}
+              <b>{count}</b>
+            </li>
+          ))}
+        </ul>
+      )}
+
       <ul className="vessel-list">
-        {sorted.map(({ vessel, metres }) => (
-          <li key={vessel.mmsi}>
-            <button type="button" className="vessel-row" onClick={() => onFocusVessel(vessel)}>
-              <span className="vessel-name">
-                {vesselLabel(vessel)}
-                {vessel.simulated && <em>simulated</em>}
-              </span>
-              <span className="vessel-meta">
-                {vessel.shipType ?? 'Unknown type'} · MMSI {vessel.mmsi}
-              </span>
-              <span className="vessel-numbers">
-                <span>{(metres / 1852).toFixed(1)} NM</span>
-                <span>{vessel.sog !== null ? `${vessel.sog.toFixed(1)} kn` : '—'}</span>
-                <span>{vessel.cog !== null ? `${Math.round(vessel.cog)}°` : '—'}</span>
-                <span>{relativeAge(vessel.lastSeen)}</span>
-              </span>
-            </button>
-          </li>
-        ))}
+        {sorted.map(({ vessel, metres }) => {
+          const { iso2, country } = vesselCountry(vessel);
+          return (
+            <li key={vessel.mmsi}>
+              <button type="button" className="vessel-row" onClick={() => onFocusVessel(vessel)}>
+                <span className="vessel-name" title="Open vessel reference">
+                  <span
+                    className="vessel-row-swatch"
+                    dangerouslySetInnerHTML={{ __html: vesselSwatchSvg(vessel, 12) }}
+                    aria-hidden="true"
+                  />
+                  {iso2 && (
+                    <span className="vessel-row-flag" title={country ?? undefined}>
+                      {iso2}
+                    </span>
+                  )}
+                  {vesselLabel(vessel)}
+                  {vessel.simulated && <em>simulated</em>}
+                </span>
+                <span className="vessel-meta">
+                  {vesselKindLabel(vessel)} · {navStatusLabel(vessel.navStatus, vessel.sog)}
+                  {vessel.name ? ` · MMSI ${vessel.mmsi}` : ' · name pending'}
+                </span>
+                <span className="vessel-numbers">
+                  <span>{(metres / 1852).toFixed(1)} NM</span>
+                  <span>{vessel.sog !== null ? `${vessel.sog.toFixed(1)} kn` : '—'}</span>
+                  <span>{vessel.cog !== null ? `${Math.round(vessel.cog)}°` : '—'}</span>
+                  <span>{relativeAge(vessel.lastSeen)}</span>
+                </span>
+              </button>
+            </li>
+          );
+        })}
         {sorted.length === 0 && <li className="empty-state">No AIS targets received yet.</li>}
       </ul>
     </div>

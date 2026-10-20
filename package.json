@@ -1,9 +1,9 @@
 {
-  "name": "marnav",
+  "name": "leeward",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "MARNAV — mobile-first marine navigation chartplotter",
+  "description": "LEEWARD - Maritime Navigation, Planning and Tracking chartplotter",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
@@ -11,7 +11,9 @@
     "test": "vitest run",
     "preview": "vite preview",
     "db:build": "node scripts/build-navaid-db.mjs",
-    "lanes:build": "node scripts/prepare-lanes.mjs"
+    "lanes:build": "node scripts/prepare-lanes.mjs",
+    "currents:build": "node scripts/build-current-stations.mjs",
+    "tides:build": "node scripts/build-tide-stations.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

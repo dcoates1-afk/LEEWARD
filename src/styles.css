@@ -105,6 +105,25 @@ ul {
   background: #f2e7cd;
 }
 
+.leaflet-contours-pane {
+  filter: drop-shadow(0 0 1px rgba(4, 20, 31, 0.45));
+}
+
+/* ENC soundings are black chart labels. A light halo keeps them readable when
+   they sit over a dark satellite or night chart. */
+.leaflet-soundings-pane {
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 1px rgba(255, 255, 255, 0.7));
+}
+
+/* Ferry routes and TSS lanes are dashed strokes a couple of pixels wide, so
+   their pane gets a dark halo. Without it the pale chart colours vanish into
+   pale ENC paper and the OpenSeaMap seamarks; with it the same stroke reads over
+   green OSM land, sunlit satellite water and the night chart alike. It sits on
+   the pane's own SVG so the night/red pane filters still apply on top. */
+.leaflet-lanes-pane svg {
+  filter: drop-shadow(0 0 1.5px rgba(0, 10, 16, 0.95));
+}
+
 .leaflet-control-attribution {
   background: rgba(4, 20, 31, 0.78) !important;
   color: var(--muted) !important;
@@ -128,12 +147,36 @@ ul {
   font-size: 13px;
   line-height: 1.35;
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+  /* Leaflet's tooltip pane has no width of its own, so a wrapping tooltip
+     otherwise shrinks to its longest word. Size to the text, then cap it. */
+  width: max-content;
   max-width: 240px;
   white-space: normal;
 }
 
 .leaflet-tooltip.marnav-tip::before {
   border-top-color: rgba(61, 214, 255, 0.35);
+}
+
+/* Calling-in reporting line: dashed so it reads as a reporting boundary rather
+   than a track or a boundary of navigable water. */
+.marnav-calling-line {
+  stroke-dasharray: 7 5;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 2px rgba(4, 20, 31, 0.5));
+}
+
+.app.theme-red .marnav-calling-line {
+  stroke: #ff5a5a;
+}
+
+/* Leading line through a transit's front and rear lights. */
+.marnav-transit-line {
+  stroke-dasharray: 5 5;
+}
+
+.app.theme-red .marnav-transit-line {
+  stroke: #ff5a5a;
 }
 
 .marnav-mark-wrap,
@@ -160,6 +203,156 @@ ul {
   display: block;
   transform: rotate(var(--rot));
   transition: transform 0.4s ease-out;
+}
+
+/* Modelled depth numbers: bare chart ink, no plate. The halo keeps the number
+   readable over pale ENC paper and dark satellite water alike. */
+.marnav-depth-wrap {
+  background: transparent;
+  border: 0;
+  pointer-events: none;
+}
+
+/* Bare chart text, like a printed sounding: no plate or border, just a dark
+   halo so the numbers stay legible over pale NOAA paper and dark satellite
+   water alike. */
+.marnav-depth-num {
+  display: block;
+  min-width: 0;
+  padding: 0;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 14px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: #f2fbff;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  text-shadow:
+    0 0 2px rgba(0, 12, 19, 0.95),
+    0 0 3px rgba(0, 12, 19, 0.85),
+    0 1px 2px rgba(0, 0, 0, 0.75);
+}
+
+.app.theme-night .marnav-depth-num {
+  color: #d9eef8;
+  text-shadow:
+    0 0 2px rgba(0, 0, 0, 1),
+    0 0 3px rgba(0, 0, 0, 0.9),
+    0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+.app.theme-red .marnav-depth-num {
+  color: #ffd0c9;
+  text-shadow:
+    0 0 2px rgba(22, 0, 0, 0.95),
+    0 0 3px rgba(22, 0, 0, 0.9),
+    0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Public places: coloured discs with a white glyph, distinct from NAVAID
+   symbols so a marina can never be mistaken for a mark. */
+.marnav-poi-wrap {
+  background: transparent;
+  border: 0;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5));
+}
+
+.marnav-poi {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--poi-colour);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow: inset 0 0 0 1px rgba(4, 20, 31, 0.35);
+}
+
+.marnav-poi svg {
+  display: block;
+}
+
+.poi-chip {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: inset 0 0 0 1px rgba(4, 20, 31, 0.3);
+}
+
+.poi-legend {
+  margin-top: 2px;
+}
+
+.marnav-poi-popup .leaflet-popup-content-wrapper {
+  background: #0a2230;
+  color: #e6f2f8;
+  border: 1px solid rgba(120, 190, 220, 0.35);
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.marnav-poi-popup .leaflet-popup-tip {
+  background: #0a2230;
+}
+
+.marnav-poi-popup .leaflet-popup-content {
+  margin: 10px 12px;
+}
+
+.marnav-poi-popup .leaflet-popup-close-button {
+  color: #8fb2c4;
+  font-size: 20px;
+  padding: 2px 4px 0 0;
+}
+
+.marnav-poi-popup .leaflet-popup-close-button:hover,
+.marnav-poi-popup .leaflet-popup-close-button:focus {
+  color: #e6f2f8;
+}
+
+.poi-popup strong {
+  display: block;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.poi-popup-kind {
+  display: block;
+  margin: 2px 0 6px;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #8fb2c4;
+}
+
+.poi-popup-row {
+  margin: 3px 0;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #cfe3ee;
+}
+
+.poi-popup-row span {
+  color: #8fb2c4;
+}
+
+.poi-popup-row a {
+  color: #5cc9f0;
+}
+
+.poi-popup-note {
+  margin: 8px 0 0;
+  padding-top: 6px;
+  border-top: 1px solid rgba(120, 190, 220, 0.2);
+  font-size: 10px;
+  line-height: 1.35;
+  color: #87a1b0;
 }
 
 /* Single chart control */
@@ -192,6 +385,157 @@ ul {
 
 .menu-button.is-hidden {
   display: none;
+}
+
+/*
+ * Wordmark: floats over every base chart with no plate behind it, so it carries
+ * its own dark halo the way a chart label does. The halo is what keeps it
+ * readable on pale NOAA paper as well as on satellite imagery.
+ */
+.chart-brand {
+  position: fixed;
+  z-index: 1100;
+  top: calc(var(--safe-top) + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: 16px;
+  font-weight: 750;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  padding-left: 0.16em;
+  text-transform: uppercase;
+  /* A chart-label blue that fades to white, clipped to the letters. The dark
+     drop shadows replace the old text-shadow halo so the gradient stays
+     legible over pale NOAA paper and dark satellite water alike. */
+  background-image: linear-gradient(100deg, #2cc7ff 0%, #6fdcff 42%, #ffffff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  border: 0;
+  box-shadow: none;
+  filter: drop-shadow(0 0 1px rgba(4, 20, 31, 1)) drop-shadow(0 0 2px rgba(4, 20, 31, 0.85))
+    drop-shadow(0 1px 3px rgba(0, 0, 0, 0.8));
+  pointer-events: none;
+  user-select: none;
+}
+
+.app.theme-night .chart-brand {
+  background-image: linear-gradient(100deg, #2b93bd 0%, #bfeaff 60%, #f4fbff 100%);
+  filter: drop-shadow(0 0 1px rgba(0, 13, 20, 1)) drop-shadow(0 0 3px rgba(0, 13, 20, 0.9))
+    drop-shadow(0 1px 3px rgba(0, 0, 0, 0.9));
+}
+
+.app.theme-red .chart-brand {
+  background-image: linear-gradient(100deg, #ff4d38 0%, #ffb0a4 55%, #fff1ee 100%);
+  filter: drop-shadow(0 0 1px rgba(20, 4, 3, 1)) drop-shadow(0 0 3px rgba(20, 4, 3, 0.9))
+    drop-shadow(0 1px 3px rgba(0, 0, 0, 0.9));
+}
+
+/* Plain + / − zoom, stacked above centre-on-me. */
+.zoom-controls {
+  position: fixed;
+  z-index: 1150;
+  right: 14px;
+  bottom: calc(var(--safe-bottom) + 126px);
+  display: grid;
+  gap: 6px;
+}
+
+.zoom-controls.is-hidden {
+  display: none;
+}
+
+.zoom-button {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+}
+
+.zoom-button:active {
+  transform: scale(0.96);
+}
+
+.zoom-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Centre-on-me, where a phone map puts it: bottom right, clear of attribution. */
+.locate-button {
+  position: fixed;
+  z-index: 1150;
+  right: 14px;
+  bottom: calc(var(--safe-bottom) + 64px);
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+}
+
+.locate-button:active {
+  transform: scale(0.96);
+}
+
+.locate-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.locate-button.has-fix {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.locate-button.is-busy svg {
+  animation: locate-pulse 1.2s ease-in-out infinite;
+}
+
+.locate-button.is-hidden {
+  display: none;
+}
+
+@keyframes locate-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.9);
+  }
+}
+
+.chart-toast {
+  position: fixed;
+  z-index: 1180;
+  right: 14px;
+  bottom: calc(var(--safe-bottom) + 240px);
+  max-width: min(280px, calc(100vw - 28px));
+  margin: 0;
+  padding: 10px 12px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--ink);
+  background: rgba(4, 20, 31, 0.96);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
 }
 
 .menu-button-label {
@@ -297,6 +641,15 @@ ul {
   font-size: 11px;
   font-weight: 700;
   color: var(--accent);
+}
+
+.menu-tagline {
+  max-width: 230px;
+  margin-top: 4px;
+  font-size: 10px;
+  line-height: 1.35;
+  letter-spacing: 0.03em;
+  color: var(--muted);
 }
 
 .menu-body {
@@ -452,6 +805,49 @@ ul {
   padding: 6px 4px 0;
 }
 
+/* What the depth overlays actually measure and in which unit. */
+.depth-units {
+  display: grid;
+  gap: 8px;
+  margin: 10px 4px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(12, 42, 60, 0.5);
+}
+
+.depth-units h4 {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.depth-units dl {
+  display: grid;
+  gap: 6px;
+}
+
+.depth-units dl div {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.depth-units dt {
+  font-size: 11px;
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.depth-units dd {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
 .inline-warning {
   margin: 8px 4px 0;
   padding: 10px 12px;
@@ -461,13 +857,6 @@ ul {
   color: #f7dfa0;
   font-size: 13px;
   line-height: 1.4;
-}
-
-.action-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin: 4px 0 10px;
 }
 
 .primary-button,
@@ -513,6 +902,120 @@ ul {
   font-size: 22px;
   color: var(--muted);
   line-height: 1;
+}
+
+.legend {
+  margin: 10px 4px 0;
+  border-top: 1px solid var(--line);
+}
+
+.legend summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  list-style: none;
+}
+
+.legend summary::-webkit-details-marker {
+  display: none;
+}
+
+.legend-hint {
+  margin: 0 0 6px;
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+.legend-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  padding: 2px 0 8px;
+}
+
+/* Each row is a switch: the symbol doubles as the legend and the control. */
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  padding: 2px 6px 2px 2px;
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+  color: #cfe3ee;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.legend-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.legend-item.is-off {
+  color: var(--muted);
+  border-color: var(--line);
+}
+
+.legend-item.is-off .legend-symbol {
+  opacity: 0.4;
+  filter: grayscale(1);
+}
+
+.legend-label {
+  flex: 1;
+}
+
+.legend-state {
+  flex: none;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.legend-item:not(.is-off) .legend-state {
+  color: #04141f;
+  background: var(--accent);
+  border-color: transparent;
+}
+
+.legend-reset {
+  width: 100%;
+  margin: 0 0 8px;
+}
+
+/* Chips are chart-paper light: black cardinal and isolated-danger bodies are
+   invisible on a dark tile, which made those rows look empty. */
+.legend-symbol {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  background: #dce8ee;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1px rgba(4, 20, 31, 0.25);
+}
+
+.app.theme-night .legend-symbol {
+  opacity: 0.82;
+}
+
+.app.theme-red .legend-symbol {
+  filter: grayscale(1) sepia(1) hue-rotate(-25deg) saturate(4) brightness(0.62);
 }
 
 .db-grid {
@@ -944,6 +1447,193 @@ ul {
   flex-wrap: wrap;
 }
 
+/* Class colours are only useful if the panel says what they mean. */
+.vessel-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin: 10px 0 2px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(12, 42, 60, 0.4);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.vessel-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.vessel-legend b {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.vessel-legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(4, 20, 31, 0.65) inset;
+}
+
+.vessel-row-swatch {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 2px;
+}
+
+/* MarineTraffic-style hover card: identity, what it is doing, then numbers.
+   Drawn outside Leaflet so it can be clamped to the chart instead of hanging
+   off the edge of a phone screen. */
+.map-shell {
+  position: absolute;
+  inset: 0;
+}
+
+.vessel-hover {
+  position: absolute;
+  z-index: 700;
+  width: max-content;
+  max-width: min(272px, calc(100vw - 24px));
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(61, 214, 255, 0.35);
+  background: rgba(4, 20, 31, 0.96);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  transform: translate(-50%, calc(-100% - 14px));
+}
+
+.vessel-hover.below {
+  transform: translate(-50%, 14px);
+}
+
+.vessel-tip-card {
+  display: grid;
+  gap: 6px;
+  min-width: 188px;
+}
+
+.vessel-tip-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.vessel-tip-kind {
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+.vessel-tip-flag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--ink);
+}
+
+/* A two-letter flag badge rather than an emoji flag: regional-indicator
+   emoji render as tofu wherever no colour-emoji font is installed. */
+.vessel-flagcode {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  padding: 2px 5px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: rgba(4, 20, 31, 0.55);
+  color: var(--ink);
+}
+
+.vessel-row-flag {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+  padding: 1px 4px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: var(--muted);
+  margin: 0 1px;
+}
+
+.vessel-tip-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(62px, 1fr));
+  gap: 6px 12px;
+  margin-top: 1px;
+}
+
+.vessel-tip-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.vessel-tip-metric.wide {
+  grid-column: 1 / -1;
+}
+
+.vessel-tip-metric span {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.vessel-tip-metric b {
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.vessel-tip-metric i {
+  font-style: normal;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-left: 2px;
+}
+
+.vessel-tip-foot {
+  border-top: 1px solid var(--line);
+  padding-top: 6px;
+  font-size: 10px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.vessel-tip-note {
+  font-size: 11px;
+  color: var(--warn);
+}
+
+.vessel-sheet-symbol svg {
+  width: 44px;
+  height: 44px;
+}
+
+.vessel-sheet-note {
+  margin: 4px 0 12px;
+  padding: 10px 12px;
+  border-left: 2px solid var(--warn);
+  border-radius: 0 8px 8px 0;
+  background: rgba(244, 197, 49, 0.08);
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
 .empty-state {
   padding: 18px 4px;
   color: var(--muted);
@@ -1160,6 +1850,96 @@ ul {
   color: var(--muted);
 }
 
+/* Tidal current */
+.current-heading {
+  margin-top: 20px;
+}
+
+.current-readout {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  grid-template-areas:
+    'arrow figures'
+    'spark spark';
+  align-items: center;
+  gap: 4px 12px;
+  padding: 12px 14px 8px;
+  border-radius: 14px;
+  background: rgba(12, 42, 60, 0.55);
+  border: 1px solid var(--line);
+  margin-top: 8px;
+}
+
+.current-arrow {
+  grid-area: arrow;
+  width: 34px;
+  height: 34px;
+  fill: var(--accent);
+  transform-origin: 50% 50%;
+  transition: transform 220ms ease;
+}
+
+.current-arrow.phase-ebb {
+  fill: #f4c531;
+}
+
+.current-arrow.phase-slack {
+  fill: var(--muted);
+}
+
+.current-arrow.phase-model {
+  fill: #7fd4ff;
+}
+
+.tide-now {
+  font-size: 13px;
+  color: var(--accent);
+  margin: -2px 0 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.current-figures {
+  grid-area: figures;
+}
+
+.current-speed {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.current-speed small {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.current-line {
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.current-readout .sparkline {
+  grid-area: spark;
+}
+
+.current-list {
+  margin-bottom: 4px;
+}
+
+.tide-type.current-flood {
+  color: var(--accent);
+}
+
+.tide-type.current-ebb {
+  color: #f4c531;
+}
+
+.tide-type.current-slack {
+  color: var(--muted);
+}
+
 @media (max-height: 520px) and (orientation: landscape) {
   .gps-widget {
     max-height: 70dvh;
@@ -1167,4 +1947,119 @@ ul {
   .menu-panel {
     max-height: 92dvh;
   }
+}
+
+/* ---------------------------------------------------------------------------
+   Display themes. Day is the default; night dims the chart and panels; red
+   collapses everything to a red palette for dark adaptation while keeping the
+   symbol shapes (and therefore the mark classes) readable.
+--------------------------------------------------------------------------- */
+
+.app.theme-night {
+  --bg: #01070c;
+  --panel: #05121a;
+  --panel-2: #081c27;
+  --line: rgba(120, 150, 165, 0.2);
+  --ink: #cfdfe8;
+  --muted: #7f9aa8;
+  --accent: #4fb6d4;
+  --accent-strong: #2a7f96;
+}
+
+.app.theme-night .leaflet-tile-pane {
+  filter: brightness(0.55) saturate(0.7) contrast(1.05);
+}
+
+.app.theme-night .leaflet-marker-pane,
+.app.theme-night .leaflet-overlay-pane,
+.app.theme-night .leaflet-lanes-pane {
+  filter: brightness(0.85) saturate(0.85);
+}
+
+.app.theme-night .menu-panel {
+  background: linear-gradient(180deg, #05121a 0%, #030c12 100%);
+}
+
+.app.theme-night .menu-button {
+  background: rgba(3, 12, 18, 0.95);
+  border-color: rgba(79, 182, 212, 0.35);
+}
+
+.app.theme-red {
+  --bg: #050101;
+  --panel: #120403;
+  --panel-2: #1a0605;
+  --line: rgba(255, 92, 70, 0.24);
+  --ink: #ff8a76;
+  --muted: #b3503f;
+  --accent: #ff4a35;
+  --accent-strong: #a82a1a;
+  --green: #ff6a52;
+  --warn: #ff8a5c;
+  --danger: #ff3b2a;
+}
+
+/* Red-only rendering. A sepia/hue-rotate filter on tinted tiles leaves olive
+   and brown patches behind, so instead the chart is reduced to pure luminance
+   and a single red layer is multiplied over the whole map. Every pane — tiles,
+   symbols, even the attribution link — then lands on one red ramp. */
+/* Tiles keep their own channels so the red channel — which carries most of a
+   chart's land/water separation — survives the multiply; only the symbols are
+   desaturated so no green or cyan survives on top of the red chart. */
+.app.theme-red .leaflet-tile-pane {
+  filter: brightness(0.8) contrast(1.35);
+}
+
+.app.theme-red .leaflet-marker-pane {
+  filter: grayscale(1) brightness(1.5);
+}
+
+.app.theme-red .leaflet-overlay-pane,
+.app.theme-red .leaflet-lanes-pane,
+.app.theme-red .leaflet-control-attribution,
+.app.theme-red .leaflet-control-zoom {
+  filter: grayscale(1) brightness(1.4);
+}
+
+.red-tint {
+  position: absolute;
+  inset: 0;
+  z-index: 900;
+  pointer-events: none;
+  background: #e0361d;
+  mix-blend-mode: multiply;
+}
+
+.app.theme-red .menu-panel {
+  background: linear-gradient(180deg, #120403 0%, #080101 100%);
+}
+
+.app.theme-red .menu-button {
+  background: rgba(18, 4, 3, 0.96);
+  border-color: rgba(255, 74, 53, 0.45);
+  color: var(--ink);
+}
+
+.app.theme-red .menu-button.open {
+  background: var(--accent);
+  color: #1a0300;
+}
+
+.app.theme-red .leaflet-tooltip.marnav-tip,
+.app.theme-red .vessel-hover {
+  background: rgba(20, 4, 3, 0.96);
+  border-color: rgba(255, 74, 53, 0.4);
+}
+
+.app.theme-red .search-field input {
+  background: rgba(20, 4, 3, 0.85);
+}
+
+.app.theme-night .leaflet-tooltip.marnav-tip,
+.app.theme-night .vessel-hover {
+  background: rgba(2, 10, 15, 0.96);
+}
+
+.segmented-three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }

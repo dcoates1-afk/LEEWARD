@@ -1,6 +1,7 @@
 export type GpsMode = 'on' | 'off';
 
-export const GPS_STORAGE_KEY = 'marnav:gps-mode';
+export const GPS_STORAGE_KEY = 'leeward:gps-mode';
+const LEGACY_GPS_STORAGE_KEY = 'marnav:gps-mode';
 export const GPS_DEFAULT: GpsMode = 'on';
 
 export function parseGpsMode(value: unknown): GpsMode {
@@ -10,7 +11,7 @@ export function parseGpsMode(value: unknown): GpsMode {
 export function readGpsMode(storage: Pick<Storage, 'getItem'> | null | undefined): GpsMode {
   if (!storage) return GPS_DEFAULT;
   try {
-    return parseGpsMode(storage.getItem(GPS_STORAGE_KEY));
+    return parseGpsMode(storage.getItem(GPS_STORAGE_KEY) ?? storage.getItem(LEGACY_GPS_STORAGE_KEY));
   } catch {
     return GPS_DEFAULT;
   }

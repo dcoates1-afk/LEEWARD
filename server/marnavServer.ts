@@ -2,6 +2,7 @@ import type { Plugin } from 'vite';
 import { WebSocketServer } from 'ws';
 import { createAisRelay } from './aisRelay';
 import { createOverpassHandler } from './overpassProxy';
+import { createDepthHandler } from './depthProxy';
 
 /**
  * Dev/preview server glue: the Overpass proxy at /api/overpass and the AIS
@@ -11,9 +12,10 @@ export function marnavServer(options: { aisKey: string }): Plugin {
   return {
     name: 'marnav-server',
     configureServer(server) {
-      const log = (message: string) => server.config.logger.info(`[marnav] ${message}`);
+      const log = (message: string) => server.config.logger.info(`[leeward] ${message}`);
 
       server.middlewares.use('/api/overpass', createOverpassHandler(log));
+      server.middlewares.use('/api/depth', createDepthHandler(log));
 
       const relay = createAisRelay({ apiKey: options.aisKey, log });
       const wss = new WebSocketServer({ noServer: true });

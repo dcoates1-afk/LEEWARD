@@ -4,6 +4,6 @@ import './styles.css';
 import App from './App';
 
 const container = document.getElementById('root');
-if (!container) throw new Error('MARNAV root element is missing');
+if (!container) throw new Error('LEEWARD root element is missing');
 
 createRoot(container).render(<App />);

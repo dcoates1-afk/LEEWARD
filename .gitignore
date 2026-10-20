@@ -6,3 +6,10 @@ dist
 .marnav-cache
 *.log
 .DS_Store
+
+# Headless-browser dependencies extracted by scripts/setup-browser-deps.sh
+.browser-deps
+scripts/browser-env.sh
+
+# TypeScript incremental build info
+*.tsbuildinfo

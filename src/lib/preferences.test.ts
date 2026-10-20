@@ -31,22 +31,102 @@ describe('chart preferences', () => {
     expect(sanitizePreferences({ base: 'nope', overlays: { navaids: 'yes' } })).toEqual(DEFAULT_PREFERENCES);
   });
 
+  it('accepts every chart base and defaults the new overlays off', () => {
+    for (const base of ['nautical', 'relief', 'noaa', 'rnc'] as const) {
+      expect(sanitizePreferences({ base }).base).toBe(base);
+    }
+    expect(sanitizePreferences({ base: 'chart' }).base).toBe('osm');
+    expect(DEFAULT_PREFERENCES.overlays.contours).toBe(false);
+    expect(DEFAULT_PREFERENCES.overlays.soundings).toBe(false);
+    expect(DEFAULT_PREFERENCES.overlays.depthLabels).toBe(false);
+    expect(DEFAULT_PREFERENCES.overlays.pois).toBe(false);
+    expect(
+      sanitizePreferences({ overlays: { contours: true, soundings: true, depthLabels: true, pois: true } })
+        .overlays,
+    ).toMatchObject({
+      contours: true,
+      soundings: true,
+      depthLabels: true,
+      pois: true,
+    });
+  });
+
+  it('drops the removed USACE base and depth overlay from saved preferences', () => {
+    const old = sanitizePreferences({
+      base: 'usace',
+      overlays: { depth: true, contours: true, tss: true },
+    } as unknown);
+    expect(old.base).toBe('osm');
+    expect(old.overlays.contours).toBe(true);
+    expect(old.overlays.soundings).toBe(false);
+    expect(old.overlays.depthLabels).toBe(false);
+    expect('depth' in old.overlays).toBe(false);
+  });
+
+  it('fills missing overlay keys from an older saved preference', () => {
+    const old = sanitizePreferences({ base: 'noaa', overlays: { tss: true } });
+    expect(old.overlays.contours).toBe(false);
+    expect(old.overlays.soundings).toBe(false);
+    expect(old.overlays.depthLabels).toBe(false);
+    expect(old.overlays.pois).toBe(false);
+    expect(old.overlays.tss).toBe(true);
+    expect(old.overlays.openseamap).toBe(true);
+  });
+
+  it('defaults the display theme to day and rejects unknown themes', () => {
+    expect(DEFAULT_PREFERENCES.theme).toBe('day');
+    expect(sanitizePreferences({ theme: 'laser' }).theme).toBe('day');
+    expect(sanitizePreferences({ theme: 'night' }).theme).toBe('night');
+    expect(sanitizePreferences({ theme: 'red' }).theme).toBe('red');
+  });
+
   it('keeps valid values and persists them', () => {
     const sanitized = sanitizePreferences({
       base: 'satellite',
       overlays: { tss: true, navaids: false },
       showAllMarks: true,
       showPosition: true,
+      theme: 'red',
     });
     expect(sanitized.base).toBe('satellite');
     expect(sanitized.overlays.tss).toBe(true);
     expect(sanitized.overlays.navaids).toBe(false);
     expect(sanitized.overlays.ferries).toBe(false);
     expect(sanitized.showAllMarks).toBe(true);
+    expect(sanitized.theme).toBe('red');
 
     const storage = fakeStorage();
     writeChartPreferences(storage, sanitized);
     expect(readChartPreferences(storage)).toEqual(sanitized);
+  });
+
+  it('remembers which NAVAID classes the user switched off', () => {
+    const sanitized = sanitizePreferences({ hiddenGroups: ['anchorage', 'nope', 'anchorage', 42] });
+    expect(sanitized.hiddenGroups).toEqual(['anchorage']);
+    expect(sanitizePreferences({ hiddenGroups: 'all' }).hiddenGroups).toEqual([]);
+
+    const storage = fakeStorage();
+    writeChartPreferences(storage, sanitized);
+    expect(readChartPreferences(storage).hiddenGroups).toEqual(['anchorage']);
+  });
+
+  it('remembers which public-place classes the user switched off', () => {
+    const sanitized = sanitizePreferences({
+      hiddenPoiGroups: ['food', 'nope', 'food', 42, 'marina'],
+    });
+    expect(sanitized.hiddenPoiGroups).toEqual(['marina', 'food']);
+    expect(sanitizePreferences({ hiddenPoiGroups: 'all' }).hiddenPoiGroups).toEqual([]);
+  });
+
+  it('reads settings saved under the previous key prefix', () => {
+    const storage = fakeStorage({
+      'marnav:chart-prefs': JSON.stringify({ base: 'satellite', theme: 'night' }),
+    });
+    const loaded = readChartPreferences(storage);
+    expect(loaded.base).toBe('satellite');
+    expect(loaded.theme).toBe('night');
+    writeChartPreferences(storage, loaded);
+    expect(storage.getItem('leeward:chart-prefs')).toContain('satellite');
   });
 
   it('survives blocked storage', () => {
@@ -70,6 +150,10 @@ describe('GPS preference', () => {
     expect(parseGpsMode('on')).toBe('on');
     expect(parseGpsMode('anything')).toBe('on');
     expect(parseGpsMode(null)).toBe('on');
+  });
+
+  it('reads a choice saved under the previous key prefix', () => {
+    expect(readGpsMode(fakeStorage({ 'marnav:gps-mode': 'off' }))).toBe('off');
   });
 
   it('persists the choice and tolerates missing storage', () => {

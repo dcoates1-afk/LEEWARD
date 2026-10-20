@@ -10,6 +10,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { gzipSync } from 'node:zlib';
 import type { IncomingMessage, ServerResponse } from 'node:http';
+import { buildPoiQuery as RAW_BUILD_POI_QUERY } from '../shared/poi-core.mjs';
 
 const MIRRORS = [
   'https://overpass.openstreetmap.fr/api/interpreter',
@@ -22,6 +23,9 @@ const FRESH_MS = 6 * 60 * 60 * 1000;
 const STALE_MS = 30 * 24 * 60 * 60 * 1000;
 
 type Bounds = [number, number, number, number];
+type QueryKind = 'navaids' | 'pois';
+
+const buildPoiQuery = RAW_BUILD_POI_QUERY as (bounds: Bounds) => string;
 
 interface CacheEntry {
   fetchedAt: number;
@@ -32,15 +36,20 @@ interface CacheEntry {
 const inflight = new Map<string, Promise<CacheEntry>>();
 
 export function buildOverpassQuery([south, west, north, east]: Bounds): string {
+  const box = `${south},${west},${north},${east}`;
   return [
     '[out:json][timeout:60];',
     '(',
-    `node["seamark:type"](${south},${west},${north},${east});`,
-    `way["seamark:type"](${south},${west},${north},${east});`,
-    `node["man_made"="lighthouse"](${south},${west},${north},${east});`,
-    `node["seamark:light:character"](${south},${west},${north},${east});`,
+    `node["seamark:type"](${box});`,
+    // Calling-in points are lines, so they are fetched separately with geometry
+    // instead of collapsing to a centre point like the other ways.
+    `way["seamark:type"](${box})["seamark:type"!="calling-in_point"];`,
+    `node["man_made"="lighthouse"](${box});`,
+    `node["seamark:light:character"](${box});`,
     ');',
     'out center tags;',
+    `way["seamark:type"="calling-in_point"](${box});`,
+    'out geom;',
   ].join('');
 }
 
@@ -58,7 +67,7 @@ async function fetchMirror(mirror: string, query: string): Promise<CacheEntry> {
   const response = await fetch(mirror, {
     method: 'POST',
     headers: {
-      'User-Agent': 'marnav/1.0 (offline chart cache)',
+      'User-Agent': 'leeward/1.0 (offline chart cache)',
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: new URLSearchParams({ data: query }),
@@ -128,9 +137,9 @@ async function writeCache(key: string, entry: CacheEntry) {
   }
 }
 
-function refresh(key: string, bounds: Bounds) {
+function refresh(key: string, query: string) {
   if (inflight.has(key)) return inflight.get(key)!;
-  const promise = raceMirrors(buildOverpassQuery(bounds))
+  const promise = raceMirrors(query)
     .then(async (entry) => {
       await writeCache(key, entry);
       return entry;
@@ -160,7 +169,12 @@ export function createOverpassHandler(log: (message: string) => void = () => {})
       return;
     }
 
-    const key = createHash('sha1').update(bounds.map((v) => v.toFixed(3)).join(',')).digest('hex').slice(0, 16);
+    const kind: QueryKind = url.searchParams.get('kind') === 'pois' ? 'pois' : 'navaids';
+    const key = createHash('sha1')
+      .update(`${kind}:${bounds.map((v) => v.toFixed(3)).join(',')}`)
+      .digest('hex')
+      .slice(0, 16);
+    const query = kind === 'pois' ? buildPoiQuery(bounds) : buildOverpassQuery(bounds);
     const cached = await readCache(key);
     const age = cached ? Date.now() - cached.fetchedAt : Infinity;
 
@@ -171,7 +185,7 @@ export function createOverpassHandler(log: (message: string) => void = () => {})
 
     if (cached && age < STALE_MS) {
       // Serve stale immediately, refresh quietly.
-      refresh(key, bounds).catch((error) => log(`overpass refresh failed: ${error.message}`));
+      refresh(key, query).catch((error) => log(`overpass refresh failed: ${error.message}`));
       sendJson(req, res, 200, {
         ...(cached.payload as object),
         meta: { cached: true, stale: true, ageMs: age, source: cached.source },
@@ -180,7 +194,7 @@ export function createOverpassHandler(log: (message: string) => void = () => {})
     }
 
     try {
-      const entry = await refresh(key, bounds);
+      const entry = await refresh(key, query);
       sendJson(req, res, 200, {
         ...(entry.payload as object),
         meta: { cached: false, ageMs: 0, source: entry.source },
