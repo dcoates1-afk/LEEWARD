@@ -13,3 +13,6 @@ scripts/browser-env.sh
 
 # TypeScript incremental build info
 *.tsbuildinfo
+
+# Local source archives written here for backup hand-off
+backup/
