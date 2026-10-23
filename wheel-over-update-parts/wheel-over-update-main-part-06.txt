@@ -1,0 +1,127 @@
++@media (max-width: 560px) { .home-header, .home-hero, .home-intro, .home-features, .home-platforms, .home-safety, .home-contact, .home-footer { width: calc(100% - 38px); }.home-header { height: 69px; }.home-nav { display: none; }.home-brand { font-size: 12px; }.home-nav-cta { padding: 9px 11px; font-size: 10px; }.home-hero { min-height: initial; padding: 61px 0 83px; }.home-hero h1 { font-size: clamp(43px, 12vw, 62px); }.hero-intro { font-size: 13px; }.hero-motto { font-size: 10px; }.hero-categories { font-size: 9px; }.hero-actions { gap: 18px; }.button-primary { padding: 13px 14px; font-size: 10px; }.button-quiet { font-size: 10px; }.hero-meta { font-size: 8px; }.home-chart { aspect-ratio: 1.04; }.chart-coordinate { font-size: 6px; }.chart-float { top: 25%; right: 5%; padding: 9px; }.chart-depth { left: 13%; font-size: 6px; }.visual-caption { font-size: 7px; }.hero-bottomline { bottom: 28px; font-size: 6px; }.bottomline-rule { width: 35px; }.home-intro { padding: 68px 0 75px; }.intro-grid { grid-template-columns: 1fr; gap: 22px; margin-top: 28px; }.home-intro h2, .home-platforms h2 { font-size: 39px; }.intro-body p { font-size: 12px; }.home-features { padding: 61px 0 70px; }.features-heading { align-items: start; flex-direction: column; gap: 12px; }.features-heading h2 { font-size: 29px; }.features-heading > p { font-size: 10px; }.feature-grid { grid-template-columns: 1fr 1fr; }.feature-card { min-height: 214px; padding: 16px 13px; }.feature-card h3 { font-size: 12px; }.feature-card p { font-size: 10px; }.feature-footnote { align-items: start; flex-wrap: wrap; font-size: 9px; line-height: 1.6; }.feature-footnote p { flex: 1; }.feature-footnote a { margin-left: 32px; }.home-platforms { grid-template-columns: 1fr; gap: 35px; padding: 76px 0; }.home-platforms h2 { margin-top: 22px; }.home-safety { align-items: start; margin-bottom: 70px; padding: 17px; }.home-contact { grid-template-columns: 1fr; gap: 27px; padding: 68px 0 72px; }.home-contact h2 { font-size: 37px; }.home-footer { flex-wrap: wrap; gap: 13px 16px; padding: 20px 0; }.footer-note { flex-basis: 55%; }.footer-link { margin-left: auto; }.footer-copy { flex-basis: 100%; text-align: right; } }
++@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+diff --git a/src/lib/aisStaticCache.test.ts b/src/lib/aisStaticCache.test.ts
+index 1e127b2..3cb70c0 100644
+--- a/src/lib/aisStaticCache.test.ts
++++ b/src/lib/aisStaticCache.test.ts b/src/lib/aisStaticCache.test.ts
+@@ -83,6 +83,25 @@ describe('AIS static cache', () => {
+     expect(record?.savedAt).toBe(1_000);
+   });
+ 
++  it('imports static data from previous prefixes and writes to WHEELOVER storage', () => {
++    const leewardStorage = new MemoryStorage();
++    leewardStorage.setItem('leeward:ais-static', JSON.stringify({
++      '316001240': { name: 'LEEWARDED', savedAt: 1_000 },
++    }));
++    expect(readAisStaticCache(leewardStorage, 2_000).get(316001240)?.name).toBe('LEEWARDED');
++
++    const storage = new MemoryStorage();
++    storage.setItem('marnav:ais-static', JSON.stringify({
++      '316001241': { name: 'LEGACY', savedAt: 1_000 },
++    }));
++    expect(readAisStaticCache(storage, 2_000).get(316001241)?.name).toBe('LEGACY');
++    writeAisStaticCache(storage, new Map([[316001241, {
++      name: 'WHEELOVER', shipType: null, typeCode: null, destination: null, callSign: null,
++      imo: null, draught: null, length: null, beam: null, eta: null, transponder: null, savedAt: 2_000,
++    }]]));
++    expect(storage.getItem(AIS_STATIC_STORAGE_KEY)).toContain('WHEELOVER');
++  });
++
++  it('ignores junk, bad MMSIs and stale records', () => {
++    const storage = new MemoryStorage();
++    storage.setItem(AIS_STATIC_STORAGE_KEY, 'not json');
+diff --git a/src/lib/aisStaticCache.ts b/src/lib/aisStaticCache.ts
+index 7acf4b8..4503cf7 100644
+--- a/src/lib/aisStaticCache.ts
++++ b/src/lib/aisStaticCache.ts
+@@ -8,8 +8,8 @@ import type { AisVessel } from './ais';
+  * cache carries them across reloads and chart moves so a name appears at once.
+  */
+ 
+-export const AIS_STATIC_STORAGE_KEY = 'leeward:ais-static';
+-const LEGACY_AIS_STATIC_STORAGE_KEY = 'marnav:ais-static';
++export const AIS_STATIC_STORAGE_KEY = 'wheel-over:ais-static';
++const LEGACY_AIS_STATIC_STORAGE_KEYS = ['leeward:ais-static', 'marnav:ais-static'] as const;
+ const MAX_ENTRIES = 2500;
+ const KEEP_MS = 30 * 24 * 60 * 60 * 1000;
+ 
+@@ -65,7 +65,9 @@ export function readAisStaticCache(
+   if (!storage) return cache;
+   let parsed: unknown;
+   try {
+-    const raw = storage.getItem(AIS_STATIC_STORAGE_KEY) ?? storage.getItem(LEGACY_AIS_STATIC_STORAGE_KEY);
++    const raw =
++      storage.getItem(AIS_STATIC_STORAGE_KEY) ??
++      LEGACY_AIS_STATIC_STORAGE_KEYS.map((key) => storage.getItem(key)).find((value) => value !== null);
+     if (!raw) return cache;
+     parsed = JSON.parse(raw);
+   } catch {
+diff --git a/src/lib/chartPreferences.ts b/src/lib/chartPreferences.ts
+index a1c2567..5549824 100644
+--- a/src/lib/chartPreferences.ts
++++ b/src/lib/chartPreferences.ts
+@@ -27,9 +27,9 @@ export interface ChartPreferences {
+   hiddenPoiGroups: string[];
+ }
+ 
+-export const CHART_STORAGE_KEY = 'leeward:chart-prefs';
+-/** Settings saved before the app was renamed still load on this device. */
+-const LEGACY_CHART_STORAGE_KEY = 'marnav:chart-prefs';
++export const CHART_STORAGE_KEY = 'wheel-over:chart-prefs';
++/** Preferences from earlier LEEWARD/MARNAV builds remain available after the rename. */
++const LEGACY_CHART_STORAGE_KEYS = ['leeward:chart-prefs', 'marnav:chart-prefs'] as const;
+ 
+ export const DEFAULT_PREFERENCES: ChartPreferences = {
+   base: 'osm',
+@@ -89,7 +89,9 @@ export function sanitizePreferences(value: unknown): ChartPreferences {
+ export function readChartPreferences(storage: Pick<Storage, 'getItem'> | null | undefined): ChartPreferences {
+   if (!storage) return defaults();
+   try {
+-    const raw = storage.getItem(CHART_STORAGE_KEY) ?? storage.getItem(LEGACY_CHART_STORAGE_KEY);
++    const raw =
++      storage.getItem(CHART_STORAGE_KEY) ??
++      LEGACY_CHART_STORAGE_KEYS.map((key) => storage.getItem(key)).find((value) => value !== null);
+     if (!raw) return defaults();
+     return sanitizePreferences(JSON.parse(raw));
+   } catch {
+diff --git a/src/lib/currents.ts b/src/lib/currents.ts
+index 68077dd..75672ce 100644
+--- a/src/lib/currents.ts
++++ b/src/lib/currents.ts
+@@ -164,7 +164,7 @@ export async function fetchCurrentEvents(
+   const end = new Date(begin.getTime() + days * 24 * 60 * 60 * 1000);
+   const params = new URLSearchParams({
+     product: 'currents_predictions',
+-    application: 'LEEWARD',
++    application: 'WHEELOVER',
+     begin_date: noaaDate(begin),
+     end_date: noaaDate(end),
+     station: stationId,
+diff --git a/src/lib/gpsPreference.ts b/src/lib/gpsPreference.ts
+index d07a631..c6e5e39 100644
+--- a/src/lib/gpsPreference.ts
++++ b/src/lib/gpsPreference.ts
+@@ -1,7 +1,7 @@
+ export type GpsMode = 'on' | 'off';
+ 
+-export const GPS_STORAGE_KEY = 'leeward:gps-mode';
+-const LEGACY_GPS_STORAGE_KEY = 'marnav:gps-mode';
++export const GPS_STORAGE_KEY = 'wheel-over:gps-mode';
++const LEGACY_GPS_STORAGE_KEYS = ['leeward:gps-mode', 'marnav:gps-mode'] as const;
+ export const GPS_DEFAULT: GpsMode = 'on';
+ 
+ export function parseGpsMode(value: unknown): GpsMode {
+@@ -11,7 +11,10 @@ export function readGpsMode(storage: Pick<Storage, 'getItem'> | null | undefined): GpsMode {
+   if (!storage) return GPS_DEFAULT;
+   try {
+-    return parseGpsMode(storage.getItem(GPS_STORAGE_KEY) ?? storage.getItem(LEGACY_GPS_STORAGE_KEY));
++    const raw =
++      storage.getItem(GPS_STORAGE_KEY) ??
++      LEGACY_GPS_STORAGE_KEYS.map((key) => storage.getItem(key)).find((value) => value !== null);
++    return parseGpsMode(raw);
+   } catch {
+     return GPS_DEFAULT;
+   }
+diff --git a/src/lib/locate.test.ts b/src/lib/locate.test.ts
+index 4821e1a..e344a53 100644
+--- a/src/lib/locate.test.ts

@@ -1,0 +1,114 @@
++++ b/scripts/verify-lanes.mjs
+@@ -64,7 +64,7 @@ const VIEWS = {
+ async function openChart(browser, view, prefs = LANE_PREFS) {
+   const context = await browser.newContext({ viewport: { width: 1000, height: 760 } });
+   await context.addInitScript((value) => {
+-    localStorage.setItem('leeward:chart-prefs', JSON.stringify(value));
++    localStorage.setItem('wheel-over:chart-prefs', JSON.stringify(value));
+   }, prefs);
+   const page = await context.newPage();
+   const errors = [];
+diff --git a/scripts/verify-ui.mjs b/scripts/verify-ui.mjs
+index c1e4af7..ac1deda 100644
+--- a/scripts/verify-ui.mjs
++++ b/scripts/verify-ui.mjs
+@@ -1,6 +1,6 @@
+ #!/usr/bin/env node
+ /**
+- * Browser verification for LEEWARD.
++ * Browser verification for WHEELOVER.
+  *
+  *   node scripts/verify-ui.mjs [baseUrl]
+  *
+@@ -332,7 +332,7 @@ async function run() {
+   });
+   check(
+     'app name floats at the top centre',
+-    brandInfo.text === 'LEEWARD' && Math.abs(brandInfo.offset) <= 3,
++    brandInfo.text === 'WHEELOVER' && Math.abs(brandInfo.offset) <= 3,
+     `${brandInfo.text} offset ${brandInfo.offset}px`,
+   );
+   check(
+@@ -762,7 +762,7 @@ async function run() {
+   }
+   const cachedStatics = await page.evaluate(() => {
+     try {
+-      const raw = localStorage.getItem('leeward:ais-static');
++      const raw = localStorage.getItem('wheel-over:ais-static');
+     } catch {
+       return 0;
+diff --git a/server/marnavServer.ts b/server/marnavServer.ts
+index 9ce83fd..4b247a4 100644
+--- a/server/marnavServer.ts
++++ b/server/marnavServer.ts
+@@ -12,7 +12,7 @@ export function marnavServer(options: { aisKey: string }): Plugin {
+   return {
+     name: 'marnav-server',
+     configureServer(server) {
+-      const log = (message: string) => server.config.logger.info(`[leeward] ${message}`);
++      const log = (message: string) => server.config.logger.info(`[WHEELOVER] ${message}`);
+ 
+       server.middlewares.use('/api/overpass', createOverpassHandler(log));
+       server.middlewares.use('/api/depth', createDepthHandler(log));
+diff --git a/server/overpassProxy.ts b/server/overpassProxy.ts
+index 05c3fe2..e7dedb4 100644
+--- a/server/overpassProxy.ts
++++ b/server/overpassProxy.ts b/server/overpassProxy.ts
+@@ -67,7 +67,7 @@ async function fetchMirror(mirror: string, query: string): Promise<CacheEntry> {
+   const response = await fetch(mirror, {
+     method: 'POST',
+     headers: {
+-      'User-Agent': 'leeward/1.0 (offline chart cache)',
++      'User-Agent': 'wheel-over/1.0 (offline chart cache)',
+       'Content-Type': 'application/x-www-form-urlencoded',
+     },
+     body: new URLSearchParams({ data: query }),
+diff --git a/server/productionServer.ts b/server/productionServer.ts
+index 3564a82..8c04b91 100644
+--- a/server/productionServer.ts
++++ b/server/productionServer.ts b/server/productionServer.ts
+@@ -10,7 +10,7 @@ import { createOverpassHandler } from './server/overpassProxy';
+ const root = resolve(process.cwd(), 'dist');
+ const port = Number(process.env.PORT || 3000);
+ const host = process.env.HOST || '0.0.0.0';
+-const log = (message: string) => console.info(`[leeward] ${message}`);
++const log = (message: string) => console.info(`[WHEELOVER] ${message}`);
+ const aisKey = process.env.AISSTREAM_API_KEY ?? '';
+ const relay = createAisRelay({ apiKey: aisKey, log });
+ const wss = new WebSocketServer({ noServer: true, maxPayload: 16 * 1024 });
+@@ -137,14 +137,14 @@ server.on('upgrade', (req, socket, head) => {
+     return;
+   }
+   if (pathname !== '/ws/ais') {
+-    socket.end('HTTP/1.1 404 Not Found\\r\\nConnection: close\\r\\n\\r\\n');
++    socket.end('HTTP/1.1 404 Not Found\r\nConnection: close\r\n\r\n');
+     return;
+   }
+   wss.handleUpgrade(req, socket, head, (ws) => relay.attach(ws));
+ });
+ 
+ server.on('error', (error) => {
+-  console.error(`[leeward] HTTP server error: ${error.message}`);
++  console.error(`[WHEELOVER] HTTP server error: ${error.message}`);
+   process.exitCode = 1;
+ });
+ 
+@@ -160,7 +160,7 @@ function shutdown() {
+   wss.close();
+   server.close((error) => {
+     if (error) {
+-      console.error(`[leeward] shutdown failed: ${error.message}`);
++      console.error(`[WHEELOVER] shutdown failed: ${error.message}`);
+     }
+   });
+diff --git a/shared/navaid-core.mjs b/shared/navaid-core.mjs
+index a7b5663..ce54c92 100644
+--- a/shared/navaid-core.mjs
++++ b/shared/navaid-core.mjs
+@@ -1,5 +1,5 @@
+ /**
+- * LEEWARD shared chart core.
++ * WHEELOVER shared chart core.
+  *
+  * Plain ESM so the browser app, the vitest suite and the offline database
+  * builder all run the *same* classification code. If ingest and rendering
