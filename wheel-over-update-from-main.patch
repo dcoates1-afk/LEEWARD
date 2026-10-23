@@ -1,0 +1,693 @@
+diff --git a/.gitignore b/.gitignore
+index b934e3d..da0cb7b 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -21,3 +21,7 @@ backup/
+ .dev-server.log
+ .dev-server.pid
+ .dev-server.env
++/freebuff-sites-build/
++
++# Bundled Node production server
++/build/
+diff --git a/README.md b/README.md
+index b23982d..f2ee3c5 100644
+--- a/README.md
++++ b/README.md
+@@ -1,6 +1,6 @@
+-# LEEWARD - Maritime Navigation, Planning and Tracking
++# WHEELOVER — Maritime Navigation and Planning
+ 
+-A mobile-first marine navigation chartplotter: a full-screen Leaflet chart, an
++WHEELOVER is a mobile-first marine navigation chartplotter: a full-screen Leaflet chart, an
+ offline-capable NAVAID database, live AIS traffic, a searchable COLREGs guide and
+ wind, wave, tide and current dashboards. One control (top-right) opens every
+ setting; the
+@@ -14,12 +14,48 @@ centre-on-me button — no docks, drawers or extra panels unless you open them.
+ ```bash
+ npm install
+ npm run dev          # http://localhost:3000
+-npm run build        # typecheck + production bundle
++npm run build        # typecheck + browser bundle + production Node server
++npm start            # serve dist/ plus /api/* and the shared AIS WebSocket relay
+ npm test             # unit tests
+ ```
+ 
+-The dev server needs Node (the AIS relay is a WebSocket server). Static hosting
+-alone cannot run `/ws/ais` or `/api/overpass`.
++Both development and production need a persistent Node server (the AIS relay is a
++WebSocket server). Static hosting alone cannot run `/ws/ais` or `/api/overpass`.
++The production server serves `dist/`, the existing Overpass/depth proxies and
++`/ws/ais` from one process; deploy with `npm ci && npm run build`, then `npm start`.
++The npm package is `wheel-over`; LEEWARD/MARNAV remain only as legacy names for
++importing device preferences and cached positions from earlier builds.
++Set `AISSTREAM_API_KEY` as a private runtime environment variable on the host.
++Do not add it to `VITE_*`, source code, or a client-side `.env` file: the server
++uses it to open one upstream feed shared by the browser clients.
++
++### After a workspace restore
++
++Set `WHEELOVER_PREVIEW_HOST` (or pass `--host`) to authorize the current dev
++preview hostname, and use `WHEELOVER_PORT` or `--port` to choose a port.
++
++A restored Cloud workspace keeps the tracked files but loses `node_modules`, the
++Playwright browser cache and every running process, and its preview hostname
++changes. `scripts/dev-setup.sh` restores all of that, and it will not report the
++server healthy until it answers a request carrying the current preview host:
++
++```bash
++./scripts/dev-setup.sh --host pv-…-….style.dev   # current preview hostname
++./scripts/dev-setup.sh --stop                    # stop the server it started
++```
++
++It installs from `package-lock.json` only when the install tree is missing or
++older than the lockfile, installs Chromium when Playwright cannot resolve a
++binary, restores the shared libraries and fonts into `.browser-deps/` only when
++`ldd` reports them missing, and then launches Chromium once to prove text
++renders — the wordmark checks measure an empty box when it does not. It reuses
++or starts the dev server on port 3000, checks that it listens on `0.0.0.0`, and
++probes `/` with the preview `Host` header: a 403 there means the hostname is
++stale, not that the server is down. `--port`, `--no-browser`, `--no-server` and
++`--force` (reinstall dependencies) are the other flags. Port, host and PID are
++kept in the git-ignored `.dev-server.env` and `.dev-server.pid`, so a re-run
++only needs `--host` when the hostname has changed. `npm run setup -- --host …`
++is the same thing.
+ 
+ ### Environment
+ 
+@@ -31,12 +67,14 @@ AISSTREAM_API_KEY=your-key-here
+ ```
+ 
+ The browser never receives the key: it opens `/ws/ais`, and the server holds the
+-upstream AISStream connection. Without a key the relay serves clearly-labelled
++upstream AISStream connection. For local production testing, `npm start` reads
++`.env.local`; hosted deployments must set the same variable in their runtime
++secret/environment settings. Without a key the relay serves clearly-labelled
+ **simulated** traffic so the station still works offline.
+ 
+ ## What is in the chart
+ 
+-A bare **LEEWARD** wordmark floats top-centre over the chart, filled with a
++A bare **WHEELOVER** wordmark floats top-centre over the chart, filled with a
+ blue-to-white gradient and held together by a dark drop shadow the way a chart
+ label is drawn. It has no plate or border, so it reads over pale NOAA paper,
+ OSM and satellite imagery alike, and it is `pointer-events: none`, so it never
+@@ -157,7 +195,7 @@ steals a map tap.
+   berth, calling-in point, wreck, dangerous wreck, hazard, marina and the rest. Switching a class off removes it from the chart at once, before
+   declutter runs, so hidden marks never eat into the marker budget; the
+   `shown of total` line and the chips are the same source of truth. Choices
+-  persist in `leeward:chart-prefs`, and **Show every mark class** resets them.
++  persist in `wheel-over:chart-prefs` (previous `leeward:` and `marnav:` settings are still imported), and **Show every mark class** resets them.
+ - Zoom declutter hides minor marks until they are useful; **Show all marks**
+   overrides it, and the menu always reports `shown of total` so nothing is
+   silently dropped.
+@@ -222,7 +260,7 @@ cannot be redistributed; their entries record why.
+ - **AIS names arrive sooner.** The relay subscribes to Class A and Class B
+   position reports, both static formats (`ShipStaticData`, `StaticDataReport`)
+   and long-range broadcasts, keeps static records for hours regardless of chart
+-  scope, and the browser caches them in `leeward:ais-static` for 30 days — so a
++  scope, and the browser caches them in `wheel-over:ais-static` for 30 days — so a
+   target that has been seen before shows its name on the first snapshot instead
+   of a bare MMSI. A target heard for the first time can still be unnamed until
+   its next six-minute static slot; the hover card and sheet say so explicitly.
+@@ -255,8 +293,8 @@ cannot be redistributed; their entries record why.
+ ## Display themes
+ 
+ Under *Chart detail* the menu offers Day, Night and Red, persisted in
+-`leeward:chart-prefs`. Earlier builds used a different storage prefix; those
+-saved settings are still read once and rewritten under the new keys:
++`wheel-over:chart-prefs`. Earlier builds used `leeward:` and `marnav:` storage
++prefixes; those saved settings are still read and rewritten under the new keys:
+ 
+ - **Night** dims the chart and panels while symbols keep their colours.
+ - **Red** is for dark adaptation. Tiles keep their channels and lose only the
+@@ -281,10 +319,10 @@ GPS is a persisted binary setting:
+ 
+ The position panel is opt-in from the menu and shows coordinates, SOG, COG,
+ accuracy and a compass rose. Turning off GPS from the menu also clears the
+-on-chart vessel marker. `leeward:gps-mode` in `localStorage` remembers the choice.
++on-chart vessel marker. `wheel-over:gps-mode` in `localStorage` remembers the choice.
+ 
+ **The chart opens on the vessel.** With GPS on, the last fix is cached in
+-`leeward:last-fix` (30-day expiry, validated on read) so a cold start lands in the
++`wheel-over:last-fix` (30-day expiry, validated on read) so a cold start lands in the
+ right place immediately; the first live fix then recentres once at harbour zoom.
+ That automatic move is cancelled by a deep link, by any pan or zoom, or after it
+ has run once — a chart that keeps jumping away from where the navigator put it
+@@ -416,7 +454,9 @@ desktop install already has the libraries and fonts and does not need this.
+   published station table when the exact turn matters.
+ - **The COLREGs view is a study aid**, not the legal text. Check the official
+   convention, national modifications and local notices to mariners.
+-- The AIS key in `.env.local` should be rotated before any public deployment.
++- Keep the shared AIS key in the production server's private environment settings,
++  never in the browser bundle. Confirm AISStream permits public multi-user relay
++  use before launch; the key being shared does not remove service rate limits.
+ 
+ ## Attribution
+ 
+diff --git a/index.html b/index.html
+index 8ce859e..11a3964 100644
+--- a/index.html
++++ b/index.html
+@@ -11,9 +11,9 @@
+     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+     <meta
+       name="description"
+-      content="LEEWARD - Maritime Navigation, Planning and Tracking: a mobile-first chartplotter with NAVAIDs, AIS, COLREGs, tides and tidal currents."
++      content="WHEELOVER — Maritime Navigation and Planning. Know your course. Own your passage. Charts, planning, traffic and conditions for curious sailors."
+     />
+-    <title>LEEWARD - Maritime Navigation, Planning and Tracking</title>
++    <title>WHEELOVER — Maritime Navigation and Planning</title>
+   </head>
+   <body>
+     <div id="root"></div>
+diff --git a/package-lock.json b/package-lock.json
+index 227d443..908487f 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1,16 +1,17 @@
+ {
+-  "name": "leeward",
++  "name": "wheel-over",
+   "version": "1.0.0",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+-      "name": "leeward",
++      "name": "wheel-over",
+       "version": "1.0.0",
+       "dependencies": {
+         "leaflet": "^1.9.4",
+         "react": "^19.1.1",
+-        "react-dom": "^19.1.1"
++        "react-dom": "^19.1.1",
++        "ws": "^8.22.0"
+       },
+       "devDependencies": {
+         "@types/leaflet": "^1.9.20",
+@@ -19,11 +20,11 @@
+         "@types/react-dom": "^19.1.7",
+         "@vitejs/plugin-react": "^4.7.0",
++        "esbuild": "^0.28.2",
+         "playwright": "^1.64.1",
+         "typescript": "^5.9.2",
+         "vite": "^7.1.3",
+-        "vitest": "^3.2.4",
+-        "ws": "^8.18.3"
++        "vitest": "^3.2.4"
+       }
+     },
+     "node_modules/@babel/code-frame": {
+@@ -2411,7 +2412,6 @@
+       "version": "8.22.0",
+       "resolved": "https://registry.npmjs.org/ws/-/ws-8.22.0.tgz",
+       "integrity": "sha512-Ydggc987+RO0AnWtZ/7Wq9FtNvcrL1b/RO0ud9mWjUPgDrsAAwQSF51sm2hm1XofbU/4jkpGEsLFsZZxU+1DOg==",
+-      "dev": true,
+       "license": "MIT",
+       "engines": {
+         "node": ">=10.0.0"
+
+diff --git a/package.json b/package.json
+index 4b6bcca..4a3a127 100644
+--- a/package.json
++++ b/package.json
+@@ -1,5 +1,5 @@
+ {
+-  "name": "leeward",
++  "name": "wheel-over",
+   "private": true,
+   "version": "1.0.0",
+   "type": "module",
+
+diff --git a/scripts/build-navaid-db.mjs b/scripts/build-navaid-db.mjs
+index e535053..83ace76 100644
+--- a/scripts/build-navaid-db.mjs
++++ b/scripts/build-navaid-db.mjs
+@@ -48,7 +48,7 @@ async function fetchRegion(region) {
+     try {
+       const response = await fetch(mirror, {
+         method: 'POST',
+-        headers: { 'User-Agent': 'leeward-navaid-build/1.0', 'Content-Type': 'application/x-www-form-urlencoded' },
++        headers: { 'User-Agent': 'wheel-over-navaid-build/1.0', 'Content-Type': 'application/x-www-form-urlencoded' },
+         body,
+         signal: AbortSignal.timeout(150_000),
+       });
+diff --git a/scripts/dev-setup.sh b/scripts/dev-setup.sh
+old mode 100644
+new mode 100755
+index 37b41fb..7dddf94 100644
+--- a/scripts/dev-setup.sh
++++ b/scripts/dev-setup.sh
+@@ -23,8 +23,8 @@ STATE_FILE="$ROOT/.dev-server.env"
+ LOG_FILE="$ROOT/.dev-server.log"
+ PID_FILE="$ROOT/.dev-server.pid"
+ 
+-HOST="${LEEWARD_PREVIEW_HOST:-}"
+-PORT="${LEEWARD_PORT:-}"
++HOST="${WHEELOVER_PREVIEW_HOST:-}"
++PORT="${WHEELOVER_PORT:-}"
+ START_SERVER=1
+ SETUP_BROWSER=1
+ FORCE_INSTALL=0
+@@ -64,8 +64,8 @@ state_value() {
+   [ -f "$STATE_FILE" ] || return 0
+   sed -n "s/^$1=//p" "$STATE_FILE" | tail -n 1
+ }
+-[ -n "$PORT" ] || PORT="$(state_value LEEWARD_PORT)"
+-[ -n "$HOST" ] || HOST="$(state_value LEEWARD_PREVIEW_HOST)"
++[ -n "$PORT" ] || PORT="$(state_value WHEELOVER_PORT)"
++[ -n "$HOST" ] || HOST="$(state_value WHEELOVER_PREVIEW_HOST)"
+ PORT="${PORT:-3000}"
+ # Accept a pasted URL as well as a bare hostname.
+ HOST="${HOST#https://}"
+@@ -109,7 +109,7 @@ http_get() {
+   return 0
+ }
+ 
+-# The chart itself, not just any 200: the document must be LEEWARD's index.
++# The chart itself, not just any 200: the document must be WHEELOVER's index.
+ # The two markers are checked separately because the title precedes the root
+ # element, so a single ordered pattern would never match.
+ is_app_response() {
+@@ -118,7 +118,7 @@ is_app_response() {
+     *) return 1 ;;
+   esac
+   case "$HTTP_BODY" in
+-    *LEEWARD*) return 0 ;;
++    *WHEELOVER*) return 0 ;;
+     *) return 1 ;;
+   esac
+ }
+@@ -255,7 +255,7 @@ setup_browser() {
+     import { chromium } from 'playwright';
+     const browser = await chromium.launch();
+     const page = await browser.newPage();
+-    await page.setContent('<div style=\"font:16px sans-serif\">LEEWARD</div>');
++    await page.setContent('<div style=\"font:16px sans-serif\">WHEELOVER</div>');
+     const height = await page.evaluate(() => document.body.firstElementChild.getBoundingClientRect().height);
+     await browser.close();
+     if (!(height > 0)) {
+@@ -313,10 +313,10 @@ else
+   rm -f "$PID_FILE"
+   : >"$LOG_FILE"
+   if command -v setsid >/dev/null 2>&1; then
+-    LEEWARD_PORT="$PORT" LEEWARD_PREVIEW_HOST="$HOST" \
++    WHEELOVER_PORT="$PORT" WHEELOVER_PREVIEW_HOST="$HOST" \
+       setsid nohup npm run dev >>"$LOG_FILE" 2>&1 </dev/null &
+   else
+-    LEEWARD_PORT="$PORT" LEEWARD_PREVIEW_HOST="$HOST" \
++    WHEELOVER_PORT="$PORT" WHEELOVER_PREVIEW_HOST="$HOST" \
+       nohup npm run dev >>"$LOG_FILE" 2>&1 </dev/null &
+   fi
+   server_pid=$!
+@@ -354,7 +354,7 @@ if [ -n "$HOST" ]; then
+   if http_get "http://127.0.0.1:$PORT/" "$HOST"; then
+     case "$HTTP_CODE" in
+       200)
+-        is_app_response || fail "preview host $HOST got a 200 that is not the LEEWARD index"
++        is_app_response || fail "preview host $HOST got a 200 that is not the WHEELOVER index"
+         echo "==> preview host: $HOST accepted"
+         ;;
+       *)
+@@ -383,19 +383,19 @@ if [ "$SETUP_BROWSER" -eq 1 ]; then
+       await page.goto(process.env.CHECK_URL, { waitUntil: 'load', timeout: 30000 });
+       await page.waitForSelector('#root > *', { timeout: 20000 });
+       const title = await page.title();
+-      if (!title.includes('LEEWARD')) throw new Error('unexpected title: ' + title);
++      if (!title.includes('WHEELOVER')) throw new Error('unexpected title: ' + title);
+       if (errors.length) throw new Error('uncaught page error: ' + errors[0]);
+     } finally {
+       await browser.close();
+     }
+   " || fail "the chart did not mount in Chromium; see $LOG_FILE and the page error above"
+-  echo "==> app: React mounted, chart document titled LEEWARD"
++  echo "==> app: React mounted, chart document titled WHEELOVER"
+ fi
+ 
+ # Remember the port/host so the next restore only needs --host if the hostname has changed.
+ {
+-  printf 'LEEWARD_PORT=%s\n' "$PORT"
+-  printf 'LEEWARD_PREVIEW_HOST=%s\n' "$HOST"
++  printf 'WHEELOVER_PORT=%s\n' "$PORT"
++  printf 'WHEELOVER_PREVIEW_HOST=%s\n' "$HOST"
+ } >"$STATE_FILE"
+ 
+ if ! grep -q '^AISSTREAM_API_KEY=.' "$ROOT/.env.local" 2>/dev/null &&
+diff --git a/scripts/setup-browser-deps.sh b/scripts/setup-browser-deps.sh
+old mode 100644
+new mode 100755
+index 287cda0..300535a 100644
+--- a/scripts/setup-browser-deps.sh
++++ b/scripts/setup-browser-deps.sh
+@@ -6,7 +6,7 @@
+ #
+ # Extracts the shared libraries Chromium needs (libnss3, libnspr4, libatk*, libx*)
+ # into .browser-deps/ and copies DejaVu fonts into the user font path, so text —
+-# including the LEEWARD wordmark the UI checks measure — actually renders.
++# including the WHEELOVER wordmark the UI checks measure — actually renders.
+ # Re-run after a workspace restore; nothing outside the workspace is changed.
+ set -euo pipefail
+ 
+diff --git a/scripts/verify-lanes.mjs b/scripts/verify-lanes.mjs
+index cd62084..f8e8522 100644
+--- a/scripts/verify-lanes.mjs
++++ b/scripts/verify-lanes.mjs
+@@ -64,7 +64,7 @@ const VIEWS = {
+ async function openChart(browser, view, prefs = LANE_PREFS) {
+   const context = await browser.newContext({ viewport: { width: 1000, height: 760 } });
+   await context.addInitScript((value) => {
+-    localStorage.setItem('leeward:chart-prefs', JSON.stringify(value));
++    localStorage.setItem('wheel-over:chart-prefs', JSON.stringify(value));
+   }, prefs);
+   const page = await context.newPage();
+   const errors = [];
+diff --git a/scripts/verify-ui.mjs b/scripts/verify-ui.mjs
+index c1e4af7..ac1deda 100644
+--- a/scripts/verify-ui.mjs
++++ b/scripts/verify-ui.mjs
+@@ -1,6 +1,6 @@
+ #!/usr/bin/env node
+ /**
+- * Browser verification for LEEWARD.
++ * Browser verification for WHEELOVER.
+  *
+  *   node scripts/verify-ui.mjs [baseUrl]
+  *
+@@ -332,7 +332,7 @@ async function run() {
+   });
+   check(
+     'app name floats at the top centre',
+-    brandInfo.text === 'LEEWARD' && Math.abs(brandInfo.offset) <= 3,
++    brandInfo.text === 'WHEELOVER' && Math.abs(brandInfo.offset) <= 3,
+     `${brandInfo.text} offset ${brandInfo.offset}px`,
+   );
+   check(
+@@ -762,7 +762,7 @@ async function run() {
+   const cachedStatics = await page.evaluate(() => {
+     try {
+-      const raw = localStorage.getItem('leeward:ais-static');
++      const raw = localStorage.getItem('wheel-over:ais-static');
+       return raw ? Object.keys(JSON.parse(raw)).length : 0;
+     } catch {
+       return 0;
+
+diff --git a/server/marnavServer.ts b/server/marnavServer.ts
+index 9ce83fd..4b247a4 100644
+--- a/server/marnavServer.ts
++++ b/server/marnavServer.ts
+@@ -12,7 +12,7 @@ export function marnavServer(options: { aisKey: string }): Plugin {
+   return {
+     name: 'marnav-server',
+     configureServer(server) {
+-      const log = (message: string) => server.config.logger.info(`[leeward] ${message}`);
++      const log = (message: string) => server.config.logger.info(`[WHEELOVER] ${message}`);
+ 
+       server.middlewares.use('/api/overpass', createOverpassHandler(log));
+       server.middlewares.use('/api/depth', createDepthHandler(log));
+diff --git a/server/overpassProxy.ts b/server/overpassProxy.ts
+index 05c3fe2..e7dedb4 100644
+--- a/server/overpassProxy.ts
++++ b/server/overpassProxy.ts
+@@ -67,7 +67,7 @@ async function fetchMirror(mirror: string, query: string): Promise<CacheEntry> {
+   const response = await fetch(mirror, {
+     method: 'POST',
+     headers: {
+-      'User-Agent': 'leeward/1.0 (offline chart cache)',
++      'User-Agent': 'wheel-over/1.0 (offline chart cache)',
+       'Content-Type': 'application/x-www-form-urlencoded',
+     },
+     body: new URLSearchParams({ data: query }),
+diff --git a/server/productionServer.ts b/server/productionServer.ts
+index 3564a82..8c04b91 100644
+--- a/server/productionServer.ts
++++ b/server/productionServer.ts
+@@ -10,7 +10,7 @@ import { createOverpassHandler } from './overpassProxy';
+ const root = resolve(process.cwd(), 'dist');
+ const port = Number(process.env.PORT || 3000);
+ const host = process.env.HOST || '0.0.0.0';
+-const log = (message: string) => console.info(`[leeward] ${message}`);
++const log = (message: string) => console.info(`[WHEELOVER] ${message}`);
+ const aisKey = process.env.AISSTREAM_API_KEY ?? '';
+ const relay = createAisRelay({ apiKey: aisKey, log });
+ const wss = new WebSocketServer({ noServer: true, maxPayload: 16 * 1024 });
+@@ -137,14 +137,14 @@ server.on('upgrade', (req, socket, head) => {
+     return;
+   }
+   if (pathname !== '/ws/ais') {
+-    socket.end('HTTP/1.1 404 Not Found\\r\\nConnection: close\\r\\n\\r\\n');
++    socket.end('HTTP/1.1 404 Not Found\r\nConnection: close\r\n\r\n');
+     return;
+   }
+   wss.handleUpgrade(req, socket, head, (ws) => relay.attach(ws));
+ });
+ 
+ server.on('error', (error) => {
+-  console.error(`[leeward] HTTP server error: ${error.message}`);
++  console.error(`[WHEELOVER] HTTP server error: ${error.message}`);
+   process.exitCode = 1;
+ });
+ 
+ server.on('error', (error) => {
+-  console.error(`[leeward] shutdown failed: ${error.message}`);
++  console.error(`[WHEELOVER] shutdown failed: ${error.message}`);
+   process.exitCode = 1;
+ });
+ 
+diff --git a/shared/navaid-core.mjs b/shared/navaid-core.mjs
+index a7b5663..ce54c92 100644
+--- a/shared/navaid-core.mjs
++++ b/shared/navaid-core.mjs
+@@ -1,5 +1,5 @@
+ /**
+- * LEEWARD shared chart core.
++ * WHEELOVER shared chart core.
+  *
+  * Plain ESM so the browser app, the vitest suite and the offline database
+  * builder all run the *same* classification code. If ingest and rendering
+
+diff --git a/src/App.tsx b/src/App.tsx
+index 6790da1..e1ab285 100644
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -441,8 +441,8 @@ export default function App() {
+ 
+       {preferences.theme === 'red' && <div className="red-tint" aria-hidden="true" />}
+ 
+-      <h1 className="chart-brand" aria-label="LEEWARD - Maritime Navigation, Planning and Tracking">
+-        LEEWARD
++      <h1 className="chart-brand" aria-label="WHEELOVER — Maritime Navigation and Planning">
++        WHEELOVER
+       </h1>
+ 
+       <ZoomControls
+
+diff --git a/src/LandingPage.tsx b/src/LandingPage.tsx
+new file mode 100644
+index 0000000..13132a0
+--- /dev/null
++++ b/src/LandingPage.tsx
+@@ -0,0 +1,95 @@
++import type { ReactNode } from 'react';
++import './landing.css';
++
++const FEEDBACK_EMAIL = 'dcoates1@outlook.com';
++
++const features = [
++  {
++    number: '01',
++    title: 'Charts for the bigger picture',
++    copy: 'Switch between familiar basemaps, satellite imagery, shaded relief and nautical views. NOAA chart layers add US coverage where available.',
++    icon: 'chart',
++  },
++  {
++    number: '02',
++    title: 'Know what’s around you',
++    copy: 'Explore navigation marks and community-mapped places, with live AIS vessel traffic when the shared feed is available.',
++    icon: 'radar',
++  },
++  {
++    number: '03',
++    title: 'Conditions at a glance',
++    copy: 'Check wind, waves, tides and currents, with local station information where available and model guidance elsewhere.',
++    icon: 'weather',
++  },
++  {
++    number: '04',
++    title: 'Made for a day on the water',
++    copy: 'Use GPS location, save chart tiles for offline viewing, and keep COLREGs study notes close at hand.',
++    icon: 'compass',
++  },
++];
++
++function FeedbackLink({ children }: { children: ReactNode }) {
++  if (!FEEDBACK_EMAIL) return <span className="feedback-unavailable">{children}</span>;
++  return <a href={`mailto:${FEEDBACK_EMAIL}?subject=${encodeURIComponent('WHEELOVER feedback')}`}>{children}</a>;
++}
++
++function ContactCard() {
++  return <div className="contact-card"><span className="contact-mark">↗</span><strong>Feedback &amp; requests</strong><p>Found an issue or have an idea for a future build? Get in touch by email.</p><FeedbackLink><span className="contact-pending">EMAIL THE DEVELOPER</span></FeedbackLink></div>;
++}
++
++function FeatureIcon({ name }: { name: string }) {
++  const paths: Record<string, ReactNode> = {
++    chart: <><path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20z"/><path d="M9 4v13.5M15 6.5V20"/></>,
++    radar: <><circle cx="12" cy="12" r="8.5"/><path d="M12 12 18.5 6.5M12 3.5v17M3.5 12h17"/><circle cx="12" cy="12" r="2"/></>,
++    weather: <><path d="M4 15.5a4 4 0 0 1 1.5-7.7A6.5 6.5 0 0 1 18 9a3.5 3.5 0 0 1 .5 7H4Z"/><path d="m8 19-1 2m6-2-1 2m6-2-1 2"/></>,
++    compass: <><circle cx="12" cy="12" r="9"/><path d="m15.7 8.3-2.4 5-5 2.4 2.4-5 5-2.4Z"/><path d="M12 2v2m10 8h-2M4 12H2m10 10v-2"/></>,
++  };
++  return <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">{paths[name]}</svg>;
++}
++
++function ChartArtwork() {
++  return (
++    <div className="home-chart" aria-label="Illustration of a nautical chart with a plotted route and vessel markers" role="img">
++      <div className="chart-grid" />
++      <svg className="chart-contours" viewBox="0 0 680 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
++        <path d="M-50 380c100-70 125-130 220-112s104 75 194 35 134-101 325-73M-60 422c115-75 155-130 240-115s109 61 194 27 148-92 326-62M-54 465c122-73 164-118 250-104s109 53 192 20 154-82 321-50" />
++        <path d="M45-20c55 99 54 146 117 190s128 30 165 109 12 130 85 231M112-24c49 96 50 139 109 182s124 30 162 106 13 126 82 226M181-24c39 90 44 133 99 175s119 29 157 101 15 125 80 219" />
++        <path d="M350 86c60-32 118-27 152 12s29 87-16 111-108 16-135-18-45-74-1-105ZM391 112c37-20 72-16 92 9s17 53-10 67-65 9-81-12-27-44-1-64Z" />
++        <path d="M17 255c36-26 75-30 110-12s46 47 31 78-57 47-92 32-72-64-49-98ZM507 331c42-25 94-24 123 1s29 59 3 83-74 30-111 7-62-62-15-91Z" />
++      </svg>
++      <div className="chart-coordinate coordinate-one">50°45′N&nbsp; 001°18′W</div><div className="chart-coordinate coordinate-two">SOLENT · UK</div>
++      <svg className="route-line" viewBox="0 0 680 520" preserveAspectRatio="none" aria-hidden="true"><path d="M92 364c90-110 143-77 226-150s129-52 252-136" /></svg>
++      <span className="chart-pin pin-start"><i /></span><span className="chart-pin pin-end"><i /></span>
++      <div className="chart-vessel vessel-one">▲</div><div className="chart-vessel vessel-two">▲</div>
++      <div className="chart-scale"><span>0</span><i /><span>2 nm</span></div>
++      <div className="chart-status"><span className="status-dot" /> Chart view <b>·</b> GPS ready</div>
++      <div className="chart-float"><span className="float-label">WIND</span><strong>12 <small>kn</small></strong><span>SW · 245°</span></div>
++      <div className="chart-depth">DEPTH CONTOURS <span>›</span></div>
++    </div>
++  );
++}
++
++export default function LandingPage() {
++  return (
++    <main className="site-home">
++      <header className="home-header">
++        <a className="home-brand" href="#top" aria-label="WHEELOVER home"><span className="brand-mark">W</span><span>WHEELOVER</span></a>
++        <nav className="home-nav" aria-label="Main navigation"><a href="#features">Features</a><a href="#platforms">Get the app</a><a href="#about">Our approach</a></nav>
++        <a className="home-nav-cta" href="/app">Open chart <span aria-hidden="true">↗</span></a>
++      </header>
++      <section className="home-hero" id="top">
++        <div className="hero-copy"><div className="eyebrow"><span className="eyebrow-line" /> A clearer view of the water</div><h1>Find your way.<br /><em>Feel the freedom.</em></h1><p className="hero-intro">A thoughtful chartplotter for curious sailors. Explore nautical charts, nearby traffic and changing conditions—all in one place.</p><p className="hero-motto">Know your course. Own your passage.</p><p className="hero-categories">Charts · Planning · Traffic · Conditions</p><div className="hero-actions"><a className="button-primary" href="/app"><span className="button-icon">↗</span> Open the web app</a><a className="button-quiet" href="#features">Explore features <span aria-hidden="true">↓</span></a></div><div className="hero-meta"><span className="meta-check">✓</span> Start exploring in your browser <span className="meta-separator">/</span> No account needed</div></div>
++        <div className="hero-visual"><ChartArtwork /><div className="visual-caption"><span>01 / 04</span><span>A little more confidence, at every waypoint.</span></div></div>
++        <div className="hero-bottomline"><span>MADE FOR THE WATER</span><span className="bottomline-rule"/><span>PLAN · EXPLORE · DISCOVER</span></div>
++      </section>
++      <section className="home-intro" id="about"><div className="section-kicker">THE WHEELOVER DIFFERENCE <span>—</span> 01</div><div className="intro-grid"><h2>The essentials,<br /><em>all in one view.</em></h2><div className="intro-body"><p>WHEELOVER brings chart layers, navigation aids, vessel traffic and marine conditions together in a clean, mobile-first experience—so you can spend less time switching tools and more time looking out to sea.</p><a href="/app" className="text-link">Take a look around <span>↗</span></a></div></div></section>
++      <section className="home-features" id="features"><div className="features-heading"><div><div className="section-kicker">TOOLS FOR YOUR NEXT OUTING <span>—</span> 02</div><h2>Useful by design.</h2></div><p>Start with the chart. Open the tools you need.<br />Keep the rest of the screen for the water.</p></div><div className="feature-grid">{features.map((feature) => <article className="feature-card" key={feature.number}><div className="feature-top"><span className="feature-number">{feature.number}</span><span className="feature-icon"><FeatureIcon name={feature.icon} /></span></div><h3>{feature.title}</h3><p>{feature.copy}</p></article>)}</div><div className="feature-footnote"><span className="feature-footnote-mark">✳</span><p>Explore OpenStreetMap, satellite, relief and nautical basemaps, plus NOAA chart layers in US waters.</p><a href="/app">See the chart <span>↗</span></a></div></section>
++      <section className="home-platforms" id="platforms"><div className="platforms-copy"><div className="section-kicker">YOUR DEVICE, YOUR WAY <span>—</span> 03</div><h2>Ready when<br /><em>you are.</em></h2><p>Open WHEELOVER in your browser today. Dedicated Android and iPhone downloads are planned for a future release.</p><a className="button-primary" href="/app"><span className="button-icon">↗</span> Launch web app</a></div><div className="platform-list"><a className="platform-row platform-available" href="/app"><span className="platform-icon web-icon">◎</span><span className="platform-text"><strong>Web app</strong><small>Available now · Open in your browser</small></span><span className="platform-action">OPEN <b>↗</b></span></a><div className="platform-row"><span className="platform-icon">◈</span><span className="platform-text"><strong>Android</strong><small>Native app in a future release</small></span><span className="platform-coming">COMING SOON</span></div><div className="platform-row"><span className="platform-icon">◉</span><span className="platform-text"><strong>iPhone &amp; iPad</strong><small>Native app in a future release</small></span><span className="platform-coming">COMING SOON</span></div><div className="platform-note"><span>i</span><p>Native downloads aren’t available yet. The web app is the current way to use WHEELOVER on desktop and mobile browsers.</p></div></div></section>
++      <section className="home-safety"><div className="safety-icon">!</div><div><span className="section-kicker">A NOTE ON NAVIGATION</span><p>WHEELOVER is a planning and situational-awareness aid, not a certified navigation system. Always use official charts, notices and your own judgement.</p></div></section>
++      <section className="home-contact" id="contact"><div><div className="section-kicker">HELP SHAPE WHAT COMES NEXT <span>—</span> 04</div><h2>Good ideas travel.<br /><em>Send yours our way.</em></h2><p>Found an issue, or have an idea for a future build? We’d love to hear what would make your time on the water better.</p></div><ContactCard /></section>
++      <footer className="home-footer"><a className="home-brand" href="#top"><span className="brand-mark">W</span><span>WHEELOVER</span></a><span className="footer-note">Know your course. Own your passage.</span><a href="/app" className="footer-link">Open web app ↗</a><span className="footer-copy">© {new Date().getFullYear()} WHEELOVER</span></footer>
++    </main>
++  );
++}
+diff --git a/src/components/ColregsPanel.tsx b/src/components/ColregsPanel.tsx
+index 35b2757..76b6d73 100644
+--- a/src/components/ColregsPanel.tsx
++++ b/src/components/ColregsPanel.tsx
+@@ -84,7 +84,7 @@ export function ColregsPanel() {
+       </ul>
+ 
+       <p className="menu-note disclaimer">
+-        This guide is a study aid bundled offline with LEEWARD ({COLREGS.length} entries). It is not a substitute for the
++        This guide is a study aid bundled offline with WHEELOVER ({COLREGS.length} entries). It is not a substitute for the
+         official convention or local notices to mariners. UK mariners rely on MGN 335 for COLREGs guidance.
+       </p>
+     </div>
+diff --git a/src/components/LayerControl.tsx b/src/components/LayerControl.tsx
+index bdadf5f..b8a4c16 100644
+--- a/src/components/LayerControl.tsx
++++ b/src/components/LayerControl.tsx
+@@ -180,9 +180,9 @@ export function LayerControl({
+           <section className="menu-panel" role="dialog" aria-modal="true" aria-label="Menu">
+             <header className="menu-head">
+               <div>
+-                <p className="eyebrow">LEEWARD</p>
++                <p className="eyebrow">WHEELOVER</p>
+                 <h2>Menu</h2>
+-                <p className="menu-tagline">Maritime Navigation, Planning and Tracking</p>
++                <p className="menu-tagline">Maritime Navigation and Planning</p>
+               </div>
+               <button type="button" className="icon-button" onClick={() => onOpen(false)} aria-label="Close menu">
+                 <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+
+diff --git a/src/landing.css b/src/landing.css
+new file mode 100644
+index 0000000..0d0dc25
+--- /dev/null
++++ b/src/landing.css
+@@ -0,0 +1,61 @@
++@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
++
++:root { --home-bg: #071a25; --home-ink: #eaf3f4; --home-muted: #97abb2; --home-line: rgba(173, 205, 211, .16); --home-cyan: #76d9d2; --home-mono: 'DM Mono', monospace; --home-display: 'Manrope', sans-serif; }
++html:has(.site-home), body:has(.site-home), body:has(.site-home) #root { height: auto; min-height: 100%; overflow: auto; overscroll-behavior: auto; }
++body:has(.site-home) { background: var(--home-bg); color: var(--home-ink); font-family: 'DM Sans', sans-serif; }
++.site-home { min-height: 100vh; overflow: hidden; background: radial-gradient(ellipse at 70% 9%, rgba(20, 81, 95, .22), transparent 32%), var(--home-bg); color: var(--home-ink); }
++.home-header { width: min(1260px, calc(100% - 96px)); height: 88px; margin: auto; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--home-line); }
++.home-brand { display: inline-flex; align-items: center; gap: 10px; font: 800 14px var(--home-display); letter-spacing: .15em; }
++.brand-mark { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid rgba(118, 217, 210, .65); border-radius: 50%; color: var(--home-cyan); font: 700 13px var(--home-display); letter-spacing: 0; }
++.home-nav { display: flex; align-items: center; gap: 38px; color: #b0c0c4; font-size: 12px; }
++.home-nav a, .button-quiet, .text-link, .home-nav-cta, .footer-link { transition: color .2s ease; }
++.home-nav a:hover, .button-quiet:hover, .text-link:hover, .home-nav-cta:hover, .footer-link:hover { color: var(--home-cyan); }
++.home-nav-cta { padding: 11px 15px; border: 1px solid var(--home-line); border-radius: 3px; font-size: 11px; }
++.home-nav-cta span { margin-left: 10px; color: var(--home-cyan); }
++.home-hero { position: relative; display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: 54px; width: min(1260px, calc(100% - 96px)); min-height: 620px; margin: auto; padding: 72px 0 106px; }
++.hero-copy { position: relative; z-index: 1; padding: 0 0 20px; }
++.eyebrow, .section-kicker { display: flex; align-items: center; gap: 11px; color: var(--home-cyan); font: 500 9px var(--home-mono); letter-spacing: .14em; }
++.eyebrow-line { display: inline-block; width: 24px; height: 1px; background: var(--home-cyan); }
++.home-hero h1 { margin: 25px 0 22px; font: 500 clamp(42px, 5.1vw, 72px)/1.1 var(--home-display); letter-spacing: -.055em; }
++.home-hero h1 em, .home-intro h2 em, .home-platforms h2 em, .home-contact h2 em { color: var(--home-cyan); font-style: normal; }
++.hero-intro { max-width: 430px; color: #a8b8bd; font-size: 15px; line-height: 1.85; }
++.hero-motto { margin: 16px 0 0; color: var(--home-cyan); font: 500 12px var(--home-mono); letter-spacing: .03em; }
++.hero-categories { margin: 12px 0 0; color: var(--home-cyan); font: 500 10px var(--home-mono); letter-spacing: .08em; }
++.hero-actions { display: flex; align-items: center; gap: 27px; margin-top: 34px; }
++.button-primary { display: inline-flex; align-items: center; gap: 13px; padding: 15px 18px; border: 1px solid #83e5dc; border-radius: 3px; background: var(--home-cyan); color: #08202a !important; font-size: 12px; font-weight: 700; transition: transform .2s ease, background .2s ease; }
++.button-primary:hover { transform: translateY(-2px); background: #a0f2e9; }
++.button-icon { font-size: 16px; }
++.button-quiet { color: #c5d0d2; font-size: 12px; }
++.button-quiet span { padding-left: 7px; color: var(--home-cyan); }
++.hero-meta { margin-top: 24px; color: #8299a1; font: 10px var(--home-mono); letter-spacing: .01em; }
++.meta-check { margin-right: 7px; color: var(--home-cyan); }
++.meta-separator { margin: 0 8px; color: #506d76; }
++.hero-visual { position: relative; padding: 14px 0 0 12px; }
++.home-chart { position: relative; aspect-ratio: 1.22; overflow: hidden; border: 1px solid rgba(118, 217, 210, .22); background: radial-gradient(ellipse at 30% 65%, rgba(30, 115, 129, .55), transparent 60%), linear-gradient(145deg, #123946, #0b2933 48%, #123d47); box-shadow: 0 24px 80px rgba(0, 0, 0, .26); }
++.chart-grid { position: absolute; inset: 0; opacity: .3; background-image: linear-gradient(rgba(177, 222, 212, .13) 1px, transparent 1px), linear-gradient(90deg, rgba(177, 222, 212, .13) 1px, transparent 1px); background-size: 54px 54px; }
++.chart-contours, .route-line { position: absolute; inset: 0; width: 100%; height: 100%; }
++.chart-contours { fill: none; stroke: rgba(163, 223, 197, .35); stroke-width: 1; }
++.route-line path { fill: none; stroke: #e8d985; stroke-width: 2; stroke-dasharray: 5 5; }
++.chart-coordinate { position: absolute; z-index: 1; color: rgba(211, 233, 223, .7); font: 8px var(--home-mono); letter-spacing: .12em; }
++.coordinate-one { top: 22px; left: 23px; }.coordinate-two { top: 22px; right: 23px; }
++.chart-pin { position: absolute; z-index: 2; display: grid; place-items: center; width: 23px; height: 23px; border: 1px solid rgba(234, 243, 244, .7); border-radius: 50%; background: #1c5960; box-shadow: 0 0 0 5px rgba(118, 217, 210, .12); }
++.chart-pin i { width: 6px; height: 6px; border-radius: 50%; background: var(--home-cyan); }.pin-start { left: 13%; bottom: 27%; }.pin-end { right: 16%; top: 18%; }
++.chart-vessel { position: absolute; z-index: 2; color: #f3e8a6; font-size: 13px; text-shadow: 0 0 8px rgba(243, 232, 166, .5); }.vessel-one { top: 42%; left: 57%; transform: rotate(38deg); }.vessel-two { right: 23%; bottom: 25%; transform: rotate(-21deg); }
++.chart-scale { position: absolute; bottom: 24px; left: 23px; display: flex; align-items: center; gap: 8px; color: #b1c6c4; font: 8px var(--home-mono); }.chart-scale i { width: 35px; height: 5px; border-right: 1px solid #b1c6c4; border-bottom: 1px solid #b1c6c4; border-left: 1px solid #b1c6c4; }
++.chart-status { position: absolute; right: 16px; bottom: 15px; display: flex; align-items: center; gap: 7px; padding: 10px 12px; border: 1px solid rgba(224, 240, 231, .18); background: rgba(6, 26, 33, .86); color: #c5d8d3; font: 8px var(--home-mono); }.chart-status b { color: #66868a; font-weight: 400; }.status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--home-cyan); box-shadow: 0 0 8px var(--home-cyan); }
++.chart-float { position: absolute; top: 27%; right: 8%; display: flex; flex-direction: column; gap: 5px; padding: 13px 15px; border: 1px solid rgba(216, 237, 228, .18); background: rgba(7, 32, 39, .9); color: #a8bfbd; font: 8px var(--home-mono); }.chart-float strong { color: #eff5e9; font: 600 20px var(--home-display); }.chart-float small { color: var(--home-cyan); font: 10px var(--home-mono); }.float-label { color: var(--home-cyan); letter-spacing: .12em; }
++.chart-depth { position: absolute; top: 54%; left: 22%; padding: 8px 10px; background: rgba(6, 25, 30, .72); color: #b9d7c4; font: 7px var(--home-mono); letter-spacing: .08em; }.chart-depth span { padding-left: 9px; color: var(--home-cyan); }
++.visual-caption { display: flex; justify-content: space-between; margin-top: 13px; color: #748b93; font: 8px var(--home-mono); letter-spacing: .09em; }.visual-caption span:first-child { color: var(--home-cyan); }
++.hero-bottomline { position: absolute; right: 0; bottom: 36px; left: 0; display: flex; align-items: center; gap: 14px; color: #66808a; font: 8px var(--home-mono); letter-spacing: .15em; }.bottomline-rule { width: 70px; height: 1px; background: var(--home-line); }
++.home-intro, .home-features, .home-platforms, .home-safety, .home-contact, .home-footer { width: min(1260px, calc(100% - 96px)); margin: auto; }
++.home-intro { padding: 106px 0 119px; border-top: 1px solid var(--home-line); }.section-kicker { color: #7f9ba2; font-size: 8px; }.section-kicker span { color: var(--home-cyan); }
++.intro-grid { display: grid; grid-template-columns: 1fr .75fr; gap: 90px; align-items: end; margin-top: 38px; }.home-intro h2, .home-platforms h2, .home-contact h2 { font: 500 clamp(36px, 4vw, 56px)/1.12 var(--home-display); letter-spacing: -.05em; }.intro-body p { max-width: 490px; color: #9dafb3; font-size: 14px; line-height: 1.9; }.text-link { display: inline-block; margin-top: 24px; padding-bottom: 6px; border-bottom: 1px solid rgba(118, 217, 210, .42); color: #d2e0e0; font-size: 11px; }.text-link span { padding-left: 12px; color: var(--home-cyan); }
++.home-features { padding: 72px 0 95px; border-top: 1px solid var(--home-line); border-bottom: 1px solid var(--home-line); }.features-heading { display: flex; align-items: end; justify-content: space-between; margin-bottom: 35px; }.features-heading h2 { margin-top: 22px; font: 500 34px var(--home-display); letter-spacing: -.045em; }.features-heading > p { color: #879da3; font-size: 11px; line-height: 1.8; }.feature-grid { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--home-line); }.feature-card { min-height: 226px; padding: 23px 21px; border-right: 1px solid var(--home-line); background: linear-gradient(145deg, rgba(19, 52, 62, .42), transparent); }.feature-card:last-child { border-right: 0; }.feature-top { display: flex; align-items: center; justify-content: space-between; }.feature-number { color: #66828a; font: 9px var(--home-mono); }.feature-icon { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid rgba(118, 217, 210, .25); border-radius: 50%; color: var(--home-cyan); }.feature-icon svg { width: 17px; height: 17px; }.feature-card h3 { margin: 27px 0 9px; font: 600 14px var(--home-display); }.feature-card p { color: #94aab0; font-size: 11px; line-height: 1.75; }.feature-footnote { display: flex; align-items: center; gap: 13px; margin-top: 22px; color: #8da4a9; font-size: 10px; }.feature-footnote-mark { color: var(--home-cyan); font-size: 18px; }.feature-footnote a { margin-left: auto; color: var(--home-cyan); font: 9px var(--home-mono); }.feature-footnote a span { padding-left: 9px; }
++.home-platforms { display: grid; grid-template-columns: .85fr 1fr; gap: 100px; align-items: center; padding: 110px 0; }.home-platforms h2 { margin-top: 29px; }.platforms-copy > p { max-width: 370px; margin: 19px 0 25px; color: #98acb1; font-size: 12px; line-height: 1.85; }.platforms-copy .button-primary { padding: 13px 16px; }.platform-list { border-top: 1px solid var(--home-line); }.platform-row { display: flex; align-items: center; gap: 16px; min-height: 78px; border-bottom: 1px solid var(--home-line); }.platform-icon { display: grid; place-items: center; width: 37px; height: 37px; border: 1px solid rgba(183, 208, 211, .2); border-radius: 50%; color: #9ab2b6; font-size: 20px; }.platform-available .platform-icon { border-color: rgba(118, 217, 210, .48); color: var(--home-cyan); }.platform-text { display: flex; flex: 1; flex-direction: column; gap: 5px; }.platform-text strong { font: 600 12px var(--home-display); }.platform-text small { color: #81989f; font-size: 10px; }.platform-action, .platform-coming { color: #7c969b; font: 8px var(--home-mono); letter-spacing: .08em; }.platform-action { color: var(--home-cyan); }.platform-action b { margin-left: 8px; font-size: 13px; font-weight: 400; }.platform-note { display: flex; gap: 12px; margin-top: 17px; color: #81979c; font-size: 10px; line-height: 1.7; }.platform-note > span { display: grid; flex: 0 0 16px; place-items: center; height: 16px; border: 1px solid #63858a; border-radius: 50%; color: var(--home-cyan); font: 9px var(--home-mono); }
++.home-safety { display: flex; align-items: center; gap: 18px; margin-bottom: 95px; padding: 23px 26px; border: 1px solid rgba(225, 200, 124, .19); background: rgba(105, 84, 39, .08); }.safety-icon { display: grid; flex: 0 0 27px; place-items: center; width: 27px; height: 27px; border: 1px solid rgba(225, 200, 124, .48); border-radius: 50%; color: #dbc983; font: 12px var(--home-mono); }.home-safety .section-kicker { color: #c5b879; }.home-safety p { margin-top: 7px; color: #a9aa98; font-size: 11px; line-height: 1.7; }
++.home-contact { display: grid; grid-template-columns: 1fr .7fr; gap: 90px; align-items: center; padding: 82px 0 96px; border-top: 1px solid var(--home-line); }.home-contact h2 { margin-top: 25px; font-size: clamp(34px, 4vw, 50px); }.home-contact > div:first-child > p { max-width: 480px; margin-top: 18px; color: #98acb1; font-size: 12px; line-height: 1.85; }.contact-card { position: relative; padding: 24px; border: 1px solid var(--home-line); background: linear-gradient(135deg, rgba(22, 61, 69, .48), rgba(9, 33, 41, .14)); }.contact-mark { position: absolute; top: 18px; right: 19px; color: var(--home-cyan); font-size: 16px; }.contact-card > strong { display: block; margin: 13px 0 9px; font: 600 13px var(--home-display); }.contact-card > p { margin-bottom: 19px; color: #8fa6ab; font-size: 10px; line-height: 1.7; }.contact-pending { display: inline-block; padding: 9px 10px; border: 1px solid rgba(118, 217, 210, .28); color: var(--home-cyan); font: 8px var(--home-mono); letter-spacing: .08em; }.feedback-unavailable { cursor: default; }
++.home-footer { display: flex; align-items: center; gap: 25px; min-height: 79px; border-top: 1px solid var(--home-line); color: #81969c; font-size: 9px; }.home-footer .home-brand { color: var(--home-ink); font-size: 11px; }.home-footer .brand-mark { width: 23px; height: 23px; font-size: 11px; }.footer-note { flex: 1; }.footer-link { color: var(--home-cyan) !important; }.footer-copy { color: #627980; font: 8px var(--home-mono); }
++@media (max-width: 850px) { .home-header, .home-hero, .home-intro, .home-features, .home-platforms, .home-safety, .home-contact, .home-footer { width: min(100% - 52px, 680px); }.home-hero { grid-template-columns: 1fr; gap: 37px; padding: 72px 0 100px; }.hero-copy { max-width: 600px; }.hero-visual { width: min(100%, 620px); margin-left: auto; }.hero-bottomline { bottom: 32px; }.intro-grid { gap: 40px; }.feature-grid { grid-template-columns: repeat(2, 1fr); }.feature-card:nth-child(2) { border-right: 0; }.feature-card:nth-child(-n+2) { border-bottom: 1px solid var(--home-line); }.home-platforms { grid-template-columns: 1fr 1fr; gap: 42px; }.home-contact { gap: 40px; } }
++@media (max-width: 560px) { .home-header, .home-hero, .home-intro, .home-features, .home-platforms, .home-safety, .home-contact, .home-footer { width: calc(100% - 38px); }.home-header { height: 69px; }.home-nav { display: none; }.home-brand { font-size: 12px; }.home-nav-cta { padding: 9px 11px; font-size: 10px; }.home-hero { min-height: initial; padding: 61px 0 83px; }.home-hero h1 { font-size: clamp(43px, 12vw, 62px); }.hero-intro { font-size: 13px; }.hero-motto { font-size: 10px; }.hero-categories { font-size: 9px; }.hero-actions { gap: 18px; }.button-primary { padding: 13px 14px; font-size: 10px; }.button-quiet { font-size: 10px; }.hero-meta { font-size: 8px; }.home-chart { aspect-ratio: 1.04; }.chart-coordinate { font-size: 6px; }.chart-float { top: 25%; right: 5%; padding: 9px; }.chart-depth { left: 13%; font-size: 6px; }.visual-caption { font-size: 7px; }.hero-bottomline { bottom: 28px; font-size: 6px; }.bottomline-rule { width: 35px; }.home-intro { padding: 68px 0 75px; }.intro-grid { grid-template-columns: 1fr; gap: 22px; margin-top: 28px; }.home-intro h2, .home-platforms h2 { font-size: 39px; }.intro-body p { font-size: 12px; }.home-features { padding: 61px 0 70px; }.features-heading { align-items: start; flex-direction: column; gap: 12px; }.features-heading h2 { font-size: 29px; }.features-heading > p { font-size: 10px; }.feature-grid { grid-template-columns: 1fr 1fr; }.feature-card { min-height: 214px; padding: 16px 13px; }.feature-card h3 { font-size: 12px; }.feature-card p { font-size: 10px; }.feature-footnote { align-items: start; flex-wrap: wrap; font-size: 9px; line-height: 1.6; }.feature-footnote p { flex: 1; }.feature-footnote a { margin-left: 32px; }.home-platforms { grid-template-columns: 1fr; gap: 35px; padding: 76px 0; }.home-platforms h2 { margin-top: 22px; }.home-safety { align-items: start; margin-bottom: 70px; padding: 17px; }.home-contact { grid-template-columns: 1fr; gap: 27px; padding: 68px 0 72px; }.home-contact h2 { font-size: 37px; }.home-footer { flex-wrap: wrap; gap: 13px 16px; padding: 20px 0; }.footer-note { flex-basis: 55%; }.footer-link { margin-left: auto; }.footer-copy { flex-basis: 100%; text-align: right; } }
++@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+diff --git a/src/lib/aisStaticCache.test.ts b/src/lib/aisStaticCache.test.ts
+index 1e127b2..3cb70c0 100644
+--- a/src/lib/aisStaticCache.test.ts
++++ b/src/lib/aisStaticCache.test.ts
+@@ -83,6 +83,25 @@ describe('AIS static cache', () => {
+     expect(record?.savedAt).toBe(1_000);
+   });
+ 
+@@ -130,6 +149,7 @@ describe('AIS static cache', () => {
+     expect(cache.restore(20_000)).toBe(1);
+   });
+ 
