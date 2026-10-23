@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Browser verification for LEEWARD.
+ * Browser verification for WHEELOVER.
  *
  *   node scripts/verify-ui.mjs [baseUrl]
  *
@@ -332,7 +332,7 @@ async function run() {
   });
   check(
     'app name floats at the top centre',
-    brandInfo.text === 'LEEWARD' && Math.abs(brandInfo.offset) <= 3,
+    brandInfo.text === 'WHEELOVER' && Math.abs(brandInfo.offset) <= 3,
     `${brandInfo.text} offset ${brandInfo.offset}px`,
   );
   check(
@@ -762,7 +762,7 @@ async function run() {
   }
   const cachedStatics = await page.evaluate(() => {
     try {
-      const raw = localStorage.getItem('leeward:ais-static');
+      const raw = localStorage.getItem('wheel-over:ais-static');
       return raw ? Object.keys(JSON.parse(raw)).length : 0;
     } catch {
       return 0;
