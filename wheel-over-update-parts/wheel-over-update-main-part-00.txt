@@ -1,0 +1,141 @@
+diff --git a/.gitignore b/.gitignore
+index b934e3d..da0cb7b 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -21,3 +21,7 @@ backup/
+ .dev-server.log
+ .dev-server.pid
+ .dev-server.env
++/freebuff-sites-build/
++
++# Bundled Node production server
++/build/
+diff --git a/README.md b/README.md
+index b23982d..f2ee3c5 100644
+--- a/README.md
++++ b/README.md
+@@ -1,6 +1,6 @@
+-# LEEWARD - Maritime Navigation, Planning and Tracking
++# WHEELOVER — Maritime Navigation and Planning
+ 
+-A mobile-first marine navigation chartplotter: a full-screen Leaflet chart, an
++WHEELOVER is a mobile-first marine navigation chartplotter: a full-screen Leaflet chart, an
+ offline-capable NAVAID database, live AIS traffic, a searchable COLREGs guide and
+ wind, wave, tide and current dashboards. One control (top-right) opens every
+ setting; the
+@@ -14,12 +14,48 @@ centre-on-me button — no docks, drawers or extra panels unless you open them.
+ ```bash
+ npm install
+ npm run dev          # http://localhost:3000
+-npm run build        # typecheck + production bundle
++npm run build        # typecheck + browser bundle + production Node server
++npm start            # serve dist/ plus /api/* and the shared AIS WebSocket relay
+ npm test             # unit tests
+ ```
+ 
+-The dev server needs Node (the AIS relay is a WebSocket server). Static hosting
+-alone cannot run `/ws/ais` or `/api/overpass`.
++Both development and production need a persistent Node server (the AIS relay is a
++WebSocket server). Static hosting alone cannot run `/ws/ais` or `/api/overpass`.
++The production server serves `dist/`, the existing Overpass/depth proxies and
++`/ws/ais` from one process; deploy with `npm ci && npm run build`, then `npm start`.
++The npm package is `wheel-over`; LEEWARD/MARNAV remain only as legacy names for
++importing device preferences and cached positions from earlier builds.
++Set `AISSTREAM_API_KEY` as a private runtime environment variable on the host.
++Do not add it to `VITE_*`, source code, or a client-side `.env` file: the server
++uses it to open one upstream feed shared by the browser clients.
++
++### After a workspace restore
++
++Set `WHEELOVER_PREVIEW_HOST` (or pass `--host`) to authorize the current dev
++preview hostname, and use `WHEELOVER_PORT` or `--port` to choose a port.
++
++A restored Cloud workspace keeps the tracked files but loses `node_modules`, the
++Playwright browser cache and every running process, and its preview hostname
++changes. `scripts/dev-setup.sh` restores all of that, and it will not report the
++server healthy until it answers a request carrying the current preview host:
++
++```bash
++./scripts/dev-setup.sh --host pv-…-….style.dev   # current preview hostname
++./scripts/dev-setup.sh --stop                    # stop the server it started
++```
++
++It installs from `package-lock.json` only when the install tree is missing or
++older than the lockfile, installs Chromium when Playwright cannot resolve a
++binary, restores the shared libraries and fonts into `.browser-deps/` only when
++`ldd` reports them missing, and then launches Chromium once to prove text
++renders — the wordmark checks measure an empty box when it does not. It reuses
++or starts the dev server on port 3000, checks that it listens on `0.0.0.0`, and
++probes `/` with the preview `Host` header: a 403 there means the hostname is
++stale, not that the server is down. `--port`, `--no-browser`, `--no-server` and
++`--force` (reinstall dependencies) are the other flags. Port, host and PID are
++kept in the git-ignored `.dev-server.env` and `.dev-server.pid`, so a re-run
++only needs `--host` when the hostname has changed. `npm run setup -- --host …`
++is the same thing.
+ 
+ ### Environment
+ 
+@@ -31,12 +67,14 @@ AISSTREAM_API_KEY=your-key-here
+ ```
+ 
+ The browser never receives the key: it opens `/ws/ais`, and the server holds the
+-upstream AISStream connection. Without a key the relay serves clearly-labelled
++upstream AISStream connection. For local production testing, `npm start` reads
++`.env.local`; hosted deployments must set the same variable in their runtime
++secret/environment settings. Without a key the relay serves clearly-labelled
+ **simulated** traffic so the station still works offline.
+ 
+ ## What is in the chart
+ 
+-A bare **LEEWARD** wordmark floats top-centre over the chart, filled with a
++A bare **WHEELOVER** wordmark floats top-centre over the chart, filled with a
+ blue-to-white gradient and held together by a dark drop shadow the way a chart
+ label is drawn. It has no plate or border, so it reads over pale NOAA paper,
+ OSM and satellite imagery alike, and it is `pointer-events: none`, so it never
+@@ -157,7 +195,7 @@ steals a map tap.
+   berth, calling-in point, wreck, dangerous wreck, hazard, marina and the rest. Switching a class off removes it from the chart at once, before
+   declutter runs, so hidden marks never eat into the marker budget; the
+   `shown of total` line and the chips are the same source of truth. Choices
+-  persist in `leeward:chart-prefs`, and **Show every mark class** resets them.
++  persist in `wheel-over:chart-prefs` (previous `leeward:` and `marnav:` settings are still imported), and **Show every mark class** resets them.
+ - Zoom declutter hides minor marks until they are useful; **Show all marks**
+   overrides it, and the menu always reports `shown of total` so nothing is
+   silently dropped.
+@@ -222,7 +260,7 @@ cannot be redistributed; their entries record why.
+ - **AIS names arrive sooner.** The relay subscribes to Class A and Class B
+   position reports, both static formats (`ShipStaticData`, `StaticDataReport`)
+   and long-range broadcasts, keeps static records for hours regardless of chart
+-  scope, and the browser caches them in `leeward:ais-static` for 30 days — so a
++  scope, and the browser caches them in `wheel-over:ais-static` for 30 days — so a
+   target that has been seen before shows its name on the first snapshot instead
+   of a bare MMSI. A target heard for the first time can still be unnamed until
+   its next six-minute static slot; the hover card and sheet say so explicitly.
+@@ -255,8 +293,8 @@ cannot be redistributed; their entries record why.
+ ## Display themes
+ 
+ Under *Chart detail* the menu offers Day, Night and Red, persisted in
+-`leeward:chart-prefs`. Earlier builds used a different storage prefix; those
+-saved settings are still read once and rewritten under the new keys:
++`wheel-over:chart-prefs`. Earlier builds used `leeward:` and `marnav:` storage
++prefixes; those saved settings are still read and rewritten under the new keys:
+ 
+ - **Night** dims the chart and panels while symbols keep their colours.
+ - **Red** is for dark adaptation. Tiles keep their channels and lose only the
+@@ -281,10 +319,10 @@ GPS is a persisted binary setting:
+ 
+ The position panel is opt-in from the menu and shows coordinates, SOG, COG,
+ accuracy and a compass rose. Turning off GPS from the menu also clears the
+-on-chart vessel marker. `leeward:gps-mode` in `localStorage` remembers the choice.
++on-chart vessel marker. `wheel-over:gps-mode` in `localStorage` remembers the choice.
+ 
+ **The chart opens on the vessel.** With GPS on, the last fix is cached in
+-`leeward:last-fix` (30-day expiry, validated on read) so a cold start lands in the
++`wheel-over:last-fix` (30-day expiry, validated on read) so a cold start lands in the
+ right place immediately; the first live fix then recentres once at harbour zoom.
+ That automatic move is cancelled by a deep link, by any pan or zoom, or after it
+ has run once — a chart that keeps jumping away from where the navigator put it
+@@ -416,7 +454,9 @@ desktop install already has the libraries and fonts and does not need this.
+   published station table when the exact turn matters.
+ - **The COLREGs view is a study aid**, not the legal text. Check the official
+   convention, national modifications and local notices to mariners.
+-- The AIS key in `.env.local` should be rotated before any public deployment.
